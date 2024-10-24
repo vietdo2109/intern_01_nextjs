@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export type ModalTypeState = {
-  value: "Planned" | "Upcoming" | "Completed";
-}
-
+import { ModalTypeState } from "@/types/todoModalTypes";
 const initialState: ModalTypeState = {
   value: "Planned",
 };

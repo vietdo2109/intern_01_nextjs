@@ -12,11 +12,24 @@ import Tag from "../tag";
 import { allTags } from "../../../types/todoTypes/tag";
 import { UpdateTaskModal } from "../updateTaskModal";
 import { grayColor } from "@/constants/colors";
+import { useEffect } from "react";
 
 export default function TaskCard({ text, tags, type, date, id }: Todo) {
+  console.log(id);
   const [isTaskMenuVisible, setIsTaskMenuVidible] = useState(false);
   const [deleteTodoMutation] = useDeleteTodoMutation();
-  const { data: todo } = useGetTodoQuery(id);
+  const [todo, setTodo] = useState<Todo>();
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/todos/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("todo fetch: " + data);
+        setTodo(data);
+        setLoading(false);
+      });
+  }, []);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [updateTodoMutation] = useUpdateTodoMutation();
 

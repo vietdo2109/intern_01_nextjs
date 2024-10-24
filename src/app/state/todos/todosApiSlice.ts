@@ -1,45 +1,45 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Todo } from '../todo/todoSlice';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Todo } from "../todo/todoSlice";
 
 export const todosApiSlice = createApi({
-  reducerPath: 'todosApi',
+  reducerPath: "todosApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080',
+    baseUrl: "http://localhost:8080",
   }),
-  tagTypes: ['Todos'], // Define the tag type for the query
+  tagTypes: ["Todos"], // Define the tag type for the query
 
   endpoints: (builder) => {
     return {
       getTodos: builder.query<Todo[], {}>({
-        query: () => '/todos',
-        providesTags: ['Todos'],
+        query: () => "/todos",
+        providesTags: ["Todos"],
       }),
       getTodo: builder.query<Todo, number>({
         query: (id) => `/todos/${id}`,
-        providesTags: ['Todos'],
+        providesTags: ["Todos"],
       }),
-      createTodos: builder.mutation<Todo, Omit<Todo, 'id'>>({
+      createTodos: builder.mutation<Todo, Omit<Todo, "id">>({
         query: (todo) => ({
-          url: '/todos',
-          method: 'POST',
+          url: "/todos",
+          method: "POST",
           body: todo,
         }),
-        invalidatesTags: ['Todos'],
+        invalidatesTags: ["Todos"],
       }),
       deleteTodo: builder.mutation<Todo, number>({
         query: (id) => ({
           url: `/todos/${id}`,
-          method: 'DELETE',
+          method: "DELETE",
         }),
-        invalidatesTags: ['Todos'],
+        invalidatesTags: ["Todos"],
       }),
-      updateTodo: builder.mutation<Todo, Partial<Todo> & Pick<Todo, 'id'>>({
+      updateTodo: builder.mutation<Todo, Partial<Todo> & Pick<Todo, "id">>({
         query: ({ id, ...patch }) => ({
           url: `/todos/${id}`,
-          method: 'PATCH',
+          method: "PATCH",
           body: patch,
         }),
-        invalidatesTags: ['Todos'],
+        invalidatesTags: ["Todos"],
       }),
     };
   },

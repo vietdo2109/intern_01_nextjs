@@ -1,22 +1,22 @@
-import { Flex, Box, Text, Button, Icon } from '@chakra-ui/react';
-import { FaPlus } from 'react-icons/fa';
-import TaskCard from '../taskCard';
-import { ModalType } from '../../../types/todoTypes/modal';
-import { useDispatch } from 'react-redux';
-import { switchModalType } from '@state/modal/modalTypeSlice';
-import { useGetTodosQuery } from '@state/todos/todosApiSlice';
-import { Todo } from '../../../state/todo/todoSlice';
-import { FC } from 'react';
+import { Flex, Box, Text, Button, Icon } from "@chakra-ui/react";
+import { FaPlus } from "react-icons/fa";
+import TaskCard from "../taskCard";
+import { ModalType } from "../../../types/todoTypes/modal";
+import { useDispatch } from "react-redux";
+import { switchModalType } from "@/state/modal/modalTypeSlice";
+import { useGetTodosQuery } from "@/state/todos/todosApiSlice";
+import { Todo } from "../../../state/todo/todoSlice";
+import { FC } from "react";
 import {
   blueDotColor,
   greenDotColor,
   greenColor,
   orangeDotColor,
   grayColor,
-} from '@constants/colors';
+} from "@/constants/colors";
 
 type MainCardProps = {
-  type: 'Planned' | 'Upcoming' | 'Completed';
+  type: "Planned" | "Upcoming" | "Completed";
   modalProps: ModalType;
 };
 
@@ -40,50 +40,50 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
   return (
     <Flex
       borderRadius="15px"
-      bg={'white'}
-      minH={'300px'}
+      bg={"white"}
+      minH={"300px"}
       flex={1}
-      flexDir={'column'}
-      gap={'20px'}
-      p={'20px'}
+      flexDir={"column"}
+      gap={"20px"}
+      p={"20px"}
     >
-      <Flex justifyContent={'space-between'}>
-        <Flex gap={'10px'}>
+      <Flex justifyContent={"space-between"}>
+        <Flex gap={"10px"}>
           <Box
-            mt={'3px'}
-            borderRadius={'50%'}
-            w={'10px'}
-            h={'10px'}
+            mt={"3px"}
+            borderRadius={"50%"}
+            w={"10px"}
+            h={"10px"}
             bg={
-              type === 'Planned'
+              type === "Planned"
                 ? orangeDotColor
-                : type === 'Upcoming'
+                : type === "Upcoming"
                 ? blueDotColor
                 : greenDotColor
             }
           ></Box>
-          <Text fontWeight={700} fontSize={'14px'} textAlign={'center'}>
+          <Text fontWeight={700} fontSize={"14px"} textAlign={"center"}>
             {type}
           </Text>
         </Flex>
 
-        <Text color={grayColor} fontWeight={700} fontSize={'14px'}>
-          {taskCount} {type === 'Completed' ? 'completed' : 'open'} tasks
+        <Text color={grayColor} fontWeight={700} fontSize={"14px"}>
+          {taskCount} {type === "Completed" ? "completed" : "open"} tasks
         </Text>
       </Flex>
 
       <Button
-        width={'100%'}
-        h={'50px'}
+        width={"100%"}
+        h={"50px"}
         bg={greenColor}
-        _hover={{ bg: 'teal' }}
-        display={'flex'}
+        _hover={{ bg: "teal" }}
+        display={"flex"}
         alignItems="center"
-        gap={'10px'}
+        gap={"10px"}
         onClick={handleToggleModal}
       >
-        <Icon as={FaPlus} color={'white'}></Icon>
-        <Text mt={'5px'} color={'white'}>
+        <Icon as={FaPlus} color={"white"}></Icon>
+        <Text mt={"5px"} color={"white"}>
           Add task
         </Text>
       </Button>
@@ -99,7 +99,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
               id={todo.id}
               date={todo.date}
             />
-          ),
+          )
       )}
     </Flex>
   );

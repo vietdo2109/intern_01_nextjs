@@ -232,10 +232,7 @@ export default function Login() {
                   fontSize="14px"
                   fontWeight="700"
                 >
-                  <Link href={"/signup"}>
-                    {" "}
-                    <Text>Sign up</Text>
-                  </Link>
+                  <Link href={"/signup"}> Sign up</Link>
                 </Text>
               </Flex>
             </Flex>

@@ -1,16 +1,16 @@
 "use client";
 
 import { Flex, useDisclosure } from "@chakra-ui/react";
-import { Layout } from "@/components/layout";
 import { Header } from "@/components/header";
 import { MainCard } from "@/components/todo/mainCard";
 import AddTaskModal from "@/components/todo/addTaskModal";
-
+import { Provider } from "react-redux";
+import { store } from "@/state/store";
 export default function TodoList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Layout>
+    <Provider store={store}>
       <Flex width="100%" minW="700px" zIndex={1} right={0} flexDir="column">
         <AddTaskModal isOpen={isOpen} onClose={onClose} />
         <Flex
@@ -40,6 +40,6 @@ export default function TodoList() {
           </Flex>
         </Flex>
       </Flex>
-    </Layout>
+    </Provider>
   );
 }
