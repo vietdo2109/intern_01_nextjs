@@ -2,8 +2,6 @@ import { Flex, Box, Text, Button, Icon } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import TaskCard from "../taskCard";
 import { ModalType } from "../../../types/todoTypes/modal";
-
-import { useGetTodosQuery } from "@/state/todos/todosApiSlice";
 import { Todo } from "../../../state/todo/todoSlice";
 import { FC } from "react";
 import {
@@ -16,6 +14,8 @@ import {
 import { ModalTypeState } from "@/types/todoModalTypes";
 import { useModalType } from "../modalTypeProvider";
 import { useTodos } from "@/components/services/queries";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 type MainCardProps = {
   type: ModalTypeState;
@@ -35,7 +35,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
   const { isPending, error, data } = useTodos();
 
   if (isPending) {
-    return <Text>loading...</Text>;
+    return <Skeleton />;
   }
   if (error) {
     return <Text>fail to fetch</Text>;
