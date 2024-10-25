@@ -14,7 +14,7 @@ import { FaGlobe } from "react-icons/fa6";
 import { IoDocumentText } from "react-icons/io5";
 import { FaShoppingCart } from "react-icons/fa";
 
-import { whiteColor, grayColor, darkColor } from "@/constants/colors";
+import { WHITE_COLOR, GRAY_COLOR, DARK_COLOR } from "@/constants/colors";
 import Image from "next/image";
 export default function Dashboard() {
   return (
@@ -64,7 +64,7 @@ export default function Dashboard() {
           <Flex
             w={"60%"}
             h={"255px"}
-            bg={whiteColor}
+            bg={WHITE_COLOR}
             padding={"17.5px"}
             borderRadius={"15px"}
           >
@@ -75,19 +75,19 @@ export default function Dashboard() {
                 justifyContent={"space-between"}
               >
                 <Flex flexDir={"column"} gap={"3px"}>
-                  <Text color={grayColor} fontSize={"12px"} fontWeight={700}>
+                  <Text color={GRAY_COLOR} fontSize={"12px"} fontWeight={700}>
                     Built by developers
                   </Text>
-                  <Text color={darkColor} fontSize={"18px"} fontWeight={700}>
+                  <Text color={DARK_COLOR} fontSize={"18px"} fontWeight={700}>
                     Purity UI Dashboard
                   </Text>
-                  <Text color={grayColor} fontSize={"14px"} fontWeight={400}>
+                  <Text color={GRAY_COLOR} fontSize={"14px"} fontWeight={400}>
                     From colors, cards, typography to complex elements, you will
                     find the full documentation.
                   </Text>
                 </Flex>
                 <Text
-                  color={darkColor}
+                  color={DARK_COLOR}
                   fontSize={"10px"}
                   fontWeight={700}
                   cursor="pointer"
@@ -115,7 +115,7 @@ export default function Dashboard() {
           <Flex
             w={"40%"}
             h={"255px"}
-            bg={whiteColor}
+            bg={WHITE_COLOR}
             borderRadius={"15px"}
             padding={"17.5px"}
           >
@@ -154,16 +154,24 @@ export default function Dashboard() {
                   }
                 >
                   <Flex flexDir={"column"} gap={"3px"} w={"60%"}>
-                    <Text color={whiteColor} fontSize={"18px"} fontWeight={700}>
+                    <Text
+                      color={WHITE_COLOR}
+                      fontSize={"18px"}
+                      fontWeight={700}
+                    >
                       Purity UI Dashboard
                     </Text>
-                    <Text color={whiteColor} fontSize={"14px"} fontWeight={400}>
+                    <Text
+                      color={WHITE_COLOR}
+                      fontSize={"14px"}
+                      fontWeight={400}
+                    >
                       From colors, cards, typography to complex elements, you
                       will find the full documentation.
                     </Text>
                   </Flex>
                   <Text
-                    color={whiteColor}
+                    color={WHITE_COLOR}
                     fontSize={"10px"}
                     fontWeight={700}
                     cursor="pointer"

@@ -15,7 +15,7 @@ import { TopNavBar } from "@/components/topNavBar";
 import { Footer } from "@/components/footer";
 import { loginYupSchema } from "@/schemas/yupSchema";
 import { Formik, Form } from "formik";
-import { bgColor } from "@/constants/colors";
+import { BG_COLOR } from "@/constants/colors";
 import { LoginFormValues } from "../../types/loginPage";
 
 export default function Login() {
@@ -67,7 +67,7 @@ export default function Login() {
         <TopNavBar
           logoColor="black"
           textColor="#2D3748"
-          bgColor="linear-gradient(112.83deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.8) 110.84%)"
+          BG_COLOR="linear-gradient(112.83deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.8) 110.84%)"
           btnColor="linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
           btnTextColor="#FFFFFF"
           shadow={true}
@@ -110,7 +110,7 @@ export default function Login() {
                   <Form>
                     <Flex flexDir={"column"} gap={"24px"}>
                       <Flex flexDir={"column"}>
-                        <Text fontSize="14px" color={bgColor} ml="5px">
+                        <Text fontSize="14px" color={BG_COLOR} ml="5px">
                           Email
                         </Text>
                         <Input
@@ -145,7 +145,7 @@ export default function Login() {
                         )}
                       </Flex>
                       <Flex flexDir={"column"}>
-                        <Text fontSize="14px" color={bgColor} ml="5px">
+                        <Text fontSize="14px" color={BG_COLOR} ml="5px">
                           Password
                         </Text>
                         <Input

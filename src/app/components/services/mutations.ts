@@ -56,7 +56,6 @@ export function useCreateTodo() {
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["todos"] });
-      alert("created new task");
     },
   });
 }
@@ -88,7 +87,6 @@ export function useDeleteTodo() {
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["todos"] });
-      alert("deleted task");
     },
   });
 }

@@ -26,7 +26,7 @@ import ErrorMess from "@/components/forms/ErrorMess";
 
 import { SignUpJoiSchema } from "@/schemas/joiSchema";
 import { NewAccount } from "../../types/signUpPage";
-import { darkColor } from "@/constants/colors";
+import { DARK_COLOR } from "@/constants/colors";
 
 export default function SignUp() {
   const {
@@ -85,7 +85,7 @@ export default function SignUp() {
           shadow={false}
           logoColor="white"
           textColor="#FFFFFF"
-          bgColor="none"
+          BG_COLOR="none"
           btnColor="#FFFFFF"
           btnTextColor="#313860"
         />
@@ -157,7 +157,7 @@ export default function SignUp() {
                     <Icon
                       w="26px"
                       h="26px"
-                      color={darkColor}
+                      color={DARK_COLOR}
                       mt="5px"
                       as={FaFacebook}
                     ></Icon>
@@ -178,7 +178,7 @@ export default function SignUp() {
                     <Icon
                       w="31px"
                       h="31px"
-                      color={darkColor}
+                      color={DARK_COLOR}
                       as={FaApple}
                     ></Icon>
                   </Link>
@@ -199,7 +199,7 @@ export default function SignUp() {
                       w="24px"
                       h="24px"
                       mt="5px"
-                      color={darkColor}
+                      color={DARK_COLOR}
                       as={FaGoogle}
                     ></Icon>
                   </Link>
@@ -213,7 +213,7 @@ export default function SignUp() {
             {/* inputs container */}
             <Flex flexDir={"column"} gap="26px" mt="10px">
               <Box>
-                <Text fontSize="14px" color={darkColor} ml="5px">
+                <Text fontSize="14px" color={DARK_COLOR} ml="5px">
                   Name
                 </Text>
                 <Input
@@ -233,7 +233,7 @@ export default function SignUp() {
                 <ErrorMess error={errors.username?.message} />
               </Box>
               <Box>
-                <Text fontSize="14px" color={darkColor} ml="5px">
+                <Text fontSize="14px" color={DARK_COLOR} ml="5px">
                   Email
                 </Text>
                 <Input
@@ -251,7 +251,7 @@ export default function SignUp() {
                 <ErrorMess error={errors.email?.message} />
               </Box>
               <Box>
-                <Text fontSize="14px" color={darkColor} ml="5px">
+                <Text fontSize="14px" color={DARK_COLOR} ml="5px">
                   Password
                 </Text>
                 <Input
@@ -272,7 +272,7 @@ export default function SignUp() {
                 <ErrorMess error={errors.password?.message} />
               </Box>
               <Box>
-                <Text fontSize="14px" color={darkColor} ml="5px">
+                <Text fontSize="14px" color={DARK_COLOR} ml="5px">
                   Re-enter your password
                 </Text>
                 <Input

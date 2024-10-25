@@ -6,7 +6,7 @@ import {
   FormLabel,
   Switch,
 } from "@chakra-ui/react";
-import { darkColor, grayColor } from "@/constants/colors";
+import { DARK_COLOR, GRAY_COLOR } from "@/constants/colors";
 
 export default function PlatformSetting() {
   return (
@@ -19,10 +19,10 @@ export default function PlatformSetting() {
       py="28px"
     >
       <Flex flexDir="column" gap="19px" maxH={"700px"}>
-        <Text fontSize="18ox" fontWeight="700" color={darkColor}>
+        <Text fontSize="18ox" fontWeight="700" color={DARK_COLOR}>
           Platform Settings
         </Text>
-        <Text fontSize="10px" fontWeight="700" color={grayColor}>
+        <Text fontSize="10px" fontWeight="700" color={GRAY_COLOR}>
           ACCOUNT
         </Text>
         <FormControl display="flex" alignItems="center" gap="10px">
@@ -32,7 +32,7 @@ export default function PlatformSetting() {
             mb="0"
             fontSize="12px"
             fontWeight="400"
-            color={grayColor}
+            color={GRAY_COLOR}
           >
             Email me when someone follows me
           </FormLabel>
@@ -44,7 +44,7 @@ export default function PlatformSetting() {
             mb="0"
             fontSize="12px"
             fontWeight="400"
-            color={grayColor}
+            color={GRAY_COLOR}
           >
             Email me when someone answers on my post
           </FormLabel>
@@ -56,13 +56,13 @@ export default function PlatformSetting() {
             mb="0"
             fontSize="12px"
             fontWeight="400"
-            color={grayColor}
+            color={GRAY_COLOR}
           >
             Email me when someone mentions me
           </FormLabel>
         </FormControl>
 
-        <Text fontSize="10px" fontWeight="700" color={grayColor}>
+        <Text fontSize="10px" fontWeight="700" color={GRAY_COLOR}>
           APPLICATION
         </Text>
 
@@ -73,7 +73,7 @@ export default function PlatformSetting() {
             mb="0"
             fontSize="12px"
             fontWeight="400"
-            color={grayColor}
+            color={GRAY_COLOR}
           >
             New launches and projects
           </FormLabel>
@@ -86,7 +86,7 @@ export default function PlatformSetting() {
             mb="0"
             fontSize="12px"
             fontWeight="400"
-            color={grayColor}
+            color={GRAY_COLOR}
           >
             Monthly product updates{" "}
           </FormLabel>
@@ -99,7 +99,7 @@ export default function PlatformSetting() {
             mb="0"
             fontSize="12px"
             fontWeight="400"
-            color={grayColor}
+            color={GRAY_COLOR}
           >
             Subscribe to newsletter{" "}
           </FormLabel>

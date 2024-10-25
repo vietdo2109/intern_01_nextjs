@@ -14,7 +14,7 @@ type TopNavBarProps = {
   shadow: boolean;
   logoColor: string;
   textColor: string;
-  bgColor: string;
+  BG_COLOR: string;
   btnColor: string;
   btnTextColor: string;
 };
@@ -22,7 +22,7 @@ export const TopNavBar: FC<TopNavBarProps> = ({
   shadow,
   logoColor,
   textColor,
-  bgColor,
+  BG_COLOR,
   btnColor,
   btnTextColor,
 }) => {
@@ -33,7 +33,7 @@ export const TopNavBar: FC<TopNavBarProps> = ({
       minW="800px"
       width="60%"
       height="70px"
-      bg={bgColor}
+      bg={BG_COLOR}
       padding="20px"
       borderRadius="15px"
       shadow={shadow === true ? "md" : "none"}

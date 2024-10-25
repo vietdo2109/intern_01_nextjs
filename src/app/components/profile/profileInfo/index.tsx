@@ -3,10 +3,10 @@ import { FaFacebook } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaInstagramSquare } from "react-icons/fa";
 import {
-  darkColor,
-  grayColor,
-  greenColor,
-  grayTextColor,
+  DARK_COLOR,
+  GRAY_COLOR,
+  GREEN_COLOR,
+  GRAY_TEXT_COLOR,
 } from "@/constants/colors";
 
 export default function ProfileInfo() {
@@ -20,10 +20,10 @@ export default function ProfileInfo() {
       py="28px"
     >
       <Flex flexDir="column" maxH={"700px"} gap="19px">
-        <Text fontSize="18ox" fontWeight="700" color={darkColor}>
+        <Text fontSize="18ox" fontWeight="700" color={DARK_COLOR}>
           Profile Information
         </Text>
-        <Text fontSize="12px" fontWeight="400" color={grayColor}>
+        <Text fontSize="12px" fontWeight="400" color={GRAY_COLOR}>
           Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is
           no. If two equally difficult paths, choose the one more painful in the
           short term (pain avoidance is creating an illusion of equality).
@@ -37,43 +37,43 @@ export default function ProfileInfo() {
         ></Box>
 
         <Flex gap="10px">
-          <Text fontSize="12px" fontWeight={700} color={grayTextColor}>
+          <Text fontSize="12px" fontWeight={700} color={GRAY_TEXT_COLOR}>
             Full Name:
           </Text>
-          <Text fontSize="12px" fontWeight={400} color={grayColor}>
+          <Text fontSize="12px" fontWeight={400} color={GRAY_COLOR}>
             Alec M.Thompson
           </Text>
         </Flex>
 
         <Flex gap="10px">
-          <Text fontSize="12px" fontWeight={700} color={grayTextColor}>
+          <Text fontSize="12px" fontWeight={700} color={GRAY_TEXT_COLOR}>
             Mobile:
           </Text>
-          <Text fontSize="12px" fontWeight={400} color={grayColor}>
+          <Text fontSize="12px" fontWeight={400} color={GRAY_COLOR}>
             (44) 123 1234 123
           </Text>
         </Flex>
 
         <Flex gap="10px">
-          <Text fontSize="12px" fontWeight={700} color={grayTextColor}>
+          <Text fontSize="12px" fontWeight={700} color={GRAY_TEXT_COLOR}>
             Email:
           </Text>
-          <Text fontSize="12px" fontWeight={400} color={grayColor}>
+          <Text fontSize="12px" fontWeight={400} color={GRAY_COLOR}>
             alecthompson@mail.com
           </Text>
         </Flex>
 
         <Flex gap="10px">
-          <Text fontSize="12px" fontWeight={700} color={grayTextColor}>
+          <Text fontSize="12px" fontWeight={700} color={GRAY_TEXT_COLOR}>
             Location:
           </Text>
-          <Text fontSize="12px" fontWeight={400} color={grayColor}>
+          <Text fontSize="12px" fontWeight={400} color={GRAY_COLOR}>
             United States
           </Text>
         </Flex>
 
         <Flex gap="10px" alignItems="center">
-          <Text fontSize="12px" fontWeight={700} color={grayTextColor}>
+          <Text fontSize="12px" fontWeight={700} color={GRAY_TEXT_COLOR}>
             Social Media:
           </Text>
           <Flex gap="15px" pb={"3px"}>
@@ -82,14 +82,14 @@ export default function ProfileInfo() {
               as={FaFacebook}
               w="10px"
               h="10px"
-              color={greenColor}
+              color={GREEN_COLOR}
             ></Icon>
             <Icon
               cursor="pointer"
               as={FaSquareXTwitter}
               w="10px"
               h="10px"
-              color={greenColor}
+              color={GREEN_COLOR}
             ></Icon>
 
             <Icon
@@ -97,7 +97,7 @@ export default function ProfileInfo() {
               as={FaInstagramSquare}
               w="10px"
               h="10px"
-              color={greenColor}
+              color={GREEN_COLOR}
             ></Icon>
           </Flex>
         </Flex>
