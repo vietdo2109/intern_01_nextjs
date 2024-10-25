@@ -81,14 +81,10 @@ export default function AddTaskModal({
     }
   }, [isSuccess, reset, onClose]);
 
-  const onError = (errors: any) => {
-    console.log("Form errors:", errors);
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       {" "}
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add {modalTypeValue} Task</ModalHeader>

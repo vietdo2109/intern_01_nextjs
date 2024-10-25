@@ -83,7 +83,7 @@ export default function BasicForm() {
     if (isSubmitSuccessful) {
       reset();
     }
-  }, [isSubmitSuccessful]);
+  }, [isSubmitSuccessful, reset]);
   const { fields, append, remove } = useFieldArray({
     name: "phNums",
     control: control,
@@ -102,10 +102,6 @@ export default function BasicForm() {
     }
   };
 
-  const onError = (errors: any) => {
-    console.log("Form errors:", errors);
-  };
-
   // const handleGetValues = () => {
   //   // console.log("Get Value: ", getValues(["dob", "social.facebook"]));
   // };
@@ -115,7 +111,7 @@ export default function BasicForm() {
   };
   return (
     <Box width={"360px"} border={"1px solid red"}>
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Flex flexDir={"column"} gap={"24px"}>
           <Flex flexDir={"column"} gap={"5px"}>
             <Flex flexDir={"column"}>

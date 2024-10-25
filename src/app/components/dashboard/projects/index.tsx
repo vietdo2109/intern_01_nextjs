@@ -24,6 +24,7 @@ import {
   WHITE_COLOR,
   RATE_COLOR,
 } from "@/constants/colors";
+import Image from "next/image";
 
 export default function DashboardProject() {
   return (
@@ -117,7 +118,13 @@ export default function DashboardProject() {
                 <Tr key={index}>
                   <Td>
                     <Flex alignItems={"center"} gap={"15px"}>
-                      <img src={iconSVG} alt="logo" />
+                      <Image
+                        src={iconSVG}
+                        alt="logo"
+                        width="20"
+                        height="20"
+                        unoptimized={true}
+                      />
                       <Flex flexDirection={"column"} justifyContent={"center"}>
                         <Text
                           fontSize={"14px"}

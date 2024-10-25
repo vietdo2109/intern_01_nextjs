@@ -10,7 +10,7 @@ export const todosApiSlice = createApi({
 
   endpoints: (builder) => {
     return {
-      getTodos: builder.query<Todo[], {}>({
+      getTodos: builder.query<Todo[], object>({
         query: () => "/todos",
         providesTags: ["Todos"],
       }),

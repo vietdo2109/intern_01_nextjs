@@ -13,7 +13,7 @@ import { useTodo } from "@/components/services/queries";
 
 export default function TaskCard({ text, tags, type, date, id }: Todo) {
   const [isTaskMenuVisible, setIsTaskMenuVidible] = useState(false);
-  const { data, isPending, error } = useTodo(id);
+  const { data } = useTodo(id);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const editTodoMutation = useEditTodo();

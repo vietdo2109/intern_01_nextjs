@@ -69,10 +69,6 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
     onClose();
   };
 
-  const onError = (errors: any) => {
-    console.log("Form errors:", errors);
-  };
-
   // const handleReset = () => {
   //   reset({
   //     text: "",
@@ -84,7 +80,7 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       {" "}
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Update {modalTypeValue} Task</ModalHeader>

@@ -7,10 +7,7 @@ type Props<T extends FieldValues> = {
   label?: string;
 };
 
-export default function RHFSwitch<T extends FieldValues>({
-  name,
-  label,
-}: Props<T>) {
+export default function RHFSwitch<T extends FieldValues>({ name }: Props<T>) {
   const { control } = useFormContext();
 
   return (
@@ -19,10 +16,7 @@ export default function RHFSwitch<T extends FieldValues>({
       name={name}
       render={({ field: { ref, ...restField } }) => (
         <FormControl {...restField}>
-          <Switch
-            size="md"
-            ref={ref}
-          />
+          <Switch size="md" ref={ref} />
         </FormControl>
       )}
     ></Controller>

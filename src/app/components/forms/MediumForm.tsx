@@ -44,10 +44,6 @@ export default function MediumForm() {
     unregister,
   } = useFormContext<Schema>();
 
-  const onError = (errors: any) => {
-    console.log("Form errors:", errors);
-  };
-
   const createUserMutation = useCreateUser();
   const editUserMutation = useEditUser();
 
@@ -63,7 +59,7 @@ export default function MediumForm() {
   const id = useWatch({ control: control, name: "id" });
   const variant = useWatch({ control, name: "variant" });
 
-  let userQuery = useUser(id);
+  const userQuery = useUser(id);
 
   const { fields, append, remove, replace } = useFieldArray<Schema>({
     name: "students",
@@ -96,7 +92,7 @@ export default function MediumForm() {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(onSubmit)}
       style={{ display: "flex", gap: "20px" }}
     >
       <Flex flexDir={"column"} gap={"5px"} alignItems={"center"} minH={"100vh"}>

@@ -3,8 +3,8 @@ import {
   RangeSliderTrack,
   RangeSliderFilledTrack,
   RangeSliderThumb,
-} from '@chakra-ui/react';
-import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
+} from "@chakra-ui/react";
+import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
@@ -18,8 +18,12 @@ export default function RHFSlider<T extends FieldValues>({ name }: Props<T>) {
     <Controller
       control={control}
       name={name}
-      render={({ field: { ref, ...restField } }) => (
-        <RangeSlider aria-label={['min', 'max']} defaultValue={[10, 30]} {...restField}>
+      render={({ field }) => (
+        <RangeSlider
+          aria-label={["min", "max"]}
+          defaultValue={[10, 30]}
+          {...field}
+        >
           <RangeSliderTrack>
             <RangeSliderFilledTrack />
           </RangeSliderTrack>
