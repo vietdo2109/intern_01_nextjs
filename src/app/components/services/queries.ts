@@ -10,7 +10,7 @@ export function useStates() {
     queryKey: ["states"],
     queryFn: () =>
       axios
-        .get<Option[]>("http://localhost:8080/states")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/states")
         .then((res) => res.data),
   });
 }
@@ -20,7 +20,7 @@ export function useLanguages() {
     queryKey: ["languages"],
     queryFn: () =>
       axios
-        .get<Option[]>("http://localhost:8080/languages")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/languages")
         .then((res) => res.data),
   });
 }
@@ -30,7 +30,7 @@ export function useGenders() {
     queryKey: ["genders"],
     queryFn: () =>
       axios
-        .get<Option[]>("http://localhost:8080/genders")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/genders")
         .then((res) => res.data),
   });
 }
@@ -40,7 +40,7 @@ export function useSkills() {
     queryKey: ["skills"],
     queryFn: () =>
       axios
-        .get<Option[]>("http://localhost:8080/skills")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/skills")
         .then((res) => res.data),
   });
 }
@@ -48,15 +48,17 @@ export function useUsers() {
   return useQuery({
     queryKey: ["users"],
     queryFn: () =>
-      axios.get<ApiGet[]>("http://localhost:8080/users").then((res) =>
-        res.data.map(
-          (user) =>
-            ({
-              id: user.id,
-              label: user.name,
-            } satisfies Option)
-        )
-      ),
+      axios
+        .get<ApiGet[]>("https://intern-01-fake-backend.onrender.com/users")
+        .then((res) =>
+          res.data.map(
+            (user) =>
+              ({
+                id: user.id,
+                label: user.name,
+              } satisfies Option)
+          )
+        ),
   });
 }
 
@@ -65,7 +67,7 @@ export function useUser(id: number) {
     queryKey: ["user", { id }],
     queryFn: async (): Promise<Schema> => {
       const { data } = await axios.get<ApiGet>(
-        `http://localhost:8080/users/${id}`
+        `https://intern-01-fake-backend.onrender.com/users/${id}`
       );
 
       return {
@@ -104,7 +106,9 @@ export function useTodos() {
   return useQuery({
     queryKey: ["todos"],
     queryFn: (): Promise<Todo[]> =>
-      axios.get<Todo[]>("http://localhost:8080/todos").then((res) => res.data),
+      axios
+        .get<Todo[]>("https://intern-01-fake-backend.onrender.com/todos")
+        .then((res) => res.data),
   });
 }
 
@@ -112,7 +116,9 @@ export function useTodo(id: number) {
   return useQuery({
     queryKey: ["todos", id],
     queryFn: async (): Promise<Todo> => {
-      const response = await fetch("http://localhost:8080/todos/" + id);
+      const response = await fetch(
+        "https://intern-01-fake-backend.onrender.com/todos/" + id
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

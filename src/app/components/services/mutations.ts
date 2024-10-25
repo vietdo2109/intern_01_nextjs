@@ -10,7 +10,7 @@ export function useCreateUser() {
   return useMutation({
     mutationFn: async (data: Schema) => {
       await axios.post(
-        "http://localhost:8080/users",
+        "https://intern-01-fake-backend.onrender.com/users",
         omit(mapData(data), "variant")
       );
     },
@@ -29,7 +29,7 @@ export function useEditUser() {
     mutationFn: async (data: Schema) => {
       if (data.variant === "edit") {
         await axios.put(
-          `http://localhost:8080/users/${data.id}`,
+          `https://intern-01-fake-backend.onrender.com/users/${data.id}`,
           omit(mapData(data), "variant")
         );
       }
@@ -51,7 +51,10 @@ export function useCreateTodo() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Todo) => {
-      await axios.post("http://localhost:8080/todos", data);
+      await axios.post(
+        "https://intern-01-fake-backend.onrender.com/todos",
+        data
+      );
     },
 
     onSuccess: async () => {
@@ -65,7 +68,10 @@ export function useEditTodo() {
 
   return useMutation({
     mutationFn: async (data: Todo) => {
-      await axios.put(`http://localhost:8080/todos/${data.id}`, data);
+      await axios.put(
+        `https://intern-01-fake-backend.onrender.com/todos/${data.id}`,
+        data
+      );
     },
 
     onSuccess: async (_, variables) => {
@@ -82,7 +88,9 @@ export function useDeleteTodo() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await axios.delete(`http://localhost:8080/todos/${id}`);
+      await axios.delete(
+        `https://intern-01-fake-backend.onrender.com/todos/${id}`
+      );
     },
 
     onSuccess: async () => {
