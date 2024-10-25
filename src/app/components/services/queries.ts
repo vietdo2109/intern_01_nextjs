@@ -3,6 +3,7 @@ import axios from "axios";
 import { Option } from "../../types/mediumFormTypes/option";
 import { ApiGet } from "../../types/mediumFormTypes/apiTypes";
 import { Schema } from "@/schemas/zodSchema";
+import { Todo } from "@/state/todo/todoSlice";
 
 export function useStates() {
   return useQuery({
@@ -97,4 +98,25 @@ function formatDate(date: Date) {
 
   // Format the date as 'YYYY-MM-DD'
   return `${year}-${month}-${day}`;
+}
+
+export function useTodos() {
+  return useQuery({
+    queryKey: ["todos"],
+    queryFn: (): Promise<Todo[]> =>
+      axios.get<Todo[]>("http://localhost:8080/todos").then((res) => res.data),
+  });
+}
+
+export function useTodo(id: number) {
+  return useQuery({
+    queryKey: ["todos", id],
+    queryFn: async (): Promise<Todo> => {
+      const response = await fetch("http://localhost:8080/todos/" + id);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    },
+  });
 }

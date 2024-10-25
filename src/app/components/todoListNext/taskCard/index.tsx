@@ -3,37 +3,22 @@ import { Flex, Box, Text, Icon, useDisclosure } from "@chakra-ui/react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { Todo } from "@/state/todo/todoSlice";
-import {
-  useDeleteTodoMutation,
-  useGetTodoQuery,
-  useUpdateTodoMutation,
-} from "@/state/todos/todosApiSlice";
+
 import Tag from "../tag";
 import { allTags } from "../../../types/todoTypes/tag";
 import { UpdateTaskModal } from "../updateTaskModal";
 import { grayColor } from "@/constants/colors";
-import { useEffect } from "react";
+import { useDeleteTodo, useEditTodo } from "@/components/services/mutations";
+import { useTodo } from "@/components/services/queries";
 
 export default function TaskCard({ text, tags, type, date, id }: Todo) {
-  console.log(id);
   const [isTaskMenuVisible, setIsTaskMenuVidible] = useState(false);
-  const [deleteTodoMutation] = useDeleteTodoMutation();
-  const [todo, setTodo] = useState<Todo>();
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`http://localhost:8080/todos/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("todo fetch: " + data);
-        setTodo(data);
-        setLoading(false);
-      });
-  }, []);
+  const { data, isPending, error } = useTodo(id);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [updateTodoMutation] = useUpdateTodoMutation();
 
-  if (todo) {
+  const editTodoMutation = useEditTodo();
+  const deleteTodoMutation = useDeleteTodo();
+  if (data) {
     return (
       <Flex
         _hover={{ bg: "#fafafa" }}
@@ -47,8 +32,8 @@ export default function TaskCard({ text, tags, type, date, id }: Todo) {
         position={"relative"}
       >
         <UpdateTaskModal
-          id={todo.id}
-          todo={todo}
+          id={data.id}
+          todo={data}
           onClose={onClose}
           isOpen={isOpen}
         />
@@ -77,8 +62,11 @@ export default function TaskCard({ text, tags, type, date, id }: Todo) {
             onClick={(event) => {
               event.stopPropagation(); // Prevents triggering the card's onClick
 
-              updateTodoMutation({
+              editTodoMutation.mutate({
                 id,
+                date,
+                tags,
+                text,
                 type: {
                   value: `${
                     type?.value === "Planned"
@@ -108,8 +96,11 @@ export default function TaskCard({ text, tags, type, date, id }: Todo) {
             onClick={(event) => {
               event.stopPropagation(); // Prevents triggering the card's onClick
 
-              updateTodoMutation({
+              editTodoMutation.mutate({
                 id,
+                date,
+                tags,
+                text,
                 type: {
                   value: `${
                     type?.value === "Planned"
@@ -139,7 +130,7 @@ export default function TaskCard({ text, tags, type, date, id }: Todo) {
             onClick={(event) => {
               event.stopPropagation(); // Prevents triggering the card's onClick
 
-              deleteTodoMutation(id);
+              deleteTodoMutation.mutate(id);
             }}
           >
             <Text fontWeight={700} fontSize={"12px"}>

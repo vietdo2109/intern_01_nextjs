@@ -15,7 +15,8 @@ import {
 } from "@/constants/colors";
 import { ModalTypeState } from "@/types/todoModalTypes";
 import { useModalType } from "../modalTypeProvider";
-import { useState, useEffect } from "react";
+import { useTodos } from "@/components/services/queries";
+
 type MainCardProps = {
   type: ModalTypeState;
   modalProps: ModalType;
@@ -31,31 +32,20 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
 
   let taskCount = 0;
 
-  const [todos, setTodos] = useState<Todo[]>();
-  const [isLoading, setLoading] = useState(true);
+  const { isPending, error, data } = useTodos();
 
-  useEffect(() => {
-    fetch("http://localhost:8080/todos")
-      .then((res) => res.json())
-      .then((data) => {
-        setTodos(data);
-        setLoading(false);
-      });
-  }, []);
-
-  if (isLoading) {
+  if (isPending) {
     return <Text>loading...</Text>;
   }
-  if (!todos) {
+  if (error) {
     return <Text>fail to fetch</Text>;
   }
-  if (todos) {
-    for (const todo of todos) {
+  if (data) {
+    for (const todo of data) {
       if (todo.type?.value === type) {
         taskCount++;
       }
     }
-    console.log(todos);
     return (
       <Flex
         borderRadius="15px"
@@ -108,7 +98,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
           </Text>
         </Button>
 
-        {todos.map(
+        {data.map(
           (todo: Todo) =>
             todo.type?.value === type.value && (
               <TaskCard

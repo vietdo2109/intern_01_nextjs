@@ -4,15 +4,15 @@ import { Flex, useDisclosure } from "@chakra-ui/react";
 import { Header } from "@/components/header";
 import { MainCard } from "@/components/todoListNext/mainCard";
 import AddTaskModal from "@/components/todoListNext/addTaskModal";
-import { Provider } from "react-redux";
-import { store } from "@/state/store";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 import { ModalTypeProvider } from "@/components/todoListNext/modalTypeProvider";
-import { useModalType } from "@/components/todoListNext/modalTypeProvider";
 export default function TodoListNext() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <ModalTypeProvider>
         <Flex width="100%" minW="700px" zIndex={1} right={0} flexDir="column">
           <AddTaskModal isOpen={isOpen} onClose={onClose} />
@@ -47,6 +47,6 @@ export default function TodoListNext() {
           </Flex>
         </Flex>
       </ModalTypeProvider>
-    </Provider>
+    </QueryClientProvider>
   );
 }

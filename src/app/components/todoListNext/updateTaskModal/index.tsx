@@ -24,6 +24,9 @@ import {
   useUpdateTodoMutation,
 } from "@/state/todos/todosApiSlice";
 import { FC } from "react";
+import { useModalType } from "../modalTypeProvider";
+import { useTodo, useTodos } from "@/components/services/queries";
+import { useEditTodo } from "@/components/services/mutations";
 
 type UpdateTaskModalProps = {
   todo: Todo;
@@ -37,14 +40,15 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const modalTypeValue = useSelector(
-    (state: RootState) => state.modalType.value
-  );
+  const { modalType } = useModalType();
+  const editTodoMutation = useEditTodo();
 
-  // const todos = useSelector((state: RootState) => state.todos);
-  const [updateTodoMutation] = useUpdateTodoMutation();
-
-  const { register, handleSubmit } = useForm<Omit<Todo, "id" | "type">>({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<Omit<Todo, "id" | "type">>({
     defaultValues: {
       text: todo.text,
       date: todo.date,
@@ -52,20 +56,16 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
     },
   });
 
-  const { data: todos = [] } = useGetTodosQuery({});
-
   const onSubmit: SubmitHandler<Omit<Todo, "id" | "type">> = (
     data: Omit<Todo, "id" | "type">
   ) => {
-    console.log(todos);
     const numericTags = data?.tags?.map((tag) => Number(tag));
     const updatedProps: Omit<Todo, "id" | "type"> = {
       ...data,
       tags: numericTags,
     };
-    // dispatch(addTask(newTask));
+    editTodoMutation.mutate({ id, ...updatedProps, type: todo.type });
 
-    updateTodoMutation({ id, ...updatedProps });
     onClose();
   };
 
@@ -73,21 +73,13 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
     console.log("Form errors:", errors);
   };
 
-  // const handleReset = () => {
-  //   reset({
-  //     text: "",
-  //     date: "",
-  //     tags: [],
-  //   });
-  // };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       {" "}
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update {modalTypeValue} Task</ModalHeader>
+          <ModalHeader>Update {modalType.value} Task</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex justifyContent={"space-between"} gap={"20px"}>

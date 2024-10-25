@@ -7,27 +7,22 @@ import {
   ModalBody,
   ModalCloseButton,
   Text,
+  Box,
   Flex,
   Input,
   Button,
 } from "@chakra-ui/react";
 import { SubmitHandler } from "react-hook-form";
 // import { DevTool } from "@hookform/devtools";
-import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
 import { allTags } from "../../../types/todoTypes/tag";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Todo } from "@/state/todo/todoSlice";
 // import { addTask } from "@state/todo/TodoSlice";
-
-import { useGetTodosQuery } from "@/state/todos/todosApiSlice";
-import { useCreateTodosMutation } from "@/state/todos/todosApiSlice";
-import { ModalTypeState } from "@/types/todoModalTypes";
 import { useModalType } from "../modalTypeProvider";
-import { createTodoAction } from "@/actions";
 
-import { useFormState } from "react-dom";
+import { useTodos } from "@/components/services/queries";
+import { useCreateTodo } from "@/components/services/mutations";
 export default function AddTaskModal({
   isOpen,
   onClose,
@@ -36,16 +31,15 @@ export default function AddTaskModal({
   onClose: () => void;
 }) {
   const { modalType } = useModalType();
+  const todos = useTodos();
+  const createTodoMutation = useCreateTodo();
 
-  // const todos = useSelectorPlanned((state: RootState) => state.todos);
-  const [createTodoMutation, { isSuccess }] = useCreateTodosMutation();
-
-  function nextTodoId(todos: Todo[]) {
-    const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1);
-    return maxId + 1;
-  }
-
-  const { register, handleSubmit, reset } = useForm<Omit<Todo, "id" | "type">>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitSuccessful },
+  } = useForm<Omit<Todo, "id" | "type">>({
     defaultValues: {
       text: "",
       date: "",
@@ -53,20 +47,11 @@ export default function AddTaskModal({
     },
   });
 
-  const { data: todos = [] } = useGetTodosQuery({});
-
-  // const dispatch = useDispatch();
-
   const onSubmit: SubmitHandler<Omit<Todo, "id" | "type">> = (
     data: Omit<Todo, "id" | "type">
   ) => {
-    const newId = nextTodoId(todos);
+    const newId = nextTodoId(todos.data || []);
 
-    console.log(data);
-    console.log(newId);
-    console.log(modalType);
-
-    console.log(todos);
     const numericTags = data?.tags?.map((tag) => Number(tag));
     const newTask: Todo = {
       ...data,
@@ -75,27 +60,21 @@ export default function AddTaskModal({
       type: modalType,
     };
     // dispatch(addTask(newTask));
-    createTodoAction(newTask);
+    createTodoMutation.mutate(newTask);
     onClose();
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSubmitSuccessful) {
       reset(); // Reset form values
       onClose(); // Close modal
     }
-  }, [isSuccess, reset, onClose]);
-
-  const [state, formAction] = useFormState(createTodoAction, {
-    id: nextTodoId(todos),
-    date: "",
-    tags: [],
-  });
+  }, [isSubmitSuccessful, reset, onClose]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       {" "}
-      <form action={formAction}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{`Add ${modalType.value} Task`}</ModalHeader>
@@ -124,8 +103,7 @@ export default function AddTaskModal({
                   type="text"
                   maxLength={30}
                   placeholder={"Type here..."}
-                  // {...register("text", { required: false, maxLength: 30 })}
-
+                  {...register("text", { required: false, maxLength: 30 })}
                   id="text"
                   name="text"
                   _placeholder={{ fontSize: "14px" }}
@@ -135,7 +113,7 @@ export default function AddTaskModal({
                   type="text"
                   placeholder={"14 Jan, 8:00 PM 6 Aug, ..."}
                   _placeholder={{ fontSize: "14px" }}
-                  // {...register("date", { required: false, maxLength: 30 })}
+                  {...register("date", { required: false, maxLength: 30 })}
                   id="date"
                   name="date"
                 ></Input>
@@ -150,10 +128,9 @@ export default function AddTaskModal({
                       style={{ width: "16px", marginBottom: "5px" }}
                       type="checkbox"
                       value={tag.id}
-                      // {...register("tags", {
-                      //   setValueAs: (value) => Number(value),
-                      // })}
-                      name={tag.title}
+                      {...register("tags", {
+                        setValueAs: (value) => Number(value),
+                      })}
                       id={tag.title}
                     />
                     <Text fontWeight={700} color={tag.color}>
@@ -168,7 +145,8 @@ export default function AddTaskModal({
           <ModalFooter>
             <Button colorScheme="gray" onClick={onClose}>
               close
-            </Button>
+            </Button>{" "}
+            <Box w={"20px"}></Box>
             <Button colorScheme="blue" type="submit">
               Add task
             </Button>
@@ -178,4 +156,9 @@ export default function AddTaskModal({
       </form>
     </Modal>
   );
+}
+
+function nextTodoId(todos: Todo[]) {
+  const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1);
+  return maxId + 1;
 }
