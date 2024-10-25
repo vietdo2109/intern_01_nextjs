@@ -1,9 +1,9 @@
 import styles from "./page.module.css";
-import Dashboard from "./(pages)/dashboard/page";
+import SignUp from "./(auth)/signup/page";
 export default function Home() {
   return (
     <div className={styles.page}>
-      <Dashboard />
+      <SignUp />
     </div>
   );
 }
