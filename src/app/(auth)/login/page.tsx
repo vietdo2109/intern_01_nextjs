@@ -223,7 +223,7 @@ export default function Login() {
                 gap={"3px"}
               >
                 <Text color="#A0AEC0" fontSize="14px" fontWeight="700">
-                  Don't have an account? {"  "}
+                  Do not have an account? {"  "}
                 </Text>{" "}
                 <Text
                   color="#4FD1C5"

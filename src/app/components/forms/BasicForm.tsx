@@ -106,9 +106,9 @@ export default function BasicForm() {
     console.log("Form errors:", errors);
   };
 
-  const handleGetValues = () => {
-    // console.log("Get Value: ", getValues(["dob", "social.facebook"]));
-  };
+  // const handleGetValues = () => {
+  //   // console.log("Get Value: ", getValues(["dob", "social.facebook"]));
+  // };
 
   const handleSetValues = () => {
     setValue("username", "");

@@ -13,19 +13,13 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { SubmitHandler } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+
 import { allTags } from "../../../types/todoTypes/tag";
 import { useForm } from "react-hook-form";
 import { Todo } from "@/state/todo/todoSlice";
-// import { addTask } from "../../state/todo/TodoSlice";
-import {
-  useGetTodosQuery,
-  useUpdateTodoMutation,
-} from "@/state/todos/todosApiSlice";
+
 import { FC } from "react";
 import { useModalType } from "../modalTypeProvider";
-import { useTodo, useTodos } from "@/components/services/queries";
 import { useEditTodo } from "@/components/services/mutations";
 
 type UpdateTaskModalProps = {
@@ -43,12 +37,7 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
   const { modalType } = useModalType();
   const editTodoMutation = useEditTodo();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitSuccessful },
-    reset,
-  } = useForm<Omit<Todo, "id" | "type">>({
+  const { register, handleSubmit } = useForm<Omit<Todo, "id" | "type">>({
     defaultValues: {
       text: todo.text,
       date: todo.date,
@@ -69,14 +58,10 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
     onClose();
   };
 
-  const onError = (errors: any) => {
-    console.log("Form errors:", errors);
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       {" "}
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Update {modalType.value} Task</ModalHeader>

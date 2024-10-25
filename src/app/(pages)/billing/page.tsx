@@ -12,7 +12,6 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 
-import { Layout } from "@/components/layout";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import Invoices from "@/components/billing/invoice";
