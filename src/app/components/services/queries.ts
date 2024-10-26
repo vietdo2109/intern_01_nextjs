@@ -10,7 +10,7 @@ export function useStates() {
     queryKey: ["states"],
     queryFn: () =>
       axios
-        .get<Option[]>("https://intern-01-vercel-server.vercel.app/states")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/states")
         .then((res) => res.data),
   });
 }
@@ -20,7 +20,7 @@ export function useLanguages() {
     queryKey: ["languages"],
     queryFn: () =>
       axios
-        .get<Option[]>("https://intern-01-vercel-server.vercel.app/languages")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/languages")
         .then((res) => res.data),
   });
 }
@@ -30,7 +30,7 @@ export function useGenders() {
     queryKey: ["genders"],
     queryFn: () =>
       axios
-        .get<Option[]>("https://intern-01-vercel-server.vercel.app/genders")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/genders")
         .then((res) => res.data),
   });
 }
@@ -40,7 +40,7 @@ export function useSkills() {
     queryKey: ["skills"],
     queryFn: () =>
       axios
-        .get<Option[]>("https://intern-01-vercel-server.vercel.app/skills")
+        .get<Option[]>("https://intern-01-fake-backend.onrender.com/skills")
         .then((res) => res.data),
   });
 }
@@ -49,7 +49,7 @@ export function useUsers() {
     queryKey: ["users"],
     queryFn: () =>
       axios
-        .get<ApiGet[]>("https://intern-01-vercel-server.vercel.app/users")
+        .get<ApiGet[]>("https://intern-01-fake-backend.onrender.com/users")
         .then((res) =>
           res.data.map(
             (user) =>
@@ -67,7 +67,7 @@ export function useUser(id: number) {
     queryKey: ["user", { id }],
     queryFn: async (): Promise<Schema> => {
       const { data } = await axios.get<ApiGet>(
-        `https://intern-01-vercel-server.vercel.app/users/${id}`
+        `https://intern-01-fake-backend.onrender.com/users/${id}`
       );
 
       return {
@@ -107,7 +107,7 @@ export function useTodos() {
     queryKey: ["todos"],
     queryFn: (): Promise<Todo[]> =>
       axios
-        .get<Todo[]>("https://intern-01-vercel-server.vercel.app/todos")
+        .get<Todo[]>("https://intern-01-fake-backend.onrender.com/todos")
         .then((res) => res.data),
   });
 }
@@ -117,7 +117,7 @@ export function useTodo(id: number) {
     queryKey: ["todos", id],
     queryFn: async (): Promise<Todo> => {
       const response = await fetch(
-        "https://intern-01-vercel-server.vercel.app/todos/" + id
+        "https://intern-01-fake-backend.onrender.com/todos/" + id
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");

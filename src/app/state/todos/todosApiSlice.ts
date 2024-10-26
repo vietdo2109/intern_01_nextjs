@@ -4,7 +4,7 @@ import { Todo } from "../todo/todoSlice";
 export const todosApiSlice = createApi({
   reducerPath: "todosApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://intern-01-vercel-server.vercel.app",
+    baseUrl: "https://intern-01-fake-backend.onrender.com",
   }),
   tagTypes: ["Todos"], // Define the tag type for the query
 
