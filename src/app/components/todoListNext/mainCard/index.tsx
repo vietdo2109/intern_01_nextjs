@@ -14,7 +14,7 @@ import {
 import { ModalTypeState } from "@/types/todoModalTypes";
 import { useModalType } from "../modalTypeProvider";
 import { useTodos } from "@/components/services/queries";
-import SkeletonArticle from "@/components/skeletons/skeletonArticle";
+// import SkeletonArticle from "@/components/skeletons/skeletonArticle";
 import "react-loading-skeleton/dist/skeleton.css";
 
 type MainCardProps = {

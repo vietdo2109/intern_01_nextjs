@@ -16,4 +16,4 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Open [https://intern-01-nextjs.vercel.app] with your browser to see the deployed page. This page use a fake API, see API's details at [https://intern-01-vercel-server.vercel.app/]
+Open [https://intern-01-nextjs.vercel.app] with your browser to see the deployed page. This page use a fake API, see API's details at [https://intern-01-vercel-server.vercel.app]
