@@ -19,7 +19,6 @@ import { allTags } from "../../../types/todoTypes/tag";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Todo } from "@/state/todo/todoSlice";
-// import { addTask } from "@state/todo/TodoSlice";
 import {
   useGetTodosQuery,
   useCreateTodosMutation,
@@ -35,7 +34,7 @@ export default function AddTaskModal({
   const modalTypeValue = useSelector(
     (state: RootState) => state.modalType.value
   );
-  // const todos = useSelector((state: RootState) => state.todos);
+
   const [createTodoMutation, { isSuccess }] = useCreateTodosMutation();
 
   function nextTodoId(todos: Todo[]) {
@@ -69,7 +68,6 @@ export default function AddTaskModal({
     console.log(todos);
     const numericTags = data?.tags?.map((tag) => Number(tag));
     const newTask: Todo = { ...data, tags: numericTags, id: newId, type: type };
-    // dispatch(addTask(newTask));
     createTodoMutation(newTask);
     onClose();
   };
@@ -152,6 +150,8 @@ export default function AddTaskModal({
             <Button colorScheme="gray" onClick={onClose}>
               close
             </Button>
+            <Flex w={"20px"}></Flex>
+
             <Button colorScheme="blue" type="submit">
               Add task
             </Button>

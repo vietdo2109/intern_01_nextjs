@@ -97,7 +97,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
             Add task
           </Text>
         </Button>
-        <SkeletonArticle />
+
         {data.map(
           (todo: Todo) =>
             todo.type?.value === type.value && (
@@ -111,6 +111,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
               />
             )
         )}
+        {/* <SkeletonArticle /> */}
       </Flex>
     );
   }

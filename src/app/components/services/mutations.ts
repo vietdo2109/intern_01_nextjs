@@ -10,7 +10,7 @@ export function useCreateUser() {
   return useMutation({
     mutationFn: async (data: Schema) => {
       await axios.post(
-        "https://intern-01-fake-backend.onrender.com/users",
+        "https://intern-01-vercel-server.vercel.app/users",
         omit(mapData(data), "variant")
       );
     },
@@ -29,7 +29,7 @@ export function useEditUser() {
     mutationFn: async (data: Schema) => {
       if (data.variant === "edit") {
         await axios.put(
-          `https://intern-01-fake-backend.onrender.com/users/${data.id}`,
+          `https://intern-01-vercel-server.vercel.app/users/${data.id}`,
           omit(mapData(data), "variant")
         );
       }
@@ -52,7 +52,7 @@ export function useCreateTodo() {
   return useMutation({
     mutationFn: async (data: Todo) => {
       await axios.post(
-        "https://intern-01-fake-backend.onrender.com/todos",
+        "https://intern-01-vercel-server.vercel.app/todos",
         data
       );
     },
@@ -69,7 +69,7 @@ export function useEditTodo() {
   return useMutation({
     mutationFn: async (data: Todo) => {
       await axios.put(
-        `https://intern-01-fake-backend.onrender.com/todos/${data.id}`,
+        `https://intern-01-vercel-server.vercel.app/todos/${data.id}`,
         data
       );
     },
@@ -89,7 +89,7 @@ export function useDeleteTodo() {
   return useMutation({
     mutationFn: async (id: number) => {
       await axios.delete(
-        `https://intern-01-fake-backend.onrender.com/todos/${id}`
+        `https://intern-01-vercel-server.vercel.app/todos/${id}`
       );
     },
 

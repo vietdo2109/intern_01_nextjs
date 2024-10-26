@@ -5,9 +5,10 @@ import { Header } from "@/components/header";
 import { MainCard } from "@/components/todoListNext/mainCard";
 import AddTaskModal from "@/components/todoListNext/addTaskModal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ModalTypeProvider } from "@/components/todoListNext/modalTypeProvider";
 
 const queryClient = new QueryClient();
-import { ModalTypeProvider } from "@/components/todoListNext/modalTypeProvider";
+
 export default function TodoListNext() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 

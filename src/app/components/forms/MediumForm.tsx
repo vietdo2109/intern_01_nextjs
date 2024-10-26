@@ -589,11 +589,11 @@ export default function MediumForm() {
               append({ name: "" });
             }}
           >
-            ADD STUDENT
+            Add student
           </Button>
         )}
         <Button type="submit">
-          {variant === "create" ? "New user" : "Edit user"}
+          {variant === "create" ? "Add new user" : "Edit user"}
         </Button>
         <Button type="button" onClick={handleReset}>
           reset

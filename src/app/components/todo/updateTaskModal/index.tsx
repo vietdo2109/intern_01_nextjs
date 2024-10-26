@@ -18,7 +18,6 @@ import { RootState } from "@/state/store";
 import { allTags } from "../../../types/todoTypes/tag";
 import { useForm } from "react-hook-form";
 import { Todo } from "@/state/todo/todoSlice";
-// import { addTask } from "../../state/todo/TodoSlice";
 import {
   useGetTodosQuery,
   useUpdateTodoMutation,
@@ -31,6 +30,7 @@ type UpdateTaskModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
+
 export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
   todo,
   id,
@@ -63,19 +63,10 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
       ...data,
       tags: numericTags,
     };
-    // dispatch(addTask(newTask));
 
     updateTodoMutation({ id, ...updatedProps });
     onClose();
   };
-
-  // const handleReset = () => {
-  //   reset({
-  //     text: "",
-  //     date: "",
-  //     tags: [],
-  //   });
-  // };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
