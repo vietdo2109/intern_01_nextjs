@@ -24,7 +24,7 @@ import { TopNavBar } from "@/components/topNavBar";
 import { Footer } from "@/components/footer";
 import ErrorMess from "@/components/forms/ErrorMess";
 import { DARK_COLOR } from "@/constants/colors";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { signup } from "@/actions/auth";
 
 export default function SignUp() {
@@ -37,6 +37,7 @@ export default function SignUp() {
   });
 
   const toast = useToast();
+
   useEffect(() => {
     if (state?.message == "Account created successfully!") {
       toast({
@@ -352,17 +353,7 @@ export default function SignUp() {
                 </FormLabel>
               </FormControl>
 
-              <Button
-                bg="#4FD1C5"
-                size="lg"
-                borderRadius="12px"
-                mt="14px"
-                type="submit"
-              >
-                <Text color="#FFFFFF" fontSize="10px" fontWeight={"800"}>
-                  SIGN UP
-                </Text>
-              </Button>
+              <SubmitButton />
             </Flex>
             <Flex padding={"15px"} alignItems={"center"} gap={"3px"}>
               <Text color="#A0AEC0" fontSize="14px" fontWeight="700">
@@ -385,5 +376,26 @@ export default function SignUp() {
         </Box>
       </Flex>
     </Flex>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      bg={"#4FD1C5"}
+      size="lg"
+      borderRadius="12px"
+      mt="14px"
+      isLoading={pending}
+      width={"100%"}
+      minH="45px"
+      type="submit"
+    >
+      <Text color="#FFFFFF" fontSize="10px" fontWeight={"800"}>
+        SIGN UP
+      </Text>
+    </Button>
   );
 }

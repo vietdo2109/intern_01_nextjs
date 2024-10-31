@@ -5,7 +5,7 @@ export type NewAccount = {
   repeat_password: string;
 };
 
-export type FormState =
+export type SignUpFormState =
   | {
       errors?: {
         name?: string[];

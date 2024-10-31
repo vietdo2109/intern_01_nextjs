@@ -1,11 +1,11 @@
 "use server";
 
-import { SignupFormSchema } from "@/schemas/zodSchema";
-import { FormState } from "@/types/signUpPage";
+import { SignupFormSchema, LoginFormSchema } from "@/schemas/zodSchema";
+import { LogInFormState } from "@/types/loginPage";
+import { SignUpFormState } from "@/types/signUpPage";
 import { sql } from "@vercel/postgres";
-import { redirect } from "next/navigation";
 
-export async function signup(state: FormState, formData: FormData) {
+export async function signup(state: SignUpFormState, formData: FormData) {
   // 1. Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
     username: formData.get("username"),
@@ -14,7 +14,7 @@ export async function signup(state: FormState, formData: FormData) {
     repeat_password: formData.get("repeat_password"),
   });
 
-  // If validation fails, return errors
+  // If validation fails, return errors state
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -43,14 +43,58 @@ export async function signup(state: FormState, formData: FormData) {
       };
     }
 
-    // 4. Return success message if user is created
+    // 4. Return success message in state if user is created
     return {
       message: "Account created successfully!",
-
       userId: user.id,
     };
   } catch (error) {
     console.error("Signup error:", error);
+    return {
+      message: "An error occurred. Please try again later.",
+    };
+  }
+}
+
+export async function login(state: LogInFormState, formData: FormData) {
+  // 1. Validate form fields
+  const validatedFields = LoginFormSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  // If validation fails, return errors state
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+  try {
+    const data = await sql`
+      SELECT userid, password
+      FROM users 
+      WHERE email = ${email}
+        AND password  = ${password} 
+    `;
+
+    const user = data.rows[0];
+
+    // If user or password is incorrect, return an error message
+    if (!user) {
+      return {
+        message: "Incorrect email or password",
+      };
+    }
+
+    // 3. Return success message and user ID if login is successful
+    return {
+      message: "Log in successfully!",
+      userId: user.id,
+    };
+  } catch (error) {
+    console.error("Log in error:", error);
     return {
       message: "An error occurred. Please try again later.",
     };

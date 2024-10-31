@@ -66,7 +66,7 @@ export const SignupFormSchema = z
   .object({
     username: z
       .string()
-      .min(2, { message: "Name must be at least 2 characters long." })
+      .min(2, { message: "Username must be at least 2 characters long." })
       .trim(),
     email: z.string().email({ message: "Please enter a valid email." }).trim(),
     password: z
@@ -83,3 +83,8 @@ export const SignupFormSchema = z
     message: "Passwords must match.",
     path: ["repeat_password"],
   });
+
+export const LoginFormSchema = z.object({
+  email: z.string().min(1, { message: "Email cannot be empty!" }).trim(),
+  password: z.string().min(1, { message: "Password cannot be empty!" }),
+});

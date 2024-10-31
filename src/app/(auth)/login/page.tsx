@@ -13,12 +13,33 @@ import Link from "next/link";
 import Image from "next/image";
 import { TopNavBar } from "@/components/topNavBar";
 import { Footer } from "@/components/footer";
-import { loginYupSchema } from "@/schemas/yupSchema";
-import { Formik, Form } from "formik";
-import { BG_COLOR } from "@/constants/colors";
-import { LoginFormValues } from "../../types/loginPage";
 
+import { BG_COLOR } from "@/constants/colors";
+import { useFormState, useFormStatus } from "react-dom";
+import { useState, useEffect } from "react";
+import ErrorMess from "@/components/forms/ErrorMess";
+import { login } from "@/actions/auth";
+import { redirect } from "next/navigation";
 export default function Login() {
+  const [state, action] = useFormState(login, undefined);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  useEffect(() => {
+    if (state?.message == "Log in successfully!") {
+      setFormData({
+        email: "",
+        password: "",
+      });
+      state.message = "";
+      redirect("/dashboard");
+    }
+  }, [state]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
   return (
     <Flex as="nav" w={"100%"} justifyContent={"center"} h={"100vh"}>
       <Box
@@ -29,6 +50,7 @@ export default function Login() {
         position="absolute"
         right="0px"
       >
+        <p>{state?.message}</p>
         {/* <Box
           bgImage={signInImage}
           w="100%"
@@ -97,124 +119,74 @@ export default function Login() {
                   Enter your email and password to sign in
                 </Text>
               </Box>
-              <Formik
-                validationSchema={loginYupSchema}
-                initialValues={initialValues}
-                onSubmit={(values, actions) => {
-                  console.log({ values, actions });
 
-                  actions.setSubmitting(false);
-                }}
-              >
-                {(props) => (
-                  <Form>
-                    <Flex flexDir={"column"} gap={"24px"}>
-                      <Flex flexDir={"column"}>
-                        <Text fontSize="14px" color={BG_COLOR} ml="5px">
-                          Email
-                        </Text>
-                        <Input
-                          width="350px"
-                          height="50px"
-                          border={
-                            props.touched.email && props.errors.email
-                              ? "1px solid red"
-                              : "1px solid #E2E8F0"
-                          }
-                          borderRadius="15px"
-                          mt="4px"
-                          type="email"
-                          name="email"
-                          value={props.values.email}
-                          onChange={props.handleChange}
-                          placeholder="Your email address"
-                          _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
-                          size="sm"
-                          p="0 20px 0 20px"
-                        />
-                        {props.touched.email && props.errors.email && (
-                          <Text
-                            mt={"3px"}
-                            textAlign={"right"}
-                            fontSize={"10px"}
-                            fontWeight={400}
-                            color={"red"}
-                          >
-                            {props.errors.email}
-                          </Text>
-                        )}
-                      </Flex>
-                      <Flex flexDir={"column"}>
-                        <Text fontSize="14px" color={BG_COLOR} ml="5px">
-                          Password
-                        </Text>
-                        <Input
-                          border={
-                            props.touched.password && props.errors.password
-                              ? "1px solid red"
-                              : "1px solid #E2E8F0"
-                          }
-                          width="350px"
-                          height="50px"
-                          borderRadius="15px"
-                          mt="4px"
-                          name="password"
-                          type="password"
-                          value={props.values.password}
-                          onChange={props.handleChange}
-                          placeholder="Your password"
-                          _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
-                          size="sm"
-                          p="0 20px 0 20px"
-                        />
-                        {props.touched.password && props.errors.password && (
-                          <Text
-                            mt={"3px"}
-                            textAlign={"right"}
-                            fontSize={"10px"}
-                            fontWeight={400}
-                            color={"red"}
-                          >
-                            {props.errors.password}
-                          </Text>
-                        )}
-                      </Flex>
-                      <FormControl
-                        display="flex"
-                        alignItems="center"
-                        gap="10px"
-                      >
-                        <Switch id="rememer-me-switch" colorScheme="teal" />
-                        <FormLabel
-                          htmlFor="rememer-me-switch"
-                          mb="0"
-                          fontSize="12px"
-                          color="#2D3748"
-                        >
-                          Remember me
-                        </FormLabel>
-                      </FormControl>
-                      <Button
-                        bg="#4FD1C5"
-                        size="lg"
-                        borderRadius="12px"
-                        mt="14px"
-                        width={"100%"}
-                        minH="45px"
-                        type="submit"
-                      >
-                        <Text
-                          color="#FFFFFF"
-                          fontSize="10px"
-                          fontWeight={"800"}
-                        >
-                          LOG IN
-                        </Text>
-                      </Button>
-                    </Flex>
-                  </Form>
-                )}
-              </Formik>
+              <form action={action}>
+                <Flex flexDir={"column"} gap={"24px"}>
+                  <Flex flexDir={"column"}>
+                    <Text fontSize="14px" color={BG_COLOR} ml="5px">
+                      Email
+                    </Text>
+                    <Input
+                      width="350px"
+                      height="50px"
+                      border={
+                        state?.errors?.email
+                          ? "1px solid red"
+                          : "1px solid #E2E8F0"
+                      }
+                      borderRadius="15px"
+                      mt="4px"
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Your email address"
+                      _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
+                      size="sm"
+                      p="0 20px 0 20px"
+                    />
+                    <ErrorMess error={state?.errors?.email} />
+                  </Flex>
+                  <Flex flexDir={"column"}>
+                    <Text fontSize="14px" color={BG_COLOR} ml="5px">
+                      Password
+                    </Text>
+                    <Input
+                      border={
+                        state?.errors?.password
+                          ? "1px solid red"
+                          : "1px solid #E2E8F0"
+                      }
+                      width="350px"
+                      height="50px"
+                      borderRadius="15px"
+                      mt="4px"
+                      name="password"
+                      type="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Your password"
+                      _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
+                      size="sm"
+                      p="0 20px 0 20px"
+                    />
+                    <ErrorMess error={state?.errors?.password} />
+                  </Flex>
+                  <FormControl display="flex" alignItems="center" gap="10px">
+                    <Switch id="rememer-me-switch" colorScheme="teal" />
+                    <FormLabel
+                      htmlFor="rememer-me-switch"
+                      mb="0"
+                      fontSize="12px"
+                      color="#2D3748"
+                    >
+                      Remember me
+                    </FormLabel>
+                  </FormControl>
+                  <SubmitButton />
+                </Flex>
+              </form>
 
               <Flex
                 padding={"15px"}
@@ -246,4 +218,23 @@ export default function Login() {
   );
 }
 
-const initialValues: LoginFormValues = { email: "", password: "" };
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      bg={"#4FD1C5"}
+      size="lg"
+      borderRadius="12px"
+      mt="14px"
+      isLoading={pending}
+      width={"100%"}
+      minH="45px"
+      type="submit"
+    >
+      <Text color="#FFFFFF" fontSize="10px" fontWeight={"800"}>
+        LOG IN
+      </Text>
+    </Button>
+  );
+}
