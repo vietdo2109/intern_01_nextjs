@@ -61,3 +61,25 @@ export const defaultValues: Schema = {
   salaryRange: [10, 30],
   isTeacher: false,
 };
+
+export const SignupFormSchema = z
+  .object({
+    username: z
+      .string()
+      .min(2, { message: "Name must be at least 2 characters long." })
+      .trim(),
+    email: z.string().email({ message: "Please enter a valid email." }).trim(),
+    password: z
+      .string()
+      .min(8, { message: "Be at least 8 characters long" })
+      .regex(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z0-9])/, {
+        message:
+          "Must contain at least one letter, one number, and one special character.",
+      })
+      .trim(),
+    repeat_password: z.string().trim(),
+  })
+  .refine((data) => data.password === data.repeat_password, {
+    message: "Passwords must match.",
+    path: ["repeat_password"],
+  });

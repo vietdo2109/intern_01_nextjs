@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -11,9 +11,9 @@ import {
   FormControl,
   FormLabel,
   Switch,
+  useToast,
 } from "@chakra-ui/react";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useForm } from "react-hook-form";
+
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook } from "react-icons/fa";
@@ -23,22 +23,43 @@ import { FaGoogle } from "react-icons/fa";
 import { TopNavBar } from "@/components/topNavBar";
 import { Footer } from "@/components/footer";
 import ErrorMess from "@/components/forms/ErrorMess";
-
-import { SignUpJoiSchema } from "@/schemas/joiSchema";
-import { NewAccount } from "../../types/signUpPage";
 import { DARK_COLOR } from "@/constants/colors";
+import { useFormState } from "react-dom";
+import { signup } from "@/actions/auth";
 
 export default function SignUp() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<NewAccount>({
-    resolver: joiResolver(SignUpJoiSchema),
+  const [state, action] = useFormState(signup, undefined);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    repeat_password: "",
   });
 
-  const onSubmit = (data: NewAccount) => {
-    console.log(data);
+  const toast = useToast();
+  useEffect(() => {
+    if (state?.message == "Account created successfully!") {
+      toast({
+        title: "Account created.",
+        description: "We've created your account for you.",
+        status: "success",
+        position: "bottom-right",
+        duration: 9000,
+        isClosable: true,
+      });
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+        repeat_password: "",
+      });
+      state.message = "";
+    }
+  }, [state]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -117,7 +138,8 @@ export default function SignUp() {
         </Flex>
 
         {/* card */}
-        <form onSubmit={handleSubmit(onSubmit)}>
+
+        <form action={action} id="create-use-form">
           <Flex
             mt="60px"
             alignItems="center"
@@ -220,17 +242,22 @@ export default function SignUp() {
                   width="350px"
                   height="50px"
                   border={
-                    errors.username ? "1px solid red" : "1px solid #E2E8F0"
+                    state?.errors?.username
+                      ? "1px solid red"
+                      : "1px solid #E2E8F0"
                   }
                   borderRadius="15px"
                   mt="4px"
-                  {...register("username")}
+                  id="username"
+                  name="username"
                   placeholder="Your full name"
                   _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
                   p="0 20px 0 20px"
                   size="sm"
+                  value={formData.username}
+                  onChange={handleChange}
                 />
-                <ErrorMess error={errors.username?.message} />
+                <ErrorMess error={state?.errors?.username} />
               </Box>
               <Box>
                 <Text fontSize="14px" color={DARK_COLOR} ml="5px">
@@ -239,16 +266,21 @@ export default function SignUp() {
                 <Input
                   width="350px"
                   height="50px"
-                  border={errors.email ? "1px solid red" : "1px solid #E2E8F0"}
+                  border={
+                    state?.errors?.email ? "1px solid red" : "1px solid #E2E8F0"
+                  }
                   borderRadius="15px"
                   mt="4px"
-                  {...register("email")}
+                  id="email"
+                  name="email"
                   placeholder="Your email address"
                   _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
                   size="sm"
                   p="0 20px 0 20px"
+                  value={formData.email}
+                  onChange={handleChange}
                 />
-                <ErrorMess error={errors.email?.message} />
+                <ErrorMess error={state?.errors?.email} />
               </Box>
               <Box>
                 <Text fontSize="14px" color={DARK_COLOR} ml="5px">
@@ -259,17 +291,28 @@ export default function SignUp() {
                   width="350px"
                   height="50px"
                   border={
-                    errors.password ? "1px solid red" : "1px solid #E2E8F0"
+                    state?.errors?.password
+                      ? "1px solid red"
+                      : "1px solid #E2E8F0"
                   }
                   borderRadius="15px"
                   mt="4px"
-                  {...register("password")}
+                  id="password"
+                  name="password"
                   placeholder="Your password"
                   _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
                   size="sm"
                   p="0 20px 0 20px"
+                  value={formData.password}
+                  onChange={handleChange}
                 />{" "}
-                <ErrorMess error={errors.password?.message} />
+                {state?.errors?.password && (
+                  <ul>
+                    {state?.errors?.password?.map((error, index) => (
+                      <ErrorMess key={index} error={error} />
+                    ))}
+                  </ul>
+                )}
               </Box>
               <Box>
                 <Text fontSize="14px" color={DARK_COLOR} ml="5px">
@@ -280,19 +323,22 @@ export default function SignUp() {
                   type="password"
                   height="50px"
                   border={
-                    errors.repeat_password
+                    state?.errors?.repeat_password
                       ? "1px solid red"
                       : "1px solid #E2E8F0"
                   }
                   borderRadius="15px"
                   mt="4px"
-                  {...register("repeat_password")}
+                  id="repeat_password"
+                  name="repeat_password"
                   placeholder="re-enter your password"
                   _placeholder={{ fontSize: "14px", color: "#A0AEC0" }}
                   size="sm"
                   p="0 20px 0 20px"
+                  value={formData.repeat_password}
+                  onChange={handleChange}
                 />{" "}
-                <ErrorMess error={errors.repeat_password?.message} />
+                <ErrorMess error={state?.errors?.repeat_password} />
               </Box>
               <FormControl display="flex" alignItems="center" gap="10px">
                 <Switch id="rememer-me-switch" colorScheme="teal" />

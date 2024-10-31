@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { SubmitHandler } from "react-hook-form";
 // import { DevTool } from "@hookform/devtools";
-import { allTags } from "../../../types/todoTypes/tag";
+import { allTags } from "@/types/todoTypes/tag";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Todo } from "@/state/todo/todoSlice";
