@@ -8,24 +8,29 @@ import {
   Input,
   Switch,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Image from "next/image";
 import { TopNavBar } from "@/components/topNavBar";
 import { Footer } from "@/components/footer";
-
-import { BG_COLOR } from "@/constants/colors";
+import { GRAY_TEXT_COLOR } from "@/constants/colors";
 import { useFormState, useFormStatus } from "react-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, Dispatch, SetStateAction } from "react";
 import ErrorMess from "@/components/forms/ErrorMess";
 import { login } from "@/actions/auth";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
+
 export default function Login() {
   const [state, action] = useFormState(login, undefined);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const toast = useToast();
+  const [unauthenticatedMessage, setUnauthenticatedMessage] = useState("");
+
   useEffect(() => {
     if (state?.message == "Log in successfully!") {
       setFormData({
@@ -33,15 +38,43 @@ export default function Login() {
         password: "",
       });
       state.message = "";
-      redirect("/dashboard");
+      console.log("user id: " + state.userId);
+      // console.log("user dto: todo ids: " + state);
+      redirect("/todolistnext");
+    } else if (state?.message == "Incorrect email or password") {
+      toast({
+        title: "Incorrect email or password!",
+        status: "error",
+        position: "bottom-right",
+        duration: 3000,
+        isClosable: true,
+      });
     }
-  }, [state]);
+  }, [state, toast]);
+
+  // useEffect(() => {
+  //   if (unauthenticated.get("message") == "unauthenticated") {
+  //     toast({
+  //       title: "You need to login first",
+  //       status: "error",
+  //       position: "bottom-right",
+  //       isClosable: true,
+  //     });
+  //   }
+  // }, [unauthenticated, toast]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
   return (
     <Flex as="nav" w={"100%"} justifyContent={"center"} h={"100vh"}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <UnauthenticatedWarning
+          setUnauthenticatedMessage={setUnauthenticatedMessage}
+        />
+      </Suspense>
       <Box
         display={{ base: "none", md: "block" }}
         overflowX="hidden"
@@ -50,16 +83,6 @@ export default function Login() {
         position="absolute"
         right="0px"
       >
-        <p>{state?.message}</p>
-        {/* <Box
-          bgImage={signInImage}
-          w="100%"
-          h="100%"
-          bgSize="cover"
-          bgPosition="50%"
-          position="absolute"
-          borderBottomLeftRadius="20px"
-        ></Box> */}
         <Image
           src="/images/signInBg.png"
           alt="log in image"
@@ -95,6 +118,12 @@ export default function Login() {
           shadow={true}
         />
 
+        {/* Display unauthenticated message if present */}
+        {unauthenticatedMessage && (
+          <Text color="red.500" fontSize="14px" fontWeight="700">
+            {unauthenticatedMessage}
+          </Text>
+        )}
         {/* inputs */}
         <Flex minW="800px" width="100%" justifyContent="center">
           <Flex
@@ -123,14 +152,20 @@ export default function Login() {
               <form action={action}>
                 <Flex flexDir={"column"} gap={"24px"}>
                   <Flex flexDir={"column"}>
-                    <Text fontSize="14px" color={BG_COLOR} ml="5px">
+                    <Text
+                      fontSize="14px"
+                      color={GRAY_TEXT_COLOR}
+                      fontWeight={700}
+                      ml="5px"
+                    >
                       Email
                     </Text>
                     <Input
                       width="350px"
                       height="50px"
                       border={
-                        state?.errors?.email
+                        state?.errors?.email ||
+                        state?.message == "Incorrect email or password"
                           ? "1px solid red"
                           : "1px solid #E2E8F0"
                       }
@@ -149,12 +184,18 @@ export default function Login() {
                     <ErrorMess error={state?.errors?.email} />
                   </Flex>
                   <Flex flexDir={"column"}>
-                    <Text fontSize="14px" color={BG_COLOR} ml="5px">
+                    <Text
+                      fontSize="14px"
+                      color={GRAY_TEXT_COLOR}
+                      fontWeight={700}
+                      ml="5px"
+                    >
                       Password
                     </Text>
                     <Input
                       border={
-                        state?.errors?.password
+                        state?.errors?.password ||
+                        state?.message == "Incorrect email or password"
                           ? "1px solid red"
                           : "1px solid #E2E8F0"
                       }
@@ -216,6 +257,22 @@ export default function Login() {
       </Flex>
     </Flex>
   );
+}
+
+function UnauthenticatedWarning({
+  setUnauthenticatedMessage,
+}: {
+  setUnauthenticatedMessage: Dispatch<SetStateAction<string>>;
+}) {
+  const unauthenticated = useSearchParams();
+
+  useEffect(() => {
+    if (unauthenticated.get("message") === "unauthenticated") {
+      setUnauthenticatedMessage("You need to log in first");
+    }
+  }, [unauthenticated, setUnauthenticatedMessage]);
+
+  return null;
 }
 
 function SubmitButton() {

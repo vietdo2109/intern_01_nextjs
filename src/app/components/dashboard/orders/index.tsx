@@ -41,7 +41,7 @@ export default function OrdersOverview() {
                 )}
                 <Box width={"2px"} h={"37px"} bg={"#E2E8F0"}></Box>
               </Flex>
-              <Flex flexDir={"column"} gap={"4.5px"}>
+              <Flex flexDir={"column"} gap={"4.5px"} mt="-5px">
                 <Text fontWeight={700} fontSize={"14px"} color={DARK_COLOR}>
                   {title}
                 </Text>

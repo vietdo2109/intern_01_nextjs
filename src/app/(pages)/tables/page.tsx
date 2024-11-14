@@ -1,11 +1,13 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Button } from "@chakra-ui/react";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import AuthorsTable from "@/components/tables/authorsTable";
 import ProjectsTable from "@/components/tables/projects";
 
 import { DARK_COLOR } from "@/constants/colors";
-
+import { Suspense } from "react";
+import LoadingSpinner from "@/components/skeletons/loadingSpinner";
+import Link from "next/link";
 export default function Tables() {
   return (
     <Flex width="100%" minW="700px" zIndex={1} right={0} flexDir="column">
@@ -29,13 +31,18 @@ export default function Tables() {
           borderRadius={"15px"}
           gap={"23.5px"}
         >
-          <Flex>
+          <Flex justifyContent="space-between">
             <Text fontSize={"18px"} fontWeight={700} color={DARK_COLOR}>
               Authors table
             </Text>
+            <Link href={`/tables/author/new-author`}>
+              <Button>Add author</Button>
+            </Link>
           </Flex>
-          <Flex>
-            <AuthorsTable />
+          <Flex minH="400px">
+            <Suspense fallback={<LoadingSpinner />}>
+              <AuthorsTable />
+            </Suspense>
           </Flex>
         </Flex>
         <Flex
@@ -52,8 +59,10 @@ export default function Tables() {
               Projects
             </Text>
           </Flex>
-          <Flex>
-            <ProjectsTable />
+          <Flex minH="300px">
+            <Suspense fallback={<LoadingSpinner />}>
+              <ProjectsTable />
+            </Suspense>
           </Flex>
         </Flex>
         <Footer />

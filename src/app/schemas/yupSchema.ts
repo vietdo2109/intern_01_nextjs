@@ -8,5 +8,5 @@ export const loginYupSchema = Yup.object().shape({
 export const todoYupSchema = Yup.object().shape({
   text: Yup.string().required("Required"),
   date: Yup.string().required("Required"),
-  tags: Yup.array(Yup.number().min(1).max(3).required()).required(),
+  tags: Yup.array(Yup.number().min(1).max(6).required()).required(),
 });

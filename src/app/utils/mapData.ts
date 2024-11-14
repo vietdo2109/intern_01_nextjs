@@ -1,4 +1,4 @@
-import { ApiCommon, ApiCreateEdit } from "../types/mediumFormTypes/apiTypes";
+import { ApiCommon, ApiCreateEdit } from "../types/mediumForm/apiTypes";
 import { Schema } from "@/schemas/zodSchema";
 
 function formatDate(date: Date) {

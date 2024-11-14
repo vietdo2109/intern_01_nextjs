@@ -1,7 +1,7 @@
 import { Flex, Box, Text, Button, Icon } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import TaskCard from "../taskCard";
-import { ModalType } from "../../../types/todoTypes/modal";
+import { ModalType } from "../../../types/todo/modal";
 import { useDispatch } from "react-redux";
 import { switchModalType } from "@/state/modal/modalTypeSlice";
 import { useGetTodosQuery } from "@/state/todos/todosApiSlice";

@@ -12,3 +12,15 @@ export type LogInFormState =
       message?: string;
     }
   | undefined;
+
+export type SessionPayload = {
+  userId: string;
+  expires: Date;
+};
+
+export type User = {
+  userid: number;
+  username: string;
+  email: string;
+  todoids: number[];
+};

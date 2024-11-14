@@ -1,7 +1,7 @@
 import { Flex, Box, Text, Button, Icon } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import TaskCard from "../taskCard";
-import { ModalType } from "../../../types/todoTypes/modal";
+import { ModalType } from "../../../types/todo/modal";
 import { Todo } from "../../../state/todo/todoSlice";
 import { FC } from "react";
 import {
@@ -11,11 +11,12 @@ import {
   ORANGE_DOT_COLOR,
   GRAY_COLOR,
 } from "@/constants/colors";
-import { ModalTypeState } from "@/types/todoModalTypes";
+import { ModalTypeState } from "@/types/todoModal";
 import { useModalType } from "../modalTypeProvider";
 import { useTodos } from "@/components/services/queries";
-// import SkeletonArticle from "@/components/skeletons/skeletonArticle";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useState, useEffect, useCallback } from "react";
+import SkeletonArticle from "@/components/skeletons/skeletonArticle";
 
 type MainCardProps = {
   type: ModalTypeState;
@@ -29,19 +30,55 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
     setModaltype(type);
     modalProps.onOpen();
   };
-  console.log(type);
   let taskCount = 0;
-
   const { isPending, error, data } = useTodos();
 
-  if (isPending) {
-    return <></>;
-  }
+  const [userInfo, setUserInfo] = useState<{
+    username: string;
+    todoIds: number[];
+  } | null>(null);
+
+  const cachedFn = useCallback(async () => {
+    try {
+      const response = await fetch("/api/userInfo");
+      if (response.ok) {
+        const data = await response.json();
+        setUserInfo(data);
+      }
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    cachedFn();
+  }, [data, cachedFn]);
+
+  const filteredData = data?.filter((todo) =>
+    userInfo?.todoIds?.includes(todo.id)
+  );
+
   if (error) {
     return <Text>fail to fetch</Text>;
   }
-  if (data) {
-    for (const todo of data) {
+
+  if (isPending) {
+    return (
+      <Flex
+        borderRadius="15px"
+        bg={"white"}
+        minH={"300px"}
+        flex={1}
+        flexDir={"column"}
+        gap={"20px"}
+        p={"20px"}
+      >
+        <SkeletonArticle />
+      </Flex>
+    );
+  }
+  if (filteredData) {
+    for (const todo of filteredData) {
       if (todo.type?.value === type.value) {
         taskCount++;
       }
@@ -98,7 +135,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
           </Text>
         </Button>
 
-        {data.map(
+        {filteredData.map(
           (todo: Todo) =>
             todo.type?.value === type.value && (
               <TaskCard
@@ -111,7 +148,6 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
               />
             )
         )}
-        {/* <SkeletonArticle /> */}
       </Flex>
     );
   }

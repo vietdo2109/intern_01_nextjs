@@ -10,7 +10,6 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import { Author, authorList } from "./authors";
 import {
   WHITE_COLOR,
   GRAY_COLOR,
@@ -19,8 +18,32 @@ import {
   ONLINE_STATUS_COLOR,
   OFFLINE_STATUS_COLOR,
 } from "@/constants/colors";
+import Link from "next/link";
+const defaultAvatar = "/images/defaultAvatar.jpg";
 
-export default function AuthorsTable() {
+export type AuthorFromDB = {
+  id: number;
+  fullname: string;
+  email: string;
+  function1: string;
+  function2: string;
+  status: string;
+  employeddate: Date;
+  avatar: string;
+};
+
+export default async function AuthorsTable() {
+  const response = await fetch("http://localhost:3000/api/authors", {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    return (
+      <Flex w="100%" h="100%" justifyContent="center" alignItems="center">
+        <Text>Fail to fetch data, Press F5 to refresh the page</Text>
+      </Flex>
+    );
+  }
+  const authors: AuthorFromDB[] = await response.json();
   return (
     <TableContainer w={"100%"}>
       <Table variant="simple">
@@ -52,112 +75,142 @@ export default function AuthorsTable() {
           </Tr>
         </Thead>
         <Tbody>
-          {authorList.map(
+          {authors.map(
             (
               {
-                profileImg,
-                username,
+                id,
+                fullname,
                 email,
-                func1,
-                func2,
+                function1,
+                function2,
                 status,
-                employedDate,
-              }: Author,
+                employeddate,
+                avatar,
+              },
               index: number
-            ) => (
-              <Tr key={index}>
-                <Td>
-                  <Flex alignItems={"center"} gap={"15px"}>
-                    <Box
-                      w={"40px"}
-                      h={"40px"}
-                      bgImage={profileImg}
-                      bgPosition={"center"}
-                      bgSize={"cover"}
-                      borderRadius={"12px"}
-                    ></Box>
-                    <Flex flexDirection={"column"} justifyContent={"center"}>
+            ) => {
+              const formatedDate = formatDate(employeddate);
+              return (
+                <Tr key={index}>
+                  <Td>
+                    <Flex alignItems={"center"} gap={"15px"}>
+                      <Flex
+                        w={"40px"}
+                        h={"40px"}
+                        bg={GRAY_COLOR}
+                        borderRadius={"12px"}
+                        overflow={"hidden"}
+                      >
+                        <img
+                          src={avatar ? avatar : defaultAvatar}
+                          alt="avatar"
+                          style={{
+                            width: "auto",
+                            height: "auto",
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            objectFit: "cover",
+                            backgroundPosition: "center",
+                          }}
+                        />
+                      </Flex>
+                      <Flex flexDirection={"column"} justifyContent={"center"}>
+                        <Text
+                          fontSize={"14px"}
+                          fontWeight={700}
+                          color={DARK_COLOR}
+                        >
+                          {fullname}
+                        </Text>
+                        <Text
+                          fontSize={"14px"}
+                          fontWeight={700}
+                          color={GRAY_TEXT_COLOR}
+                        >
+                          {email}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex flexDirection={"column"}>
                       <Text
                         fontSize={"14px"}
                         fontWeight={700}
                         color={DARK_COLOR}
                       >
-                        {username}
+                        {function1}
                       </Text>
                       <Text
                         fontSize={"14px"}
                         fontWeight={700}
                         color={GRAY_TEXT_COLOR}
                       >
-                        {email}
+                        {function2}
                       </Text>
                     </Flex>
-                  </Flex>
-                </Td>
-                <Td>
-                  <Flex flexDirection={"column"}>
-                    <Text fontSize={"14px"} fontWeight={700} color={DARK_COLOR}>
-                      {func1}
-                    </Text>
-                    <Text
-                      fontSize={"14px"}
-                      fontWeight={700}
-                      color={GRAY_TEXT_COLOR}
-                    >
-                      {func2}
-                    </Text>
-                  </Flex>
-                </Td>
-                <Td>
-                  <Flex justifyContent={"center"}>
-                    <Flex
-                      width={"65px"}
-                      h={"25px"}
-                      borderRadius={"8px"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      bg={
-                        status === "Online"
-                          ? ONLINE_STATUS_COLOR
-                          : OFFLINE_STATUS_COLOR
-                      }
-                    >
-                      <Text
-                        textAlign={"center"}
-                        fontWeight={700}
-                        fontSize={"14px"}
-                        color={WHITE_COLOR}
+                  </Td>
+                  <Td>
+                    <Flex justifyContent={"center"}>
+                      <Flex
+                        width={"65px"}
+                        h={"25px"}
+                        borderRadius={"8px"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        bg={
+                          status === "Online"
+                            ? ONLINE_STATUS_COLOR
+                            : OFFLINE_STATUS_COLOR
+                        }
                       >
-                        {status}
-                      </Text>
+                        <Text
+                          textAlign={"center"}
+                          fontWeight={700}
+                          fontSize={"14px"}
+                          color={WHITE_COLOR}
+                        >
+                          {status}
+                        </Text>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                </Td>
-                <Td>
-                  <Text
-                    textAlign={"center"}
-                    fontWeight={700}
-                    fontSize={"14px"}
-                    color={DARK_COLOR}
-                  >
-                    {employedDate}
-                  </Text>
-                </Td>
-                <Td>
-                  <Text
-                    color={GRAY_TEXT_COLOR}
-                    fontSize={"12px"}
-                    fontWeight={700}
-                    cursor={"pointer"}
-                  >
-                    edit
-                  </Text>
-                </Td>
-              </Tr>
-            )
+                  </Td>
+                  <Td>
+                    <Text
+                      textAlign={"center"}
+                      fontWeight={700}
+                      fontSize={"14px"}
+                      color={DARK_COLOR}
+                    >
+                      {formatedDate}
+                    </Text>
+                  </Td>
+                  <Td>
+                    <Link href={`/tables/author/${id}`}>
+                      <Text
+                        color={GRAY_TEXT_COLOR}
+                        fontSize={"12px"}
+                        fontWeight={700}
+                        cursor={"pointer"}
+                      >
+                        edit
+                      </Text>
+                    </Link>
+                  </Td>
+                </Tr>
+              );
+            }
           )}
         </Tbody>
       </Table>
     </TableContainer>
   );
 }
+
+const formatDate = (dateString: Date) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = String(date.getFullYear()).slice(-2); // Get last 2 digits of year
+  return `${day}/${month}/${year}`;
+};

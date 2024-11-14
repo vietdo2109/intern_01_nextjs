@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalTypeState } from "@/types/todoModalTypes";
+import { ModalTypeState } from "@/types/todoModal";
 import { createContext, useState, useContext } from "react";
 
 // Define the context type

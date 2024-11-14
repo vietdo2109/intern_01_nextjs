@@ -1,10 +1,7 @@
-"use client";
-
 import {
   Flex,
   Box,
   Text,
-  Icon,
   Table,
   Thead,
   Tbody,
@@ -13,16 +10,34 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import { Project, projectList } from "./projects";
-import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import {
   GRAY_COLOR,
   DARK_COLOR,
   GREEN_COLOR,
   RATE_COLOR,
 } from "@/constants/colors";
+import IconThreeDots from "../iconThreeDots";
 
-export default function ProjectsTable() {
+type ProjectFromDB = {
+  companyname: string;
+  budget: number;
+  status: string;
+  completionrate: number;
+};
+
+export default async function ProjectsTable() {
+  const response = await fetch("http://localhost:3000/api/projects", {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    return (
+      <Flex w="100%" h="100%" justifyContent="center" alignItems="center">
+        <Text>Fail to fetch data, Press F5 to refresh the page</Text>
+      </Flex>
+    );
+  }
+  const projects: ProjectFromDB[] = await response.json();
+
   return (
     <TableContainer w={"100%"}>
       <Table variant="simple">
@@ -54,22 +69,20 @@ export default function ProjectsTable() {
           </Tr>
         </Thead>
         <Tbody>
-          {projectList.map(
-            (
-              { iconSVG, projectName, budget, status, completionRate }: Project,
-              index
-            ) => (
+          {projects.map(
+            ({ companyname, budget, status, completionrate }, index) => (
               <Tr key={index}>
                 <Td>
                   <Flex alignItems={"center"} gap={"15px"}>
-                    <img src={iconSVG} alt="logo" />
+                    {/* <img src={iconSVG} alt="logo" /> */}
+                    <Box width="16px" h="16px" bg={GRAY_COLOR} />
                     <Flex flexDirection={"column"} justifyContent={"center"}>
                       <Text
                         fontSize={"14px"}
                         fontWeight={700}
                         color={DARK_COLOR}
                       >
-                        {projectName}
+                        {companyname}
                       </Text>
                     </Flex>
                   </Flex>
@@ -107,7 +120,7 @@ export default function ProjectsTable() {
                         fontSize={"14px"}
                         color={GREEN_COLOR}
                       >
-                        {completionRate}%
+                        {completionrate}%
                       </Text>
                     </Flex>
                     <Flex
@@ -117,7 +130,7 @@ export default function ProjectsTable() {
                       bg={RATE_COLOR}
                     >
                       <Box
-                        w={`${completionRate}%`}
+                        w={`${completionrate}%`}
                         h={"100%"}
                         bg={GREEN_COLOR}
                         borderRadius={"1px"}
@@ -127,7 +140,7 @@ export default function ProjectsTable() {
                 </Td>
                 <Td>
                   <Flex cursor="pointer">
-                    <Icon as={PiDotsThreeVerticalBold}></Icon>
+                    <IconThreeDots />{" "}
                   </Flex>
                 </Td>
               </Tr>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Option } from "../../types/mediumFormTypes/option";
-import { ApiGet } from "../../types/mediumFormTypes/apiTypes";
+import { Option } from "../../types/mediumForm/option";
+import { ApiGet } from "../../types/mediumForm/apiTypes";
 import { Schema } from "@/schemas/zodSchema";
 import { Todo } from "@/state/todo/todoSlice";
 
@@ -115,14 +115,9 @@ export function useTodos() {
 export function useTodo(id: number) {
   return useQuery({
     queryKey: ["todos", id],
-    queryFn: async (): Promise<Todo> => {
-      const response = await fetch(
-        "https://intern-01-fake-backend.onrender.com/todos/" + id
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    },
+    queryFn: (): Promise<Todo> =>
+      axios
+        .get<Todo>("https://intern-01-fake-backend.onrender.com/todos/" + id)
+        .then((res) => res.data),
   });
 }

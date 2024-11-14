@@ -1,29 +1,33 @@
-"use client";
-
 import {
   Flex,
   Box,
   Text,
-  Icon,
   Button,
   Input,
   InputGroup,
   InputRightElement,
   InputLeftElement,
 } from "@chakra-ui/react";
+import IconCalendar from "@/components/billing/iconCalendar";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import Invoices from "@/components/billing/invoice";
 import BillingInformation from "@/components/billing/billingInformation";
 import Transactions from "@/components/billing/transaction";
-
-import { IoWallet } from "react-icons/io5";
-import { FaPaypal } from "react-icons/fa6";
-import { RiPencilFill } from "react-icons/ri";
-
-import { WHITE_COLOR, GRAY_COLOR, DARK_COLOR } from "@/constants/colors";
+import {
+  WHITE_COLOR,
+  GRAY_COLOR,
+  DARK_COLOR,
+  GREEN_COLOR,
+} from "@/constants/colors";
 import Image from "next/image";
+import { IconPencil } from "@/components/billing/iconPencil";
+import { IconWallet } from "@/components/billing/iconWallet";
+import { IconPaypal } from "@/components/billing/iconPaypal";
+import { Suspense } from "react";
+import LoadingSpinner from "@/components/skeletons/loadingSpinner";
+
 export default function Billing() {
   return (
     <Flex width="100%" minW="700px" zIndex={1} right={0} flexDir="column">
@@ -152,12 +156,11 @@ export default function Billing() {
                   bg={"#4FD1C5"}
                   w={"64px"}
                 >
-                  <Icon
-                    as={IoWallet}
-                    w={"26px"}
-                    h={"26px"}
+                  <IconWallet
+                    width={26}
+                    height={26}
                     color={"#FFFFFF"}
-                  ></Icon>
+                  ></IconWallet>
                 </Flex>
                 <Flex
                   flexDir={"column"}
@@ -198,12 +201,11 @@ export default function Billing() {
                   bg={"#4FD1C5"}
                   w={"64px"}
                 >
-                  <Icon
-                    as={FaPaypal}
-                    w={"26px"}
-                    h={"26px"}
+                  <IconPaypal
+                    width={26}
+                    height={26}
                     color={"#FFFFFF"}
-                  ></Icon>
+                  ></IconPaypal>
                 </Flex>
                 <Flex
                   flexDir={"column"}
@@ -299,12 +301,11 @@ export default function Billing() {
                     height={"100%"}
                     width={"50px"}
                   >
-                    <Icon
-                      as={RiPencilFill}
+                    <IconPencil
                       color={DARK_COLOR}
-                      w={"12p"}
-                      h={"12px"}
-                    ></Icon>
+                      width={12}
+                      height={12}
+                    ></IconPencil>
                   </InputRightElement>
                 </InputGroup>
                 <InputGroup
@@ -349,28 +350,92 @@ export default function Billing() {
                     height={"100%"}
                     width={"50px"}
                   >
-                    <Icon
-                      as={RiPencilFill}
+                    <IconPencil
                       color={DARK_COLOR}
-                      w={"12p"}
-                      h={"12px"}
-                    ></Icon>
+                      width={12}
+                      height={12}
+                    ></IconPencil>
                   </InputRightElement>
                 </InputGroup>
               </Flex>
             </Flex>
           </Flex>
-          <Flex w={"35%"} bg={WHITE_COLOR} borderRadius="15px" height={"100%"}>
-            <Invoices />
+          <Flex
+            w={"35%"}
+            bg={WHITE_COLOR}
+            borderRadius="15px"
+            height={"100%"}
+            flexDir={"column"}
+            p={"24.5px"}
+          >
+            <Flex w={"100%"} flex={1} justifyContent={"space-between"}>
+              <Text color={DARK_COLOR} fontSize="18px" fontWeight={700}>
+                Invoices
+              </Text>
+              <Button
+                w={"110.5px"}
+                h={"35px"}
+                bg={"#FFFFFF"}
+                py={"5px"}
+                justifySelf={"flex-end"}
+                colorScheme="teal"
+                variant="outline"
+                borderRadius="12px"
+                border="2px solid #4FD1C5"
+              >
+                <Text
+                  color={GREEN_COLOR}
+                  fontSize="10px"
+                  fontWeight={700}
+                  textAlign={"center"}
+                >
+                  VIEW ALL
+                </Text>
+              </Button>
+            </Flex>
+            <Flex flexDir={"column"} flex={1} gap={"24.5px"} minH="320px">
+              <Suspense fallback={<LoadingSpinner />}>
+                <Invoices />
+              </Suspense>
+            </Flex>
           </Flex>
         </Flex>
 
         <Flex w={"100%"} gap={"24px"}>
           <Flex w={"60%"} bg={WHITE_COLOR} borderRadius="15px" height={"100%"}>
-            <BillingInformation />
+            <Flex w={"100%"} p={"24px"} gap={"17.5px"} flexDir={"column"}>
+              <Text fontWeight={700} fontSize={"18px"} color={DARK_COLOR}>
+                Billing Information
+              </Text>
+              <Suspense fallback={<LoadingSpinner />}>
+                <BillingInformation />
+              </Suspense>
+            </Flex>
           </Flex>
-          <Flex flex={1} bg={WHITE_COLOR} borderRadius="15px">
-            <Transactions />
+          <Flex flex={1} bg={WHITE_COLOR} borderRadius="15px" minH="550px">
+            <Flex
+              flex={1}
+              paddingX={"21px"}
+              paddingY={"25px"}
+              flexDir={"column"}
+              gap={"18px"}
+            >
+              <Flex w={"100%"} justifyContent={"space-between"}>
+                <Text fontWeight={700} fontSize={"18px"} color={DARK_COLOR}>
+                  Your Transactions
+                </Text>
+                <Flex justifyContent={"center"} gap={"6px"}>
+                  <IconCalendar />{" "}
+                  <Text fontSize={"14px"} fontWeight={700} color={GRAY_COLOR}>
+                    {selectedDate}
+                  </Text>
+                </Flex>
+              </Flex>
+
+              <Suspense fallback={<LoadingSpinner />}>
+                <Transactions />{" "}
+              </Suspense>
+            </Flex>
           </Flex>
         </Flex>
         <Footer />
@@ -378,3 +443,4 @@ export default function Billing() {
     </Flex>
   );
 }
+const selectedDate = "23 - 30 March 2020";

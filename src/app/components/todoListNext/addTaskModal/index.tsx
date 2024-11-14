@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { SubmitHandler } from "react-hook-form";
 // import { DevTool } from "@hookform/devtools";
-import { allTags } from "@/types/todoTypes/tag";
+import { allTags } from "@/types/todo/tag";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Todo } from "@/state/todo/todoSlice";
@@ -26,6 +26,8 @@ import { useCreateTodo } from "@/components/services/mutations";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { todoYupSchema } from "@/schemas/yupSchema";
 import { DARK_COLOR } from "@/constants/colors";
+import cookieCutter from "@boiseitguru/cookie-cutter";
+
 export default function AddTaskModal({
   isOpen,
   onClose,
@@ -36,7 +38,9 @@ export default function AddTaskModal({
   const { modalType } = useModalType();
   const todos = useTodos();
   const createTodoMutation = useCreateTodo();
+  // Get a cookie
 
+  console.log(cookieCutter.get("session"));
   const {
     register,
     handleSubmit,
@@ -50,12 +54,11 @@ export default function AddTaskModal({
     },
     resolver: yupResolver(todoYupSchema),
   });
-
-  const onSubmit: SubmitHandler<Omit<Todo, "id" | "type">> = (
+  const userId = 1;
+  const onSubmit: SubmitHandler<Omit<Todo, "id" | "type">> = async (
     data: Omit<Todo, "id" | "type">
   ) => {
     const newId = nextTodoId(todos.data || []);
-
     const numericTags = data?.tags?.map((tag) => Number(tag));
     const newTask: Todo = {
       ...data,
@@ -63,6 +66,24 @@ export default function AddTaskModal({
       id: newId,
       type: modalType,
     };
+    try {
+      const response = await fetch("/api/addTodoId", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, newId }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Todo ID added:", result);
+      } else {
+        console.error("Failed to add Todo ID");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
     // dispatch(addTask(newTask));
     createTodoMutation.mutate(newTask);
     onClose();
@@ -184,7 +205,7 @@ export default function AddTaskModal({
               close
             </Button>{" "}
             <Box w={"20px"}></Box>
-            <Button colorScheme="blue" type="submit">
+            <Button colorScheme="blue" type="submit" onClick={() => {}}>
               Add task
             </Button>
             {/* <DevTool control={control} /> */}

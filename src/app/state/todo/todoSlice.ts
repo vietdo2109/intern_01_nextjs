@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ModalTypeState } from "@/types/todoModalTypes";
+import { ModalTypeState } from "@/types/todoModal";
 export interface Todo {
   id: number;
   text: string;

@@ -39,7 +39,7 @@ export default function DashboardProject() {
       <Flex flexDir={"column"}>
         <Flex w={"100%"} justifyContent={"space-between"}>
           <Text fontWeight={700} fontSize={"18px"} color={DARK_COLOR}>
-            Oders overview
+            Projects
           </Text>
           <Icon
             as={PiDotsThreeVerticalBold}

@@ -56,7 +56,7 @@ export default function SignUp() {
       });
       state.message = "";
     }
-  }, [state]);
+  }, [state, toast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

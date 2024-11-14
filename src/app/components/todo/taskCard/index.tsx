@@ -9,7 +9,7 @@ import {
   useUpdateTodoMutation,
 } from "@/state/todos/todosApiSlice";
 import Tag from "../tag";
-import { allTags } from "../../../types/todoTypes/tag";
+import { allTags } from "../../../types/todo/tag";
 import { UpdateTaskModal } from "../updateTaskModal";
 import { GRAY_COLOR } from "@/constants/colors";
 

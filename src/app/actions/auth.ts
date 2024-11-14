@@ -1,10 +1,12 @@
 "use server";
 
 import { SignupFormSchema, LoginFormSchema } from "@/schemas/zodSchema";
-import { LogInFormState } from "@/types/loginPage";
-import { SignUpFormState } from "@/types/signUpPage";
+import { LogInFormState } from "@/types/login";
+import { SignUpFormState } from "@/types/signUp";
 import { sql } from "@vercel/postgres";
+import { createSession, deleteSession } from "@/lib/session";
 
+import { redirect } from "next/navigation";
 export async function signup(state: SignUpFormState, formData: FormData) {
   // 1. Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
@@ -35,7 +37,7 @@ export async function signup(state: SignUpFormState, formData: FormData) {
     `;
 
     const user = data.rows[0];
-
+    console.log(user);
     // If user creation fails, return an error message
     if (!user) {
       return {
@@ -43,17 +45,14 @@ export async function signup(state: SignUpFormState, formData: FormData) {
       };
     }
 
-    // 4. Return success message in state if user is created
-    return {
-      message: "Account created successfully!",
-      userId: user.id,
-    };
+    await createSession(user.userid);
   } catch (error) {
     console.error("Signup error:", error);
     return {
       message: "An error occurred. Please try again later.",
     };
   }
+  redirect("/dashboard");
 }
 
 export async function login(state: LogInFormState, formData: FormData) {
@@ -87,16 +86,40 @@ export async function login(state: LogInFormState, formData: FormData) {
         message: "Incorrect email or password",
       };
     }
+    await createSession(user.userid);
+    // const userDTO = await getUserInfo();
 
-    // 3. Return success message and user ID if login is successful
+    // Return success message and user ID if login is successful
     return {
       message: "Log in successfully!",
-      userId: user.id,
+      userId: user.userid,
+      // userDTO,
     };
   } catch (error) {
     console.error("Log in error:", error);
     return {
       message: "An error occurred. Please try again later.",
     };
+  }
+}
+
+export async function logout() {
+  await deleteSession();
+  redirect("/login");
+}
+
+import { cookies } from "next/headers";
+
+export async function getCookieSession() {
+  // Get all cookies
+  const cookieStore = cookies();
+
+  // Retrieve specific session cookie (replace 'session-cookie-name' with your actual cookie name)
+  const sessionCookie = cookieStore.get("session");
+
+  if (sessionCookie) {
+    return sessionCookie.value; // Return the value of the session cookie
+  } else {
+    return null; // Return null if session cookie is not found
   }
 }

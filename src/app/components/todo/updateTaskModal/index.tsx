@@ -15,7 +15,7 @@ import {
 import { SubmitHandler } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
-import { allTags } from "../../../types/todoTypes/tag";
+import { allTags } from "../../../types/todo/tag";
 import { useForm } from "react-hook-form";
 import { Todo } from "@/state/todo/todoSlice";
 import {

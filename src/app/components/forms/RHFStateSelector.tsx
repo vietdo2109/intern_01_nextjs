@@ -1,7 +1,7 @@
 import React from "react";
 import { Checkbox, CheckboxGroup, Stack } from "@chakra-ui/react";
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
-import { Option } from "../../types/mediumFormTypes/option";
+import { Option } from "../../types/mediumForm/option";
 
 type Props<T extends FieldValues> = {
   name: Path<T>;

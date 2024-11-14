@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import SideMenu from "@/components/sideMenu";
-
-export default function PagesLayout({
+export default async function PagesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

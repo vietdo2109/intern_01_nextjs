@@ -5,19 +5,24 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { Todo } from "@/state/todo/todoSlice";
 
 import Tag from "../tag";
-import { allTags } from "../../../types/todoTypes/tag";
+import { allTags } from "../../../types/todo/tag";
 import { UpdateTaskModal } from "../updateTaskModal";
 import { GRAY_COLOR } from "@/constants/colors";
 import { useDeleteTodo, useEditTodo } from "@/components/services/mutations";
 import { useTodo } from "@/components/services/queries";
+import SkeletonArticle from "@/components/skeletons/skeletonArticle";
 
 export default function TaskCard({ text, tags, type, date, id }: Todo) {
   const [isTaskMenuVisible, setIsTaskMenuVidible] = useState(false);
-  const { data } = useTodo(id);
+  const { data, isPending } = useTodo(id);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const editTodoMutation = useEditTodo();
   const deleteTodoMutation = useDeleteTodo();
+  if (isPending) {
+    return <SkeletonArticle />;
+  }
+
   if (data) {
     return (
       <Flex

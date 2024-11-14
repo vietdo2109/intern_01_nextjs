@@ -1,40 +1,44 @@
-import { Flex, Text, Icon } from "@chakra-ui/react";
-import { Transaction, transactionList } from "./transaction";
-import { IoArrowDown } from "react-icons/io5";
-import { FaExclamation } from "react-icons/fa6";
-import { IoArrowUp } from "react-icons/io5";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { Flex, Text } from "@chakra-ui/react";
+
 import {
   RED_COLOR,
   DARK_COLOR,
   GRAY_COLOR,
   GREEN_COLOR,
 } from "@/constants/colors";
+import ArrowDown from "../arrowDown";
+import ArrowUp from "../arrowUp";
+import Exclaimation from "../exclaimation";
 
-export default function Transactions() {
+type TransactionFromDB = {
+  id: number;
+  companyname: string;
+  date: Date;
+  value: number;
+  status: string;
+};
+export default async function Transactions() {
+  const response = await fetch("http://localhost:3000/api/transactions", {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error("failed to  fetch transactions");
+  }
+  const transactions: TransactionFromDB[] = await response.json();
+
   return (
-    <Flex
-      flex={1}
-      paddingX={"21px"}
-      paddingY={"25px"}
-      flexDir={"column"}
-      gap={"18px"}
-    >
-      <Flex w={"100%"} justifyContent={"space-between"}>
-        <Text fontWeight={700} fontSize={"18px"} color={DARK_COLOR}>
-          Your Transactions
-        </Text>
-        <Flex justifyContent={"center"} gap={"6px"}>
-          <Icon as={FaRegCalendarAlt} w={"15px"} h={"15px"}></Icon>
-          <Text fontSize={"14px"} fontWeight={700} color={GRAY_COLOR}>
-            {selectedDate}
-          </Text>
-        </Flex>
-      </Flex>
-
-      <Flex flexDir={"column"} gap={"24px"}>
-        {transactionList.map(
-          ({ company, time, value, status }: Transaction, index: number) => (
+    <Flex flexDir={"column"} gap={"24px"}>
+      {transactions.map(
+        ({ companyname, date, value, status }, index: number) => {
+          const formattedDate = new Intl.DateTimeFormat("en-GB", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }).format(new Date(date));
+          return (
             <Flex
               key={index}
               justifyContent={"center"}
@@ -55,29 +59,20 @@ export default function Transactions() {
                 }`}
                 borderRadius={"50%"}
               >
-                <Icon
-                  as={
-                    status === "pending"
-                      ? FaExclamation
-                      : status === "minus"
-                      ? IoArrowDown
-                      : IoArrowUp
-                  }
-                  color={
-                    status === "pending"
-                      ? GRAY_COLOR
-                      : status === "minus"
-                      ? RED_COLOR
-                      : GREEN_COLOR
-                  }
-                ></Icon>
+                {status === "minus" ? (
+                  <ArrowDown />
+                ) : status === "plus" ? (
+                  <ArrowUp />
+                ) : (
+                  <Exclaimation />
+                )}
               </Flex>
               <Flex flexDir={"column"} flex={1} gap={"4.5px"}>
                 <Text fontSize={"14px"} fontWeight={"700"} color={DARK_COLOR}>
-                  {company}
+                  {companyname}
                 </Text>
                 <Text fontSize={"14px"} fontWeight={"700"} color={GRAY_COLOR}>
-                  {time}
+                  {formattedDate}
                 </Text>
               </Flex>
               <Flex h={"100%"} alignItems={"center"}>
@@ -95,16 +90,14 @@ export default function Transactions() {
                   {status === "pending"
                     ? "Pending"
                     : status === "minus"
-                    ? `-$${value}`
+                    ? `-$${value * -1}`
                     : `+$${value}`}
                 </Text>
               </Flex>
             </Flex>
-          )
-        )}
-      </Flex>
+          );
+        }
+      )}
     </Flex>
   );
 }
-
-const selectedDate = "23 - 30 March 2020";

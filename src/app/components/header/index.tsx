@@ -7,14 +7,15 @@ import {
   Input,
   Text,
   Icon,
+  Button,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaBell as notificationIcon } from "react-icons/fa";
 import { IoMdSettings as settingIcon } from "react-icons/io";
-import Link from "next/link";
 import { FC } from "react";
 import { GRAY_TEXT_COLOR, WHITE_COLOR } from "@/constants/colors";
+import { logout } from "@/actions/auth";
 type HeaderProps = {
   theme: "dark" | "light";
   page: string;
@@ -48,14 +49,14 @@ export const Header: FC<HeaderProps> = ({ theme, page }) => {
             h="39.5px"
           />
         </InputGroup>
-        <Link href={"/login"}>
+        <Button onClick={() => logout()}>
           <Flex alignItems="center" gap="5px" width="58px" h="16px">
             <Icon color={themeColor} w="12px" h="12px" as={FaUser}></Icon>
             <Text fontSize="12px" fontWeight={700} color={themeColor} mt="3px">
-              Sign in
+              Log out
             </Text>
           </Flex>
-        </Link>
+        </Button>
 
         <Icon
           color={themeColor}
