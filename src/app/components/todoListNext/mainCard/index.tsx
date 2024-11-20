@@ -40,7 +40,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
 
   const cachedFn = useCallback(async () => {
     try {
-      const response = await fetch("/api/userInfo");
+      const response = await fetch("/api/user");
       if (response.ok) {
         const data = await response.json();
         setUserInfo(data);

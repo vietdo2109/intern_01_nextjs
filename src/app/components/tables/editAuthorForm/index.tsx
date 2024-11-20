@@ -14,8 +14,8 @@ import {
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { Author, authorSchema } from "@/lib/models/author";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FC, useState } from "react";
-import { AuthorFromDB } from "../authorsTable";
+import { FC, useEffect, useState } from "react";
+import { AuthorFromDB } from "@/lib/models/author";
 import { DevTool } from "@hookform/devtools";
 import {
   GRAY_COLOR,
@@ -24,11 +24,16 @@ import {
   WHITE_COLOR,
 } from "@/constants/colors";
 import AuthorDeleteModal from "./authorDeleteModal";
-import { redirect } from "next/navigation";
 import { IoIosImage } from "react-icons/io";
 import { useRef } from "react";
 import { IoIosImages } from "react-icons/io";
 import SeeImageModal from "./seeImageModal";
+import {
+  useDeleteAuthor,
+  useEditAuthor,
+} from "@/components/services/mutations";
+import { useRouter } from "next/navigation";
+
 const defaultAvatar = "/images/defaultAvatar.jpg";
 
 type AuthorFormProps = {
@@ -41,17 +46,11 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
   const employedDate = new Date(author.employeddate); // Date from the database
   const formattedDate = employedDate.toISOString().split("T")[0]; // Formats to "2021-06-14"
 
-  // -----FORM-----
-  const onSubmit = (data: Author) => {
-    console.log("error: " + errors);
-    editAuthor(data);
-  };
-
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitSuccessful },
     control,
   } = useForm<Author>({
     resolver: yupResolver(authorSchema),
@@ -60,6 +59,44 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
     },
   });
 
+  // -----UPDATE FUNCTION-----
+  const editAuthor = useEditAuthor();
+  const deleteAuthor = useDeleteAuthor();
+  const router = useRouter();
+  useEffect(() => {
+    if (
+      (isSubmitSuccessful && editAuthor.isSuccess) ||
+      deleteAuthor.isSuccess
+    ) {
+      router.push("/tables");
+    }
+  }, [isSubmitSuccessful, editAuthor.isSuccess, deleteAuthor.isSuccess]);
+  // -----END UPDATE FUNCTION-----
+
+  // -----FORM-----
+  const onSubmit = (data: Author) => {
+    console.log(errors);
+    const {
+      avatar,
+      fullName: fullname,
+      email,
+      function1,
+      function2,
+      status,
+      employedDate: employeddate,
+    } = data;
+
+    editAuthor.mutate({
+      avatar: avatar + "",
+      fullname,
+      email,
+      function1,
+      function2,
+      status,
+      employeddate,
+      id,
+    });
+  };
   // -----END FORM-----
 
   // -----MODAL-----
@@ -75,82 +112,6 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
     onClose: onDeleteAuthorModalClose,
   } = useDisclosure();
   // -----END MODAL-----
-
-  // -----UPDATE FUNCTION-----
-  const toast = useToast();
-
-  const editAuthor = async (formData: Author) => {
-    try {
-      const response = await fetch(`/api/authors/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update author data");
-      }
-
-      const data = await response.json();
-
-      console.log("Author edited successfully:", data);
-      toast({
-        position: "bottom-right",
-
-        title: "Edited author profile",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    } catch (error) {
-      console.error("Error editing author:", error);
-      toast({
-        position: "bottom-right",
-
-        title: "Failed to update",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  };
-
-  const deleteAuthor = async (id: number) => {
-    try {
-      const response = await fetch(`/api/authors/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete author");
-      }
-
-      console.log("Author deleted successfully");
-      toast({
-        position: "bottom-right",
-        title: "Author deleted",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    } catch (error) {
-      console.error("Error deleting author:", error);
-      toast({
-        position: "bottom-right",
-        title: "Failed to delete author",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  };
-
-  // -----END UPDATE FUNCTION-----
 
   // -----AVATAR-----
   const avatarSrc = useWatch({
@@ -254,6 +215,7 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
 
                 <button
                   onClick={handleSeeImage}
+                  type="button"
                   style={{ width: "100%", height: "100%", textAlign: "left" }}
                 >
                   <Text fontWeight="700">See image</Text>
@@ -270,6 +232,7 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
               >
                 <Icon as={IoIosImages} width="20px"></Icon>
                 <button
+                  type="button"
                   onClick={handleButtonClick}
                   style={{ width: "100%", height: "100%", textAlign: "left" }}
                 >
@@ -378,7 +341,7 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
 
         <Flex gap="20px">
           <Button
-            isLoading={isSubmitting}
+            isLoading={deleteAuthor.isPending}
             bg={RED_COLOR}
             color={WHITE_COLOR}
             onClick={onDeleteAuthorModalOpen}
@@ -387,7 +350,7 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
           </Button>
 
           <Button
-            isLoading={isSubmitting}
+            isLoading={editAuthor.isPending}
             bg={GREEN_COLOR}
             color={WHITE_COLOR}
             type="submit"
@@ -400,12 +363,12 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
         isOpen={isDeleteAuthorModalOpen}
         onClose={onDeleteAuthorModalClose}
         handleDelete={() => {
-          deleteAuthor(id);
-          redirect(`/tables`);
+          deleteAuthor.mutate(id);
+          onDeleteAuthorModalClose();
         }}
       />
       <SeeImageModal
-        image={author.avatar}
+        image={author.avatar || defaultAvatar}
         isOpen={isSeeImageModalOpen}
         onClose={onSeeImageModalClose}
       />

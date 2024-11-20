@@ -8,34 +8,30 @@ import {
   RadioGroup,
   Stack,
   useDisclosure,
-  useToast,
   Button,
 } from "@chakra-ui/react";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { Author, authorSchema } from "@/lib/models/author";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DevTool } from "@hookform/devtools";
-import {
-  GRAY_COLOR,
-  GREEN_COLOR,
-  RED_COLOR,
-  WHITE_COLOR,
-} from "@/constants/colors";
+import { GRAY_COLOR, GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
 import { IoIosImage } from "react-icons/io";
 import { useRef } from "react";
 import { IoIosImages } from "react-icons/io";
 import SeeImageModal from "../editAuthorForm/seeImageModal";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useCreateAuthor } from "@/components/services/mutations";
 const defaultAvatar = "/images/defaultAvatar.jpg";
 
 export const AddAuthorForm = () => {
+  const addAuthor = useCreateAuthor();
+
+  const router = useRouter();
+
   const onSubmit = (data: Author) => {
-    console.log("is loading: " + isLoading);
-    console.log("is submitting: " + isSubmitting);
-    console.log("is validating: " + isValidating);
-    console.log("error: " + errors);
-    addAuthor(data);
+    console.log(errors);
+    addAuthor.mutate(data);
   };
 
   const employedDate = new Date();
@@ -45,7 +41,7 @@ export const AddAuthorForm = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { isDirty, errors, isSubmitting, isValidating, isLoading },
+    formState: { errors, isSubmitSuccessful },
     control,
   } = useForm<Author>({
     resolver: yupResolver(authorSchema),
@@ -65,48 +61,6 @@ export const AddAuthorForm = () => {
     onOpen: onSeeImageModalOpen,
     onClose: onSeeImageModalClose,
   } = useDisclosure();
-
-  const toast = useToast();
-
-  const addAuthor = async (formData: Author) => {
-    console.log(formData);
-    try {
-      const response = await fetch(`/api/authors`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add author data");
-      }
-
-      const data = await response.json();
-
-      console.log("Author updated successfully:", data);
-      toast({
-        position: "bottom-right",
-
-        title: "Author's profile added",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    } catch (error) {
-      console.error("Error adding author:", error);
-      toast({
-        position: "bottom-right",
-
-        title: "Failed to update",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-      // Optional: display error message
-    }
-  };
 
   const avatarSrc = useWatch({
     control,
@@ -146,6 +100,12 @@ export const AddAuthorForm = () => {
       };
     });
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful && addAuthor.isSuccess) {
+      router.push("/tables");
+    }
+  }, [isSubmitSuccessful, addAuthor.isSuccess]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -206,6 +166,7 @@ export const AddAuthorForm = () => {
 
                 <button
                   onClick={handleSeeImage}
+                  type="button"
                   style={{ width: "100%", height: "100%", textAlign: "left" }}
                 >
                   <Text fontWeight="700">See image</Text>
@@ -222,6 +183,7 @@ export const AddAuthorForm = () => {
               >
                 <Icon as={IoIosImages} width="20px"></Icon>
                 <button
+                  type="button"
                   onClick={handleButtonClick}
                   style={{ width: "100%", height: "100%", textAlign: "left" }}
                 >
@@ -330,7 +292,7 @@ export const AddAuthorForm = () => {
 
         <Flex gap="20px">
           <Button
-            isLoading={isSubmitting}
+            isLoading={addAuthor.isPending}
             bg={GREEN_COLOR}
             color={WHITE_COLOR}
             type="submit"

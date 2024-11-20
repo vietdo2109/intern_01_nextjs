@@ -4,6 +4,7 @@ import { Option } from "../../types/mediumForm/option";
 import { ApiGet } from "../../types/mediumForm/apiTypes";
 import { Schema } from "@/schemas/zodSchema";
 import { Todo } from "@/state/todo/todoSlice";
+import { Author, AuthorFromDB } from "@/lib/models/author";
 
 export function useStates() {
   return useQuery({
@@ -118,6 +119,26 @@ export function useTodo(id: number) {
     queryFn: (): Promise<Todo> =>
       axios
         .get<Todo>("https://intern-01-fake-backend.onrender.com/todos/" + id)
+        .then((res) => res.data),
+  });
+}
+
+export function useAuthors() {
+  return useQuery({
+    queryKey: ["authors"],
+    queryFn: (): Promise<AuthorFromDB[]> =>
+      axios
+        .get<AuthorFromDB[]>("http://localhost:3000/api/authors")
+        .then((res) => res.data),
+  });
+}
+
+export function useAuthor(id: number) {
+  return useQuery({
+    queryKey: ["authors", id],
+    queryFn: (): Promise<AuthorFromDB> =>
+      axios
+        .get<AuthorFromDB>("http://localhost:3000/api/authors/" + id)
         .then((res) => res.data),
   });
 }

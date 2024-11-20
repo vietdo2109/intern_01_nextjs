@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Flex,
   Box,
@@ -19,192 +21,192 @@ import {
   OFFLINE_STATUS_COLOR,
 } from "@/constants/colors";
 import Link from "next/link";
+import { useAuthors } from "@/components/services/queries";
 const defaultAvatar = "/images/defaultAvatar.jpg";
-
-export type AuthorFromDB = {
-  id: number;
-  fullname: string;
-  email: string;
-  function1: string;
-  function2: string;
-  status: string;
-  employeddate: Date;
-  avatar: string;
-};
-
-export default async function AuthorsTable() {
-  const response = await fetch("http://localhost:3000/api/authors", {
-    cache: "no-store",
-  });
-  if (!response.ok) {
+import LoadingSpinner from "@/components/skeletons/loadingSpinner";
+let authors = [];
+export default function AuthorsTable() {
+  const { data, error, isPending, status } = useAuthors();
+  if (error) {
     return (
       <Flex w="100%" h="100%" justifyContent="center" alignItems="center">
         <Text>Fail to fetch data, Press F5 to refresh the page</Text>
       </Flex>
     );
   }
-  const authors: AuthorFromDB[] = await response.json();
-  return (
-    <TableContainer w={"100%"}>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th fontSize={"10px"} fontWeight={700} color={GRAY_COLOR}>
-              AUTHOR
-            </Th>
-            <Th fontSize={"10px"} fontWeight={700} color={GRAY_COLOR}>
-              FUNCTION
-            </Th>
-            <Th
-              fontSize={"10px"}
-              fontWeight={700}
-              color={GRAY_COLOR}
-              textAlign={"center"}
-            >
-              STATUS
-            </Th>
-            <Th
-              textAlign={"center"}
-              fontSize={"10px"}
-              fontWeight={700}
-              color={GRAY_COLOR}
-            >
-              EMPLOYED
-            </Th>
-            <Th></Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {authors.map(
-            (
-              {
-                id,
-                fullname,
-                email,
-                function1,
-                function2,
-                status,
-                employeddate,
-                avatar,
-              },
-              index: number
-            ) => {
-              const formatedDate = formatDate(employeddate);
-              return (
-                <Tr key={index}>
-                  <Td>
-                    <Flex alignItems={"center"} gap={"15px"}>
-                      <Flex
-                        w={"40px"}
-                        h={"40px"}
-                        bg={GRAY_COLOR}
-                        borderRadius={"12px"}
-                        overflow={"hidden"}
-                      >
-                        <img
-                          src={avatar ? avatar : defaultAvatar}
-                          alt="avatar"
-                          style={{
-                            width: "auto",
-                            height: "auto",
-                            maxWidth: "100%",
-                            maxHeight: "100%",
-                            objectFit: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        />
+
+  if (status === "pending") {
+    return <LoadingSpinner />;
+  }
+
+  if (data) {
+    authors = data;
+
+    return (
+      <TableContainer w={"100%"}>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th fontSize={"10px"} fontWeight={700} color={GRAY_COLOR}>
+                AUTHOR
+              </Th>
+              <Th fontSize={"10px"} fontWeight={700} color={GRAY_COLOR}>
+                FUNCTION
+              </Th>
+              <Th
+                fontSize={"10px"}
+                fontWeight={700}
+                color={GRAY_COLOR}
+                textAlign={"center"}
+              >
+                STATUS
+              </Th>
+              <Th
+                textAlign={"center"}
+                fontSize={"10px"}
+                fontWeight={700}
+                color={GRAY_COLOR}
+              >
+                EMPLOYED
+              </Th>
+              <Th></Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {authors.map(
+              (
+                {
+                  id,
+                  fullname,
+                  email,
+                  function1,
+                  function2,
+                  status,
+                  employeddate,
+                  avatar,
+                },
+                index: number
+              ) => {
+                const formatedDate = formatDate(employeddate);
+                return (
+                  <Tr key={index}>
+                    <Td>
+                      <Flex alignItems={"center"} gap={"15px"}>
+                        <Flex
+                          w={"40px"}
+                          h={"40px"}
+                          bg={GRAY_COLOR}
+                          borderRadius={"12px"}
+                          overflow={"hidden"}
+                        >
+                          <img
+                            src={avatar ? avatar : defaultAvatar}
+                            alt="avatar"
+                            style={{
+                              width: "auto",
+                              height: "auto",
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "cover",
+                              backgroundPosition: "center",
+                            }}
+                          />
+                        </Flex>
+                        <Flex
+                          flexDirection={"column"}
+                          justifyContent={"center"}
+                        >
+                          <Text
+                            fontSize={"14px"}
+                            fontWeight={700}
+                            color={DARK_COLOR}
+                          >
+                            {fullname}
+                          </Text>
+                          <Text
+                            fontSize={"14px"}
+                            fontWeight={700}
+                            color={GRAY_TEXT_COLOR}
+                          >
+                            {email}
+                          </Text>
+                        </Flex>
                       </Flex>
-                      <Flex flexDirection={"column"} justifyContent={"center"}>
+                    </Td>
+                    <Td>
+                      <Flex flexDirection={"column"}>
                         <Text
                           fontSize={"14px"}
                           fontWeight={700}
                           color={DARK_COLOR}
                         >
-                          {fullname}
+                          {function1}
                         </Text>
                         <Text
                           fontSize={"14px"}
                           fontWeight={700}
                           color={GRAY_TEXT_COLOR}
                         >
-                          {email}
+                          {function2}
                         </Text>
                       </Flex>
-                    </Flex>
-                  </Td>
-                  <Td>
-                    <Flex flexDirection={"column"}>
+                    </Td>
+                    <Td>
+                      <Flex justifyContent={"center"}>
+                        <Flex
+                          width={"65px"}
+                          h={"25px"}
+                          borderRadius={"8px"}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          bg={
+                            status === "Online"
+                              ? ONLINE_STATUS_COLOR
+                              : OFFLINE_STATUS_COLOR
+                          }
+                        >
+                          <Text
+                            textAlign={"center"}
+                            fontWeight={700}
+                            fontSize={"14px"}
+                            color={WHITE_COLOR}
+                          >
+                            {status}
+                          </Text>
+                        </Flex>
+                      </Flex>
+                    </Td>
+                    <Td>
                       <Text
-                        fontSize={"14px"}
+                        textAlign={"center"}
                         fontWeight={700}
+                        fontSize={"14px"}
                         color={DARK_COLOR}
                       >
-                        {function1}
+                        {formatedDate}
                       </Text>
-                      <Text
-                        fontSize={"14px"}
-                        fontWeight={700}
-                        color={GRAY_TEXT_COLOR}
-                      >
-                        {function2}
-                      </Text>
-                    </Flex>
-                  </Td>
-                  <Td>
-                    <Flex justifyContent={"center"}>
-                      <Flex
-                        width={"65px"}
-                        h={"25px"}
-                        borderRadius={"8px"}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        bg={
-                          status === "Online"
-                            ? ONLINE_STATUS_COLOR
-                            : OFFLINE_STATUS_COLOR
-                        }
-                      >
+                    </Td>
+                    <Td>
+                      <Link href={`/tables/author/${id}`}>
                         <Text
-                          textAlign={"center"}
+                          color={GRAY_TEXT_COLOR}
+                          fontSize={"12px"}
                           fontWeight={700}
-                          fontSize={"14px"}
-                          color={WHITE_COLOR}
+                          cursor={"pointer"}
                         >
-                          {status}
+                          edit
                         </Text>
-                      </Flex>
-                    </Flex>
-                  </Td>
-                  <Td>
-                    <Text
-                      textAlign={"center"}
-                      fontWeight={700}
-                      fontSize={"14px"}
-                      color={DARK_COLOR}
-                    >
-                      {formatedDate}
-                    </Text>
-                  </Td>
-                  <Td>
-                    <Link href={`/tables/author/${id}`}>
-                      <Text
-                        color={GRAY_TEXT_COLOR}
-                        fontSize={"12px"}
-                        fontWeight={700}
-                        cursor={"pointer"}
-                      >
-                        edit
-                      </Text>
-                    </Link>
-                  </Td>
-                </Tr>
-              );
-            }
-          )}
-        </Tbody>
-      </Table>
-    </TableContainer>
-  );
+                      </Link>
+                    </Td>
+                  </Tr>
+                );
+              }
+            )}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    );
+  }
 }
 
 const formatDate = (dateString: Date) => {

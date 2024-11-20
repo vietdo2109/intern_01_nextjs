@@ -25,3 +25,14 @@ export const authorSchema = Yup.object().shape({
 });
 
 export type Author = Yup.InferType<typeof authorSchema>;
+
+export type AuthorFromDB = {
+  id: number;
+  fullname: string;
+  email: string;
+  function1: string;
+  function2: string;
+  status: string;
+  employeddate: Date;
+  avatar?: string;
+};

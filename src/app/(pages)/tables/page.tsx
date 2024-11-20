@@ -40,9 +40,7 @@ export default function Tables() {
             </Link>
           </Flex>
           <Flex minH="400px">
-            <Suspense fallback={<LoadingSpinner />}>
-              <AuthorsTable />
-            </Suspense>
+            <AuthorsTable />
           </Flex>
         </Flex>
         <Flex

@@ -23,34 +23,34 @@ export async function GET(
   }
 }
 
-export const PATCH = async (
+export const PUT = async (
   request: Request,
   { params }: { params: { id: number } }
 ) => {
   const authorId = (await params).id;
   console.log(authorId);
   const {
-    fullName,
+    fullname,
     function1,
     function2,
     email,
     status,
-    employedDate,
+    employeddate,
     avatar,
   } = await request.json(); // Modify fields based on your user table
 
   console.log(
-    fullName,
+    fullname,
     function1,
     function2,
     email,
     status,
-    employedDate,
+    employeddate,
     avatar
   );
   try {
-    await sql`UPDATE authors SET fullname = ${fullName}, email = ${email}, function1 = ${function1},
-      function2 = ${function2},status = ${status}, employeddate = ${employedDate}, avatar = ${avatar} WHERE id = ${authorId}`;
+    await sql`UPDATE authors SET fullname = ${fullname}, email = ${email}, function1 = ${function1},
+      function2 = ${function2},status = ${status}, employeddate = ${employeddate}, avatar = ${avatar} WHERE id = ${authorId}`;
     return NextResponse.json({ message: "Author updated successfully" });
   } catch (error) {
     console.log(error);

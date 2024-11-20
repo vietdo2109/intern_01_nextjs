@@ -5,7 +5,6 @@ import { sql } from "@vercel/postgres";
 
 export async function GET() {
   const session = await verifySession();
-
   try {
     const data = await sql`
       SELECT username, todoids
@@ -14,6 +13,7 @@ export async function GET() {
     `;
 
     const user = data.rows[0];
+    console.log(user);
     return NextResponse.json({
       username: user.username,
       todoIds: user.todoids,
