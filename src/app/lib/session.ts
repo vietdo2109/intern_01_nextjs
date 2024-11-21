@@ -27,6 +27,12 @@ export async function encrypt(payload: SessionPayload) {
 }
 
 export async function decrypt(session: string | undefined = "") {
+  console.log(
+    "SESSION_SECRET length:",
+    Buffer.from(process.env.SESSION_SECRET || "", "base64").length
+  );
+  console.log("SESSION_SECRET present:", !!process.env.SESSION_SECRET);
+
   try {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ["HS256"],
