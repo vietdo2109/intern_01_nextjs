@@ -52,10 +52,7 @@ export function useCreateTodo() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Todo) => {
-      await axios.post(
-        "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/todos",
-        data
-      );
+      await axios.post("https://intern-01-nextjs.vercel.app/api/todos", data);
     },
 
     onSuccess: async () => {
@@ -71,7 +68,7 @@ export function useEditTodo() {
   return useMutation({
     mutationFn: async (data: Todo) => {
       await axios.put(
-        `https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/todos/${data.id}`,
+        `https://intern-01-nextjs.vercel.app/api/todos/${data.id}`,
         data
       );
     },
@@ -90,9 +87,7 @@ export function useDeleteTodo() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await axios.delete(
-        `https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/todos/${id}`
-      );
+      await axios.delete(`https://intern-01-nextjs.vercel.app/api/todos/${id}`);
     },
 
     onSuccess: async () => {
@@ -106,10 +101,7 @@ export function useCreateAuthor() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Author) => {
-      await axios.post(
-        "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/authors",
-        data
-      );
+      await axios.post("https://intern-01-nextjs.vercel.app/api/authors", data);
     },
 
     onSuccess: async () => {
@@ -124,7 +116,7 @@ export function useEditAuthor() {
   return useMutation({
     mutationFn: async (data: AuthorFromDB) => {
       await axios.put(
-        `https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/authors/${data.id}`,
+        `https://intern-01-nextjs.vercel.app/api/authors/${data.id}`,
         data
       );
     },
@@ -140,7 +132,7 @@ export function useDeleteAuthor() {
   return useMutation({
     mutationFn: async (id: number) => {
       await axios.delete(
-        `https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/authors/${id}`
+        `https://intern-01-nextjs.vercel.app/api/authors/${id}`
       );
     },
 
