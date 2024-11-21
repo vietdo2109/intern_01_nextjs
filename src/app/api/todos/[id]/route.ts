@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { verifySession } from "@/lib/session";
 
 export async function GET(
   request: NextRequest,
@@ -51,6 +52,17 @@ export const DELETE = async (
   const todoId = params.id;
 
   try {
+    // Retrieve the user ID associated with the todo (if needed for additional checks)
+    const session = await verifySession();
+    const userId = session.userId;
+
+    // Remove the todo ID from the user's todoids array
+    await sql`
+      UPDATE users
+      SET todoids = array_remove(todoids, ${todoId})
+      WHERE userid = ${userId}
+    `;
+
     await sql`DELETE FROM todos WHERE id = ${todoId}`;
     return NextResponse.json({ message: "todo deleted successfully" });
   } catch (error) {
