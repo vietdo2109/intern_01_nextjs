@@ -8,8 +8,8 @@ export default async function middleware(req: NextRequest) {
   const isProtectedRoute = protectedRoutes.includes(currentPath);
 
   if (isProtectedRoute) {
-    const cookie = cookies().get("session")?.value;
-    const session = await decrypt(cookie);
+    let cookie = req.cookies.get("session");
+    const session = await decrypt(cookie?.value);
     console.log("middleware session: " + session);
     if (!session?.userId) {
       const url = new URL("/login", req.nextUrl);
