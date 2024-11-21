@@ -27,7 +27,7 @@ type ProjectFromDB = {
 
 export default async function ProjectsTable() {
   const response = await fetch(
-    "https://intern-01-nextjs.vercel.app/api/projects",
+    "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/projects",
     {
       cache: "no-store",
     }

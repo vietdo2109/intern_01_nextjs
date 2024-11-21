@@ -108,7 +108,9 @@ export function useTodos() {
     queryKey: ["todos"],
     queryFn: (): Promise<Todo[]> =>
       axios
-        .get<Todo[]>("https://intern-01-nextjs.vercel.app/api/todos")
+        .get<Todo[]>(
+          "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/todos"
+        )
         .then((res) => res.data),
   });
 }
@@ -118,7 +120,10 @@ export function useTodo(id: number) {
     queryKey: ["todos", id],
     queryFn: (): Promise<Todo> =>
       axios
-        .get<Todo>("https://intern-01-nextjs.vercel.app/api/todos/" + id)
+        .get<Todo>(
+          "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/todos/" +
+            id
+        )
         .then((res) => res.data),
   });
 }
@@ -128,7 +133,9 @@ export function useAuthors() {
     queryKey: ["authors"],
     queryFn: (): Promise<AuthorFromDB[]> =>
       axios
-        .get<AuthorFromDB[]>("https://intern-01-nextjs.vercel.app/api/authors")
+        .get<AuthorFromDB[]>(
+          "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/authors"
+        )
         .then((res) => res.data),
   });
 }
@@ -139,7 +146,8 @@ export function useAuthor(id: number) {
     queryFn: (): Promise<AuthorFromDB> =>
       axios
         .get<AuthorFromDB>(
-          "https://intern-01-nextjs.vercel.app/api/authors/" + id
+          "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/authors/" +
+            id
         )
         .then((res) => res.data),
   });
@@ -151,7 +159,7 @@ export function useUserDTO() {
     queryFn: (): Promise<{ username: string; todoIds: number[] }> =>
       axios
         .get<{ username: string; todoIds: number[] }>(
-          "https://intern-01-nextjs.vercel.app/api/user"
+          "https://intern-01-nextjs-ivh7s0ild-viet21s-projects.vercel.app/api/user"
         )
         .then((res) => res.data),
   });
