@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ModalTypeState } from "@/types/todoModal";
 export interface Todo {
   id: number;
   text: string;
   date: string;
-  type?: ModalTypeState;
+  type: "Planned" | "Upcoming" | "Completed";
   tags: number[];
 }
 
@@ -12,28 +11,28 @@ const initialState: Todo[] = [
   {
     id: 0,
     text: "Planned task 1",
-    type: { value: "Planned" },
+    type: "Planned",
     date: "Due Date 18 Jan 2024",
     tags: [2, 1, 4],
   },
   {
     id: 1,
     text: "Upcoming task 1",
-    type: { value: "Upcoming" },
+    type: "Upcoming",
     date: "Due Date 18 Jan 2024",
     tags: [1, 2, 4],
   },
   {
     id: 2,
     text: "Planned task 2",
-    type: { value: "Planned" },
+    type: "Planned",
     date: "Due Date 18 Jan 2024",
     tags: [2, 3, 4],
   },
   {
     id: 3,
     text: "Completed task 1",
-    type: { value: "Completed" },
+    type: "Completed",
     date: "Due Date 18 Jan 2024",
     tags: [1, 2],
   },

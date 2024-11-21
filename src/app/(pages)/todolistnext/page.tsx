@@ -33,15 +33,15 @@ export default function TodoListNext() {
             {/*  Main Content  */}
             <Flex width={"100%"} gap={"24px"} alignItems={"flex-start"}>
               <MainCard
-                type={{ value: "Planned" }}
+                type={"Planned"}
                 modalProps={{ isOpen, onOpen, onClose }}
               />
               <MainCard
-                type={{ value: "Upcoming" }}
+                type={"Upcoming"}
                 modalProps={{ isOpen, onOpen, onClose }}
               />
               <MainCard
-                type={{ value: "Completed" }}
+                type={"Completed"}
                 modalProps={{ isOpen, onOpen, onClose }}
               />
             </Flex>

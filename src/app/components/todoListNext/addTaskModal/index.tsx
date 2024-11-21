@@ -26,7 +26,7 @@ import { useCreateTodo } from "@/components/services/mutations";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { todoYupSchema } from "@/schemas/yupSchema";
 import { DARK_COLOR } from "@/constants/colors";
-import cookieCutter from "@boiseitguru/cookie-cutter";
+import { useUserDTO } from "@/components/services/queries";
 
 export default function AddTaskModal({
   isOpen,
@@ -38,9 +38,11 @@ export default function AddTaskModal({
   const { modalType } = useModalType();
   const todos = useTodos();
   const createTodoMutation = useCreateTodo();
-  // Get a cookie
 
-  console.log(cookieCutter.get("session"));
+  // get current user's todiIds
+  const userDTO = useUserDTO();
+  console.log(userDTO.data);
+
   const {
     register,
     handleSubmit,
@@ -54,7 +56,7 @@ export default function AddTaskModal({
     },
     resolver: yupResolver(todoYupSchema),
   });
-  const userId = 1;
+
   const onSubmit: SubmitHandler<Omit<Todo, "id" | "type">> = async (
     data: Omit<Todo, "id" | "type">
   ) => {
@@ -66,24 +68,7 @@ export default function AddTaskModal({
       id: newId,
       type: modalType,
     };
-    try {
-      const response = await fetch("/api/addTodoId", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId, newId }),
-      });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Todo ID added:", result);
-      } else {
-        console.error("Failed to add Todo ID");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
     // dispatch(addTask(newTask));
     createTodoMutation.mutate(newTask);
     onClose();
@@ -102,7 +87,7 @@ export default function AddTaskModal({
       <form onSubmit={handleSubmit(onSubmit)}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{`Add ${modalType.value} Task`}</ModalHeader>
+          <ModalHeader>{`Add ${modalType} Task`}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex

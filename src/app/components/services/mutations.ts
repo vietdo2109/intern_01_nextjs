@@ -5,7 +5,6 @@ import { mapData } from "../../utils/mapData";
 import { omit } from "lodash";
 import { Todo } from "@/state/todo/todoSlice";
 import { Author, AuthorFromDB } from "@/lib/models/author";
-import { redirect } from "next/navigation";
 
 export function useCreateUser() {
   const queryClient = useQueryClient();
@@ -53,14 +52,12 @@ export function useCreateTodo() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Todo) => {
-      await axios.post(
-        "https://intern-01-fake-backend.onrender.com/todos",
-        data
-      );
+      await axios.post("https://intern-01-nextjs.vercel.app/api/todos", data);
     },
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["todos"] });
+      await queryClient.invalidateQueries({ queryKey: ["todoIds"] });
     },
   });
 }
@@ -71,7 +68,7 @@ export function useEditTodo() {
   return useMutation({
     mutationFn: async (data: Todo) => {
       await axios.put(
-        `https://intern-01-fake-backend.onrender.com/todos/${data.id}`,
+        `https://intern-01-nextjs.vercel.app/api/todos/${data.id}`,
         data
       );
     },
@@ -90,13 +87,12 @@ export function useDeleteTodo() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await axios.delete(
-        `https://intern-01-fake-backend.onrender.com/todos/${id}`
-      );
+      await axios.delete(`https://intern-01-nextjs.vercel.app/api/todos/${id}`);
     },
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["todos"] });
+      await queryClient.invalidateQueries({ queryKey: ["todoIds"] });
     },
   });
 }
@@ -105,7 +101,7 @@ export function useCreateAuthor() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Author) => {
-      await axios.post("http://localhost:3000/api/authors", data);
+      await axios.post("https://intern-01-nextjs.vercel.app/api/authors", data);
     },
 
     onSuccess: async () => {
@@ -119,7 +115,10 @@ export function useEditAuthor() {
 
   return useMutation({
     mutationFn: async (data: AuthorFromDB) => {
-      await axios.put(`http://localhost:3000/api/authors/${data.id}`, data);
+      await axios.put(
+        `https://intern-01-nextjs.vercel.app/api/authors/${data.id}`,
+        data
+      );
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["authors"] });
@@ -132,7 +131,9 @@ export function useDeleteAuthor() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await axios.delete(`http://localhost:3000/api/authors/${id}`);
+      await axios.delete(
+        `https://intern-01-nextjs.vercel.app/api/authors/${id}`
+      );
     },
 
     onSuccess: async () => {

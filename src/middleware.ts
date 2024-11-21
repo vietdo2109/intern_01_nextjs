@@ -14,6 +14,7 @@ export default async function middleware(req: NextRequest) {
     if (!session?.userId) {
       const url = new URL("/login", req.nextUrl);
       url.searchParams.set("message", "unauthenticated");
+      console.log("unauthenticated");
       return NextResponse.redirect(url);
     }
   }

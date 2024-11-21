@@ -2,7 +2,6 @@
 
 import {
   Flex,
-  Box,
   Text,
   Table,
   Thead,
@@ -26,7 +25,7 @@ const defaultAvatar = "/images/defaultAvatar.jpg";
 import LoadingSpinner from "@/components/skeletons/loadingSpinner";
 let authors = [];
 export default function AuthorsTable() {
-  const { data, error, isPending, status } = useAuthors();
+  const { data, error, status } = useAuthors();
   if (error) {
     return (
       <Flex w="100%" h="100%" justifyContent="center" alignItems="center">

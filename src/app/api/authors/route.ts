@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
-import { Author } from "@/lib/models/author";
 
 export const GET = async () => {
   const data = await sql`SELECT * FROM authors`;

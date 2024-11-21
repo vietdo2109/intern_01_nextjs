@@ -11,53 +11,37 @@ import {
   ORANGE_DOT_COLOR,
   GRAY_COLOR,
 } from "@/constants/colors";
-import { ModalTypeState } from "@/types/todoModal";
 import { useModalType } from "../modalTypeProvider";
-import { useTodos } from "@/components/services/queries";
+import { useTodos, useUserDTO } from "@/components/services/queries";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useState, useEffect, useCallback } from "react";
 import SkeletonArticle from "@/components/skeletons/skeletonArticle";
 
 type MainCardProps = {
-  type: ModalTypeState;
+  type: "Planned" | "Upcoming" | "Completed";
   modalProps: ModalType;
 };
 
 export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
   const { setModaltype } = useModalType();
 
-  const handleToggleModal = (type: ModalTypeState) => {
+  const handleToggleModal = (type: "Planned" | "Upcoming" | "Completed") => {
     setModaltype(type);
     modalProps.onOpen();
   };
   let taskCount = 0;
   const { isPending, error, data } = useTodos();
+  console.log(data);
 
-  const [userInfo, setUserInfo] = useState<{
-    username: string;
-    todoIds: number[];
-  } | null>(null);
+  const userDTO = useUserDTO();
+  console.log(userDTO.data);
 
-  const cachedFn = useCallback(async () => {
-    try {
-      const response = await fetch("/api/user");
-      if (response.ok) {
-        const data = await response.json();
-        setUserInfo(data);
-      }
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  }, []);
+  const filteredData = data?.filter((todo) => {
+    console.log("check: " + todo.id);
+    console.log(userDTO.data?.todoIds?.includes(todo.id));
+    return userDTO.data?.todoIds?.includes(todo.id);
+  });
 
-  useEffect(() => {
-    cachedFn();
-  }, [data, cachedFn]);
-
-  const filteredData = data?.filter((todo) =>
-    userInfo?.todoIds?.includes(todo.id)
-  );
-
+  console.log("filtered: " + filteredData);
   if (error) {
     return <Text>fail to fetch</Text>;
   }
@@ -79,7 +63,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
   }
   if (filteredData) {
     for (const todo of filteredData) {
-      if (todo.type?.value === type.value) {
+      if (todo.type === type) {
         taskCount++;
       }
     }
@@ -101,21 +85,20 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
               w={"10px"}
               h={"10px"}
               bg={
-                type.value === "Planned"
+                type === "Planned"
                   ? ORANGE_DOT_COLOR
-                  : type.value === "Upcoming"
+                  : type === "Upcoming"
                   ? BLUE_DOT_COLOR
                   : GREEN_DOT_COLOR
               }
             ></Box>
             <Text fontWeight={700} fontSize={"14px"} textAlign={"center"}>
-              {type.value}
+              {type + ""}
             </Text>
           </Flex>
 
           <Text color={GRAY_COLOR} fontWeight={700} fontSize={"14px"}>
-            {taskCount} {type.value === "Completed" ? "completed" : "open"}{" "}
-            tasks
+            {taskCount} {type === "Completed" ? "completed" : "open"} tasks
           </Text>
         </Flex>
 
@@ -137,7 +120,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
 
         {filteredData.map(
           (todo: Todo) =>
-            todo.type?.value === type.value && (
+            todo?.type === type && (
               <TaskCard
                 key={todo.id}
                 text={todo.text}

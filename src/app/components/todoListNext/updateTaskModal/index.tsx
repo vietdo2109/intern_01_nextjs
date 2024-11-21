@@ -72,7 +72,7 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update {modalType.value} Task</ModalHeader>
+          <ModalHeader>Update {modalType} Task</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex

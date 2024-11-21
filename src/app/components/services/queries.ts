@@ -4,7 +4,7 @@ import { Option } from "../../types/mediumForm/option";
 import { ApiGet } from "../../types/mediumForm/apiTypes";
 import { Schema } from "@/schemas/zodSchema";
 import { Todo } from "@/state/todo/todoSlice";
-import { Author, AuthorFromDB } from "@/lib/models/author";
+import { AuthorFromDB } from "@/lib/models/author";
 
 export function useStates() {
   return useQuery({
@@ -108,7 +108,7 @@ export function useTodos() {
     queryKey: ["todos"],
     queryFn: (): Promise<Todo[]> =>
       axios
-        .get<Todo[]>("https://intern-01-fake-backend.onrender.com/todos")
+        .get<Todo[]>("https://intern-01-nextjs.vercel.app/api/todos")
         .then((res) => res.data),
   });
 }
@@ -118,7 +118,7 @@ export function useTodo(id: number) {
     queryKey: ["todos", id],
     queryFn: (): Promise<Todo> =>
       axios
-        .get<Todo>("https://intern-01-fake-backend.onrender.com/todos/" + id)
+        .get<Todo>("https://intern-01-nextjs.vercel.app/api/todos/" + id)
         .then((res) => res.data),
   });
 }
@@ -128,7 +128,7 @@ export function useAuthors() {
     queryKey: ["authors"],
     queryFn: (): Promise<AuthorFromDB[]> =>
       axios
-        .get<AuthorFromDB[]>("http://localhost:3000/api/authors")
+        .get<AuthorFromDB[]>("https://intern-01-nextjs.vercel.app/api/authors")
         .then((res) => res.data),
   });
 }
@@ -138,7 +138,21 @@ export function useAuthor(id: number) {
     queryKey: ["authors", id],
     queryFn: (): Promise<AuthorFromDB> =>
       axios
-        .get<AuthorFromDB>("http://localhost:3000/api/authors/" + id)
+        .get<AuthorFromDB>(
+          "https://intern-01-nextjs.vercel.app/api/authors/" + id
+        )
+        .then((res) => res.data),
+  });
+}
+
+export function useUserDTO() {
+  return useQuery({
+    queryKey: ["todoIds"],
+    queryFn: (): Promise<{ username: string; todoIds: number[] }> =>
+      axios
+        .get<{ username: string; todoIds: number[] }>(
+          "https://intern-01-nextjs.vercel.app/api/user"
+        )
         .then((res) => res.data),
   });
 }

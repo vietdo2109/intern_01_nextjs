@@ -31,8 +31,8 @@ export async function signup(state: SignUpFormState, formData: FormData) {
 
     // 3. Insert the user into the database using raw SQL
     const data = await sql`
-      INSERT INTO Users (Username, Email, Password)
-      VALUES (${username}, ${email}, ${password})
+      INSERT INTO Users (Username, Email, Password, todoids)
+      VALUES (${username}, ${email}, ${password}, '{}')
       RETURNING userid
     `;
 

@@ -8,7 +8,6 @@ import {
   RadioGroup,
   Stack,
   useDisclosure,
-  useToast,
   Button,
 } from "@chakra-ui/react";
 import { useForm, Controller, useWatch } from "react-hook-form";
@@ -70,7 +69,12 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
     ) {
       router.push("/tables");
     }
-  }, [isSubmitSuccessful, editAuthor.isSuccess, deleteAuthor.isSuccess]);
+  }, [
+    isSubmitSuccessful,
+    editAuthor.isSuccess,
+    deleteAuthor.isSuccess,
+    router,
+  ]);
   // -----END UPDATE FUNCTION-----
 
   // -----FORM-----

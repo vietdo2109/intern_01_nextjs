@@ -105,7 +105,7 @@ export const AddAuthorForm = () => {
     if (isSubmitSuccessful && addAuthor.isSuccess) {
       router.push("/tables");
     }
-  }, [isSubmitSuccessful, addAuthor.isSuccess]);
+  }, [isSubmitSuccessful, addAuthor.isSuccess, router]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

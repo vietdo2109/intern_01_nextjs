@@ -4,17 +4,6 @@ import { Header } from "@/components/header";
 import { AddAuthorForm } from "@/components/tables/addAuthorForm";
 
 export default async function page() {
-  //   const id = (await params).id;
-  //   const response = await fetch(`http://localhost:3000/api/authors/${id}`, {
-  //     cache: "no-store",
-  //   });
-
-  //   if (!response.ok) {
-  //     throw new Error("failed to  fetch author");
-  //   }
-
-  //   const author: AuthorFromDB = await response.json();
-  //   console.log(author);
   return (
     <Flex width="100%" minW="700px" zIndex={1} right={0} flexDir="column">
       <Flex
