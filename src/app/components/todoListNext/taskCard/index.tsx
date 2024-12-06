@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Flex, Box, Text, Icon, useDisclosure } from "@chakra-ui/react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { Todo } from "@/state/todo/todoSlice";
+import { Todo } from "@/components/services/mutations";
 
 import Tag from "../tag";
 import { allTags } from "../../../types/todo/tag";

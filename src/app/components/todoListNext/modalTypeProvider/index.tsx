@@ -1,12 +1,12 @@
 "use client";
 import { createContext, useState, useContext } from "react";
 
+export type TaskType = "Planned" | "Upcoming" | "Completed";
+
 // Define the context type
 type ModalTypeContextType = {
-  modalType: "Planned" | "Upcoming" | "Completed";
-  setModaltype: React.Dispatch<
-    React.SetStateAction<"Planned" | "Upcoming" | "Completed">
-  >;
+  modalType: TaskType;
+  setModaltype: React.Dispatch<React.SetStateAction<TaskType>>;
 };
 
 const ModalTypeContext = createContext<ModalTypeContextType | undefined>(
@@ -14,9 +14,7 @@ const ModalTypeContext = createContext<ModalTypeContextType | undefined>(
 );
 
 export function ModalTypeProvider({ children }: { children: React.ReactNode }) {
-  const [modalType, setModaltype] = useState<
-    "Planned" | "Upcoming" | "Completed"
-  >("Completed");
+  const [modalType, setModaltype] = useState<TaskType>("Completed");
 
   return (
     <ModalTypeContext.Provider value={{ modalType, setModaltype }}>

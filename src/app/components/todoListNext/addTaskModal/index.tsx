@@ -17,7 +17,7 @@ import { SubmitHandler } from "react-hook-form";
 import { allTags } from "@/types/todo/tag";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Todo } from "@/state/todo/todoSlice";
+import { Todo } from "@/components/services/mutations";
 // import { addTask } from "@state/todo/TodoSlice";
 import { useModalType } from "../modalTypeProvider";
 
@@ -26,7 +26,7 @@ import { useCreateTodo } from "@/components/services/mutations";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { todoYupSchema } from "@/schemas/yupSchema";
 import { DARK_COLOR } from "@/constants/colors";
-import { useUserDTO } from "@/components/services/queries";
+import { useUserDTOTodoIds } from "@/components/services/queries";
 
 export default function AddTaskModal({
   isOpen,
@@ -40,7 +40,7 @@ export default function AddTaskModal({
   const createTodoMutation = useCreateTodo();
 
   // get current user's todiIds
-  const userDTO = useUserDTO();
+  const userDTO = useUserDTOTodoIds();
   console.log(userDTO.data);
 
   const {

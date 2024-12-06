@@ -3,8 +3,11 @@ import axios from "axios";
 import { Option } from "../../types/mediumForm/option";
 import { ApiGet } from "../../types/mediumForm/apiTypes";
 import { Schema } from "@/schemas/zodSchema";
-import { Todo } from "@/state/todo/todoSlice";
+import { Todo } from "./mutations";
 import { AuthorFromDB } from "@/lib/models/author";
+import { QuizFromDB } from "@/lib/models/quiz/quiz";
+import { QuestionFromDB } from "@/lib/models/quiz/quesion";
+import { AnswerFromDB } from "@/lib/models/quiz/answer";
 
 export function useStates() {
   return useQuery({
@@ -108,7 +111,7 @@ export function useTodos() {
     queryKey: ["todos"],
     queryFn: (): Promise<Todo[]> =>
       axios
-        .get<Todo[]>("https://intern-01-nextjs.vercel.app/api/todos")
+        .get<Todo[]>("http://localhost:3000/api/todos")
         .then((res) => res.data),
   });
 }
@@ -118,7 +121,7 @@ export function useTodo(id: number) {
     queryKey: ["todos", id],
     queryFn: (): Promise<Todo> =>
       axios
-        .get<Todo>("https://intern-01-nextjs.vercel.app/api/todos/" + id)
+        .get<Todo>("http://localhost:3000/api/todos/" + id)
         .then((res) => res.data),
   });
 }
@@ -128,7 +131,7 @@ export function useAuthors() {
     queryKey: ["authors"],
     queryFn: (): Promise<AuthorFromDB[]> =>
       axios
-        .get<AuthorFromDB[]>("https://intern-01-nextjs.vercel.app/api/authors")
+        .get<AuthorFromDB[]>("http://localhost:3000/api/authors")
         .then((res) => res.data),
   });
 }
@@ -138,21 +141,91 @@ export function useAuthor(id: number) {
     queryKey: ["authors", id],
     queryFn: (): Promise<AuthorFromDB> =>
       axios
-        .get<AuthorFromDB>(
-          "https://intern-01-nextjs.vercel.app/api/authors/" + id
-        )
+        .get<AuthorFromDB>("http://localhost:3000/api/authors/" + id)
         .then((res) => res.data),
   });
 }
 
-export function useUserDTO() {
+export function useUserDTOTodoIds() {
   return useQuery({
     queryKey: ["todoIds"],
     queryFn: (): Promise<{ username: string; todoIds: number[] }> =>
       axios
         .get<{ username: string; todoIds: number[] }>(
-          "https://intern-01-nextjs.vercel.app/api/user"
+          "http://localhost:3000/api/user"
         )
+        .then((res) => res.data),
+  });
+}
+
+export function useUserDTOQuizIds() {
+  return useQuery({
+    queryKey: ["todoIds"],
+    queryFn: (): Promise<{ username: string; quizzesIds: number[] }> =>
+      axios
+        .get<{ username: string; quizzesIds: number[] }>(
+          "http://localhost:3000/api/user"
+        )
+        .then((res) => res.data),
+  });
+}
+
+export function useQuizzes() {
+  return useQuery({
+    queryKey: ["quizzes"],
+    queryFn: (): Promise<QuizFromDB[]> =>
+      axios
+        .get<QuizFromDB[]>("http://localhost:3000/api/quizzes")
+        .then((res) => res.data),
+  });
+}
+
+export function useQuiz(id: number) {
+  return useQuery({
+    queryKey: ["quizzes", id],
+    queryFn: (): Promise<QuizFromDB> =>
+      axios
+        .get<QuizFromDB>("http://localhost:3000/api/quizzes/" + id)
+        .then((res) => res.data),
+  });
+}
+
+export function useQuestions() {
+  return useQuery({
+    queryKey: ["questions"],
+    queryFn: (): Promise<QuestionFromDB[]> =>
+      axios
+        .get<QuestionFromDB[]>("http://localhost:3000/api/questions")
+        .then((res) => res.data),
+  });
+}
+
+export function useQuestion(id: number) {
+  return useQuery({
+    queryKey: ["questions", id],
+    queryFn: (): Promise<QuestionFromDB> =>
+      axios
+        .get<QuestionFromDB>("http://localhost:3000/api/questions/" + id)
+        .then((res) => res.data),
+  });
+}
+
+export function useAnswers() {
+  return useQuery({
+    queryKey: ["answers"],
+    queryFn: (): Promise<AnswerFromDB[]> =>
+      axios
+        .get<AnswerFromDB[]>("http://localhost:3000/api/answers")
+        .then((res) => res.data),
+  });
+}
+
+export function useAnswer(id: number) {
+  return useQuery({
+    queryKey: ["answers", id],
+    queryFn: (): Promise<AnswerFromDB> =>
+      axios
+        .get<AnswerFromDB>("http://localhost:3000/api/answers/" + id)
         .then((res) => res.data),
   });
 }

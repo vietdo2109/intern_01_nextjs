@@ -35,11 +35,15 @@ export const sideMenuItems: SideMenuItem[] = [
     title: "Form Playground",
     url: "/rtl",
   },
-
   {
     icon: todoIcon,
     title: "To-do List Next",
     url: "/todolistnext",
+  },
+  {
+    icon: todoIcon,
+    title: "Quizlet mini",
+    url: "/quiz",
   },
   {
     icon: profileIcon,

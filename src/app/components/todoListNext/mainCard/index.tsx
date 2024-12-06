@@ -2,7 +2,7 @@ import { Flex, Box, Text, Button, Icon } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import TaskCard from "../taskCard";
 import { ModalType } from "../../../types/todo/modal";
-import { Todo } from "../../../state/todo/todoSlice";
+import { Todo } from "@/components/services/mutations";
 import { FC } from "react";
 import {
   BLUE_DOT_COLOR,
@@ -11,20 +11,20 @@ import {
   ORANGE_DOT_COLOR,
   GRAY_COLOR,
 } from "@/constants/colors";
-import { useModalType } from "../modalTypeProvider";
-import { useTodos, useUserDTO } from "@/components/services/queries";
+import { TaskType, useModalType } from "../modalTypeProvider";
+import { useTodos, useUserDTOTodoIds } from "@/components/services/queries";
 import "react-loading-skeleton/dist/skeleton.css";
 import SkeletonArticle from "@/components/skeletons/skeletonArticle";
 
 type MainCardProps = {
-  type: "Planned" | "Upcoming" | "Completed";
+  type: TaskType;
   modalProps: ModalType;
 };
 
 export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
   const { setModaltype } = useModalType();
 
-  const handleToggleModal = (type: "Planned" | "Upcoming" | "Completed") => {
+  const handleToggleModal = (type: TaskType) => {
     setModaltype(type);
     modalProps.onOpen();
   };
@@ -32,7 +32,7 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
   const { isPending, error, data } = useTodos();
   console.log(data);
 
-  const userDTO = useUserDTO();
+  const userDTO = useUserDTOTodoIds();
   console.log(userDTO.data);
 
   const filteredData = data?.filter((todo) => {

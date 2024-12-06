@@ -7,7 +7,7 @@ export async function GET() {
   const session = await verifySession();
   try {
     const data = await sql`
-      SELECT username, todoids
+      SELECT username, todoids, quizzesids
       FROM users
       WHERE userid = ${session.userId}
     `;
@@ -17,6 +17,7 @@ export async function GET() {
     return NextResponse.json({
       username: user.username,
       todoIds: user.todoids,
+      quizzesIds: user.quizzesids,
     });
   } catch (error) {
     console.log(error);

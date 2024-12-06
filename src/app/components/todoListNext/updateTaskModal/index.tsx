@@ -16,7 +16,7 @@ import { SubmitHandler } from "react-hook-form";
 
 import { allTags } from "../../../types/todo/tag";
 import { useForm } from "react-hook-form";
-import { Todo } from "@/state/todo/todoSlice";
+import { Todo } from "@/components/services/mutations";
 
 import { FC } from "react";
 import { useModalType } from "../modalTypeProvider";
