@@ -236,7 +236,7 @@ function DemoQuestion({
 
   useEffect(() => {
     handleAddQuestionData();
-  }, [data]);
+  }, [data, handleAddQuestionData]);
   if (data) {
     return (
       <>
@@ -313,7 +313,6 @@ function DemoAnswer({
   isAnswerCorrect,
   toggleIsAnswered,
   setIsAnswerCorrect,
-  studyModeResult,
   setStudyModeResult,
 }: {
   answerId: number;
@@ -394,9 +393,8 @@ function DemoAnswer({
   useEffect(() => {
     if (data) {
       handleAddAnswer(data);
-      console.log(studyModeResult);
     }
-  }, [data]);
+  }, [data, handleAddAnswer]);
   if (data) {
     return (
       <Button

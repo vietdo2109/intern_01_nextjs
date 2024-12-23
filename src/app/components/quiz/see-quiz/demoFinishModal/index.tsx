@@ -3,10 +3,7 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Flex,
   Button,
   Text,
@@ -18,7 +15,7 @@ type DemoFinishModalProps = {
 };
 
 import Link from "next/link";
-import { GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
+import { WHITE_COLOR } from "@/constants/colors";
 
 export const DemoFinishModal: FC<DemoFinishModalProps> = ({
   isOpen,

@@ -5,7 +5,7 @@ import { Header } from "@/components/header";
 import { GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
 import AddQuestionModal from "@/components/quiz/addQuestionModal";
 import { useQuiz } from "@/components/services/queries";
-import { useContext, useReducer, useState } from "react";
+import { useContext, useState } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import QuestionCard from "@/components/quiz/add-quiz/questionCard";
 import EditQuestionModal from "@/components/quiz/add-quiz/editQuestionModal";

@@ -3,15 +3,11 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Flex,
   Button,
   Text,
   Divider,
-  Box,
 } from "@chakra-ui/react";
 type StudyModeFinishModalProps = {
   isOpen: boolean;
@@ -22,7 +18,7 @@ type StudyModeFinishModalProps = {
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import Link from "next/link";
-import { GRAY_COLOR, GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
+import { GRAY_COLOR, WHITE_COLOR } from "@/constants/colors";
 import { StudyModeResult } from "@/(pages)/quiz/see-quiz/[id]/study-mode/page";
 
 export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
@@ -97,8 +93,9 @@ export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
             </Flex>
 
             <Flex width="100%" flexDir="column" gap={"24px"}>
-              {record.map((data) => (
+              {record.map((data, index) => (
                 <Flex
+                  key={index}
                   width="100%"
                   borderRadius="12px"
                   border="2px solid"
@@ -116,6 +113,7 @@ export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
                     <Flex flexDir="column" gap="10px">
                       {data.answers?.map((answer) => (
                         <Flex
+                          key={answer.answerId}
                           width="100%"
                           border={
                             data.chosenAsnwerId === answer.answerId

@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useReducer } from "react";
+import { createContext } from "react";
 export const QuestionsContext = createContext<QuestionInContext[] | undefined>(
   undefined
 );

@@ -5,10 +5,7 @@ import { IconPencil, IconDelete } from "../../icons";
 import Answer from "../answer";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
 import { useDeleteQuestion } from "@/components/services/mutations";
-import {
-  QuestionsContext,
-  QuestionsDispatchContext,
-} from "@/(pages)/quiz/quizContext/QuizContext";
+import { QuestionsDispatchContext } from "@/(pages)/quiz/quizContext/QuizContext";
 export default function QuestionCard({
   index,
   questionId,

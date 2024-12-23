@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Text } from "@chakra-ui/react";
 
 import { useAnswer } from "@/components/services/queries";

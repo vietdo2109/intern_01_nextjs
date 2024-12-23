@@ -13,23 +13,19 @@ import {
   Flex,
   Textarea,
   Radio,
-  Input,
   RadioGroup,
 } from "@chakra-ui/react";
 import { Montserrat } from "next/font/google";
-import { ReactEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 const montserrat = Montserrat({ subsets: ["latin"] });
 import { useForm, useFieldArray } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
-import * as yup from "yup";
+// import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useCreateAnswer,
-  useCreateQuestion,
   useDeleteAnswer,
   useEditAnswer,
   useEditQuestion,
-  useEditQuiz,
 } from "@/components/services/mutations";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
 import { QuizFromDB } from "@/lib/models/quiz/quiz";
@@ -54,7 +50,6 @@ export default function EditQuestionModal({
   const questionContext = useContext(QuestionsContext);
   const questionToEdit = questionContext?.find((q) => q.id === question.id);
 
-  console.log("question", question);
   const {
     register,
     handleSubmit,
@@ -450,7 +445,7 @@ export default function EditQuestionModal({
             </ModalFooter>
           </form>
         </ModalContent>
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
       </Modal>
     );
   }
