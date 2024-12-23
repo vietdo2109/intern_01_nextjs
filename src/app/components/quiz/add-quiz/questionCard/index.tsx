@@ -1,10 +1,14 @@
 import { useQuestion } from "@/components/services/queries";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { Flex, Text, Button, Box } from "@chakra-ui/react";
 import { IconPencil, IconDelete } from "../../icons";
 import Answer from "../answer";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
 import { useDeleteQuestion } from "@/components/services/mutations";
+import {
+  QuestionsContext,
+  QuestionsDispatchContext,
+} from "@/(pages)/quiz/quizContext/QuizContext";
 export default function QuestionCard({
   index,
   questionId,
@@ -18,6 +22,22 @@ export default function QuestionCard({
 }) {
   const question = useQuestion(questionId);
   const deleteQuestion = useDeleteQuestion();
+  const dispatch = useContext(QuestionsDispatchContext);
+
+  useEffect(() => {
+    if (question.data && dispatch) {
+      // Dispatch only when `question.data` is available
+      dispatch({
+        type: "added",
+        payload: {
+          id: question.data.id,
+          questionText: question.data.questiontext,
+          answers: [],
+        },
+      });
+    }
+  }, [question.data, dispatch]); // Dependency array ensures this runs only when `question.data` changes
+
   if (question.data) {
     return (
       <Flex
@@ -57,6 +77,20 @@ export default function QuestionCard({
               bg="white"
               onClick={() => {
                 deleteQuestion.mutateAsync(questionId);
+                if (dispatch) {
+                  try {
+                    dispatch({
+                      type: "deleted",
+                      payload: {
+                        id: question.data.id,
+                      },
+                    });
+                  } catch (error) {
+                    console.log("error dispatching", error);
+                  }
+                } else {
+                  alert("cannot dispatch now");
+                }
               }}
             >
               <IconDelete width={20} height={20} color="red" />

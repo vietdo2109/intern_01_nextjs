@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@/lib/session";
 
 export default async function middleware(req: NextRequest) {
-  const protectedRoutes = ["/dashboard", "/todolistnext", "/rtl"];
+  const protectedRoutes = ["/dashboard", "/todolistnext", "/rtl", "/quiz"];
   const currentPath = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.includes(currentPath);
 

@@ -5,11 +5,12 @@ import { Header } from "@/components/header";
 import { GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
 import AddQuestionModal from "@/components/quiz/addQuestionModal";
 import { useQuiz } from "@/components/services/queries";
-import { useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import QuestionCard from "@/components/quiz/add-quiz/questionCard";
 import EditQuestionModal from "@/components/quiz/add-quiz/editQuestionModal";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
+import { QuestionsContext } from "../../quizContext/QuizContext";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -35,9 +36,10 @@ export type Answer = {
 
 export default function Page({ params }: { params: { id: number } }) {
   const newQuizId = params.id;
-  console.log(typeof params.id);
   const newQuiz = useQuiz(newQuizId);
+  const questionContext = useContext(QuestionsContext);
   let index = 0;
+  // let answersList: Answer[] = [];
   const [questionDataForEditing, setQuestionDataForEditing] =
     useState<QuestionFromDB>({
       id: -1,
@@ -103,7 +105,6 @@ export default function Page({ params }: { params: { id: number } }) {
             <Text fontWeight="700" fontSize="26">
               {newQuiz.data.title}{" "}
             </Text>
-            <Button onClick={() => {}}>Create</Button>
           </Flex>
 
           <Button
@@ -115,7 +116,7 @@ export default function Page({ params }: { params: { id: number } }) {
           >
             + Enter
           </Button>
-
+          <Text>{questionContext?.length}</Text>
           <Flex flexDir="column" gap="40px">
             {/* fetching api/quizzes here to renter all quized, "+ Enter" to add a new quizz, after adding, revalidate this */}
 
@@ -131,6 +132,15 @@ export default function Page({ params }: { params: { id: number } }) {
                 />
               );
             })}
+            <Button
+              width="100px"
+              bg={GREEN_COLOR}
+              color={WHITE_COLOR}
+              colorScheme="teal"
+              onClick={onAddQuestionModalOpen}
+            >
+              + Enter
+            </Button>
           </Flex>
         </Flex>
         <ReactQueryDevtools initialIsOpen={false} />

@@ -28,12 +28,18 @@ export const PUT = async (
 ) => {
   const answerId = (await params).id;
   console.log(answerId);
-  const { answerText, isCorrect } = await request.json(); // Modify fields based on your user table
+  const { answertext, iscorrect, questionid } = await request.json(); // Modify fields based on your user table
 
-  console.log(answerText, isCorrect);
+  console.log(answertext, iscorrect);
   try {
-    await sql`UPDATE answers SET answertext = ${answerText}, iscorrect = ${isCorrect} WHERE id = ${answerId}`;
-    return NextResponse.json({ message: "answer updated successfully" });
+    await sql`UPDATE answers SET answertext = ${answertext}, iscorrect = ${iscorrect} WHERE id = ${answerId}`;
+    return NextResponse.json({
+      message: "answer updated successfully",
+      id: answerId,
+      questionId: questionid,
+      answerText: answertext,
+      isCorrect: iscorrect,
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -50,8 +56,11 @@ export const DELETE = async (
   const answerId = params.id;
 
   try {
-    await sql`DELETE FROM asnwers WHERE id = ${answerId}`;
-    return NextResponse.json({ message: "answer deleted successfully" });
+    await sql`DELETE FROM answers WHERE id = ${answerId}`;
+    return NextResponse.json({
+      message: "answer deleted successfully",
+      answerId: answerId,
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

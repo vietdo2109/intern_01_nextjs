@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Dispatch, useState } from "react";
-import { Flex, Box, Text, Button } from "@chakra-ui/react";
+import { Flex, Box, Text, Button, useDisclosure } from "@chakra-ui/react";
 import { Header } from "@/components/header";
 import { Montserrat } from "next/font/google";
 import { GRAY_COLOR, GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useAnswer, useQuestion, useQuiz } from "@/components/services/queries";
 import { IconPencil, IconDelete } from "@/components/quiz/icons";
 import { useDeleteQuiz } from "@/components/services/mutations";
+import { DemoFinishModal } from "@/components/quiz/see-quiz/demoFinishModal";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function Page({ params }: { params: { id: number } }) {
@@ -20,8 +21,11 @@ export default function Page({ params }: { params: { id: number } }) {
     if (questionIndex < 6) {
       setQuestionIndex((prev) => prev + 1);
       console.log(questionIndex);
+    } else {
+      onOpen();
     }
   };
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const deleteQuiz = useDeleteQuiz();
   if (isPending) {
@@ -46,6 +50,13 @@ export default function Page({ params }: { params: { id: number } }) {
         padding="24px"
         gap="24px"
       >
+        {/* demo finish modal */}
+        <DemoFinishModal
+          isOpen={isOpen}
+          onClose={onClose}
+          questionId={data.id}
+        />
+
         {/*  Header  */}
         <Flex w={"100%"}>
           <Header theme="dark" page="Quizlet mini" />

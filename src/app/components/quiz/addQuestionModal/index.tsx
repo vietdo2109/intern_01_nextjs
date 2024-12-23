@@ -31,7 +31,7 @@ import {
 
 import { QuizFromDB } from "@/lib/models/quiz/quiz";
 
-const schema = yup.object({
+export const questionSchema = yup.object({
   questionText: yup.string().required("Question is now empty!"),
   answers: yup
     .array(
@@ -46,10 +46,12 @@ const schema = yup.object({
     .required(),
 });
 
-type QuestionData = {
+export type QuestionData = {
+  id?: number;
   questionText: string;
-  answers: { answerText: string; isCorrect: boolean }[];
+  answers: { id?: number; answerText: string; isCorrect: boolean }[];
 };
+
 export default function AddQuestionModal({
   isOpen,
   onClose,
@@ -71,7 +73,7 @@ export default function AddQuestionModal({
       questionText: "",
       answers: Array(4).fill({ answerText: "", isCorrect: false }),
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(questionSchema),
   });
   const { fields, append, remove } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormProvider)
@@ -86,6 +88,7 @@ export default function AddQuestionModal({
   const createQuestion = useCreateQuestion();
   const updateQuiz = useEditQuiz();
   const updateQuestion = useEditQuestion();
+
   const onSubmit = async (data: QuestionData) => {
     if (correctAnswerIndex + 1 <= fields.length) {
       try {
@@ -225,6 +228,7 @@ export default function AddQuestionModal({
                           color={GRAY_TEXT_COLOR}
                           onClick={() => {
                             remove(index);
+                            console.log(" ", correctAnswerIndex);
                           }}
                           disabled={fields.length <= 2}
                           paddingBottom="4px"

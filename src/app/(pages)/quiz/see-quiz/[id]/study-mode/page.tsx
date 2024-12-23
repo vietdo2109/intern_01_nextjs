@@ -1,10 +1,11 @@
 "use client";
 
 import { useAnswer, useQuestion, useQuiz } from "@/components/services/queries";
-import { Flex, Text, Button } from "@chakra-ui/react";
-import { Dispatch, useState } from "react";
+import { Flex, Text, Button, useDisclosure } from "@chakra-ui/react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";
 import { GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
+import { StudyModeFinishModal } from "@/components/quiz/see-quiz/studyModeFinishModal";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -12,6 +13,10 @@ export default function Page({ params }: { params: { id: number } }) {
   const { isPending, error, data } = useQuiz(params.id);
   const [questionIndex, setQuestionIndex] = useState(0);
   //   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [studyModeResult, setStudyModeResult] = useState<
+    StudyModeResult[] | []
+  >([]);
 
   if (isPending) {
     <Text>Loading...</Text>;
@@ -26,6 +31,8 @@ export default function Page({ params }: { params: { id: number } }) {
       if (questionIndex + 1 < data.questionids.length) {
         setQuestionIndex((prev) => prev + 1);
         console.log(questionIndex);
+      } else {
+        onOpen();
       }
     };
     return (
@@ -41,6 +48,13 @@ export default function Page({ params }: { params: { id: number } }) {
         padding="24px"
         gap="24px"
       >
+        {/* demo finish modal */}
+        <StudyModeFinishModal
+          isOpen={isOpen}
+          onClose={onClose}
+          questionId={data.id}
+          record={studyModeResult}
+        />
         {/* Top section */}
         <Flex
           bg={WHITE_COLOR}
@@ -86,7 +100,9 @@ export default function Page({ params }: { params: { id: number } }) {
                 alignItems="center"
               >
                 <Text fontWeight="600" fontSize="20px">
-                  {questionIndex + 1}
+                  {questionIndex + 1 <= data.questionids.length
+                    ? questionIndex + 1
+                    : data.questionids.length}
                 </Text>
               </Flex>
               <Flex
@@ -139,6 +155,8 @@ export default function Page({ params }: { params: { id: number } }) {
                     increaseQuestionIndex={increaseQuestionIndex}
                     questionIndex={questionIndex}
                     numberOfQuestions={data.questionids.length}
+                    studyModeResult={studyModeResult}
+                    setStudyModeResult={setStudyModeResult}
                   />
                 </Flex>
               </>
@@ -166,11 +184,15 @@ function DemoQuestion({
   increaseQuestionIndex,
   questionIndex,
   numberOfQuestions,
+  studyModeResult,
+  setStudyModeResult,
 }: {
   questionId: number;
   increaseQuestionIndex: () => void;
   questionIndex: number;
   numberOfQuestions: number;
+  studyModeResult: StudyModeResult[] | undefined;
+  setStudyModeResult: Dispatch<SetStateAction<StudyModeResult[] | []>>;
 }) {
   const { isPending, error, data } = useQuestion(questionId);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -178,6 +200,32 @@ function DemoQuestion({
   const toggleIsAnswered = () => {
     setIsAnswered(!isAnswered);
   };
+
+  const handleAddQuestionData = () => {
+    if (data) {
+      setStudyModeResult((prev) => {
+        if (prev) {
+          return [
+            ...prev,
+            {
+              questionId: data.id,
+              questionText: data.questiontext,
+              isAnsweredCorrectly: false,
+            },
+          ];
+        } else {
+          return [
+            {
+              questionId: data.id,
+              questionText: data.questiontext,
+              isAnsweredCorrectly: false,
+            },
+          ];
+        }
+      });
+    }
+  };
+
   if (isPending) {
     <Text>Loading...</Text>;
   }
@@ -186,6 +234,9 @@ function DemoQuestion({
     <Text>Fail to fetch question</Text>;
   }
 
+  useEffect(() => {
+    handleAddQuestionData();
+  }, [data]);
   if (data) {
     return (
       <>
@@ -194,7 +245,6 @@ function DemoQuestion({
           <Text fontSize="26px" fontWeight="700">
             {data.questiontext}
           </Text>
-
           <Flex paddingTop="20px">
             {isAnswered && isAnswerCorrect ? (
               <Text fontWeight="600" color={"#59E8B5"}>
@@ -214,8 +264,10 @@ function DemoQuestion({
               answerId={answerId}
               isAnswered={isAnswered}
               isAnswerCorrect={isAnswerCorrect}
-              setIsAnserCorrect={setIsAnswerCorrect}
+              setIsAnswerCorrect={setIsAnswerCorrect}
               toggleIsAnswered={toggleIsAnswered}
+              studyModeResult={studyModeResult}
+              setStudyModeResult={setStudyModeResult}
             />
           ))}
         </Flex>
@@ -243,7 +295,7 @@ function DemoQuestion({
             bg={GREEN_COLOR}
             colorScheme="green"
             color={WHITE_COLOR}
-            disabled={!isAnswered || questionIndex + 1 >= numberOfQuestions}
+            disabled={!isAnswered || questionIndex >= numberOfQuestions}
           >
             <Text fontSize="20px" fontWeight="600">
               Next question{" "}
@@ -260,24 +312,48 @@ function DemoAnswer({
   isAnswered,
   isAnswerCorrect,
   toggleIsAnswered,
-  setIsAnserCorrect,
+  setIsAnswerCorrect,
+  studyModeResult,
+  setStudyModeResult,
 }: {
   answerId: number;
   isAnswered: boolean;
   isAnswerCorrect: boolean;
-  setIsAnserCorrect: Dispatch<React.SetStateAction<boolean>>;
+  setIsAnswerCorrect: Dispatch<React.SetStateAction<boolean>>;
   toggleIsAnswered: () => void;
+  studyModeResult: StudyModeResult[] | undefined;
+  setStudyModeResult: Dispatch<SetStateAction<StudyModeResult[] | []>>;
 }) {
   const { isPending, error, data } = useAnswer(answerId);
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const handleAnswerClicked = () => {
-    console.log("clicked");
+    console.log("data DemoAnswer", data);
     setIsClicked(!isClicked);
     toggleIsAnswered();
     if (data?.iscorrect) {
-      setIsAnserCorrect(true);
+      setIsAnswerCorrect(true);
     }
+    handleAddChosenAnswer();
+  };
+
+  const handleAddChosenAnswer = () => {
+    console.log("isAnswerCorrect", isAnswerCorrect);
+
+    setStudyModeResult(
+      (
+        prev = [] // Default `prev` to an empty array
+      ) =>
+        prev.map((question) =>
+          question.questionId === data?.questionid
+            ? {
+                ...question,
+                isAnsweredCorrectly: data.iscorrect,
+                chosenAsnwerId: data.id,
+              }
+            : question
+        )
+    );
   };
   if (isPending) {
     <Text>Loading...</Text>;
@@ -287,6 +363,40 @@ function DemoAnswer({
     <Text>Fail to fetch answer</Text>;
   }
 
+  const handleAddAnswer = (fetchedAnswer: {
+    id: number;
+    questionid: number;
+    answertext: string;
+    iscorrect: boolean;
+  }) => {
+    setStudyModeResult(
+      (
+        prev = [] // Default `prev` to an empty array
+      ) =>
+        prev.map((question) =>
+          question.questionId === fetchedAnswer.questionid
+            ? {
+                ...question,
+                answers: [
+                  ...(question.answers || []), // Ensure `answers` is an array
+                  {
+                    answerId: fetchedAnswer.id,
+                    answerText: fetchedAnswer.answertext,
+                    isCorrect: fetchedAnswer.iscorrect,
+                  },
+                ],
+              }
+            : question
+        )
+    );
+  };
+
+  useEffect(() => {
+    if (data) {
+      handleAddAnswer(data);
+      console.log(studyModeResult);
+    }
+  }, [data]);
   if (data) {
     return (
       <Button
@@ -322,3 +432,14 @@ function DemoAnswer({
     );
   }
 }
+export type StudyModeResult = {
+  questionId: number;
+  questionText: string;
+  answers?: {
+    answerId: number;
+    answerText: string;
+    isCorrect: boolean;
+  }[];
+  isAnsweredCorrectly: boolean;
+  chosenAsnwerId?: number;
+};
