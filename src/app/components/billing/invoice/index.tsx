@@ -9,7 +9,7 @@ type InvoiceFromDB = {
   value: number;
 };
 export default async function Invoices() {
-  const response = await fetch("http://localhost:3000//api/invoices", {
+  const response = await fetch("https://intern-01-nextjs.vercel.app///api/invoices", {
     cache: "no-store",
   });
   if (!response.ok) {
