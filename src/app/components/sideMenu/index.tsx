@@ -77,7 +77,12 @@ export default function SideMenu() {
                   </Text>
                 </Box>
 
-                <MenuItem title={item.title} icon={item.icon} url={item.url} />
+                <MenuItem
+                  title={item.title}
+                  icon={item.icon}
+                  url={item.url}
+                  marked={item.marked}
+                />
               </Box>
             );
           } else {
@@ -87,6 +92,7 @@ export default function SideMenu() {
                 title={item.title}
                 icon={item.icon}
                 url={item.url}
+                marked={item.marked}
               />
             );
           }

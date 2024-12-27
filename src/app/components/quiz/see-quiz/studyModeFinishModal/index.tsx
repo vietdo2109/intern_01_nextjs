@@ -6,6 +6,7 @@ import {
   ModalBody,
   Flex,
   Button,
+  Icon,
   Text,
   Divider,
 } from "@chakra-ui/react";
@@ -15,6 +16,8 @@ type StudyModeFinishModalProps = {
   questionId: number;
   record: StudyModeResult[] | [];
 };
+import { HiMiniXMark } from "react-icons/hi2";
+
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import Link from "next/link";
@@ -52,11 +55,20 @@ export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
             flexDir="column"
             gap="24px"
           >
-            <Flex>
+            <Flex width="100%" justifyContent="center" position="relative">
               {" "}
               <Text fontFamily="sans-serif" fontSize="24px" fontWeight="700">
                 Congratulations!{" "}
               </Text>
+              <Button
+                bg={"white"}
+                position="absolute"
+                right="0"
+                border="2px solid"
+                _hover={{ bg: "black", color: WHITE_COLOR }}
+              >
+                {/* <Icon as={HiMiniXMark} width="20px" height="20px"></Icon> */}
+              </Button>
             </Flex>
 
             <Flex width="100%" gap="24px">

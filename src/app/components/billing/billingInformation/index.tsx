@@ -17,7 +17,7 @@ type BillingInfoFromDB = {
 };
 
 export default async function BillingInformation() {
-  const response = await fetch("https://intern-01-nextjs.vercel.app///api/billinginfo", {
+  const response = await fetch("http://localhost:3000///api/billinginfo", {
     cache: "no-store",
   });
   if (!response.ok) {

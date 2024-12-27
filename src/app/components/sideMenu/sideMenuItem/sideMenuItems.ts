@@ -7,11 +7,14 @@ import { IoDocument as loginIcon } from "react-icons/io5";
 import { IoRocketSharp as signUpIcon } from "react-icons/io5";
 import { IconType } from "react-icons";
 import { RiTodoFill as todoIcon } from "react-icons/ri";
+import { BsBookmarkStarFill } from "react-icons/bs";
+import { FaClock } from "react-icons/fa6";
 
 export interface SideMenuItem {
   icon: IconType;
   title: string;
   url: string;
+  marked?: IconType;
 }
 
 export const sideMenuItems: SideMenuItem[] = [
@@ -24,6 +27,7 @@ export const sideMenuItems: SideMenuItem[] = [
     icon: tablesIcon,
     title: "Tables",
     url: "/tables",
+    marked: BsBookmarkStarFill,
   },
   {
     icon: billingIcon,
@@ -34,16 +38,25 @@ export const sideMenuItems: SideMenuItem[] = [
     icon: rtlIcon,
     title: "Form Playground",
     url: "/rtl",
+    marked: BsBookmarkStarFill,
   },
   {
     icon: todoIcon,
     title: "To-do List Next",
     url: "/todolistnext",
+    marked: BsBookmarkStarFill,
   },
   {
     icon: todoIcon,
     title: "Quizlet mini",
     url: "/quiz",
+    marked: BsBookmarkStarFill,
+  },
+  {
+    icon: FaClock,
+    title: "Pomodoro",
+    url: "/pomodoro",
+    marked: BsBookmarkStarFill,
   },
   {
     icon: profileIcon,

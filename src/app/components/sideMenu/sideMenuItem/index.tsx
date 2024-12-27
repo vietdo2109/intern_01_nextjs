@@ -2,11 +2,12 @@
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 import { SideMenuItem } from "./sideMenuItems";
 import { usePathname } from "next/navigation";
+import { BsBookmarkStarFill } from "react-icons/bs";
 
 import { GREEN_COLOR, DARK_COLOR, WHITE_COLOR } from "@/constants/colors";
 import { FC } from "react";
 import Link from "next/link";
-export const MenuItem: FC<SideMenuItem> = ({ title, icon, url }) => {
+export const MenuItem: FC<SideMenuItem> = ({ title, icon, url, marked }) => {
   const pathname = usePathname();
 
   return (
@@ -46,11 +47,19 @@ export const MenuItem: FC<SideMenuItem> = ({ title, icon, url }) => {
               />
             </Box>
 
-            <Box>
+            <Box flex={1}>
               <Text fontSize={"12px"} fontWeight={700} color={DARK_COLOR}>
                 {title}
               </Text>
             </Box>
+            {marked && (
+              <Icon
+                as={marked}
+                w="15px"
+                color={pathname === url ? GREEN_COLOR : GREEN_COLOR}
+                h="15px"
+              ></Icon>
+            )}
           </Box>
         </Flex>
       }

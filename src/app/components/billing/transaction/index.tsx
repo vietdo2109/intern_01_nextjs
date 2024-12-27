@@ -18,7 +18,7 @@ type TransactionFromDB = {
   status: string;
 };
 export default async function Transactions() {
-  const response = await fetch("https://intern-01-nextjs.vercel.app///api/transactions", {
+  const response = await fetch("http://localhost:3000///api/transactions", {
     cache: "no-store",
   });
   if (!response.ok) {
