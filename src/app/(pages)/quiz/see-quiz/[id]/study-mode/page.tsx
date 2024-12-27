@@ -236,7 +236,7 @@ function DemoQuestion({
 
   useEffect(() => {
     handleAddQuestionData();
-  }, [data, handleAddQuestionData]);
+  }, [data]);
   if (data) {
     return (
       <>
@@ -394,7 +394,7 @@ function DemoAnswer({
     if (data) {
       handleAddAnswer(data);
     }
-  }, [data, handleAddAnswer]);
+  }, [data]);
   if (data) {
     return (
       <Button
