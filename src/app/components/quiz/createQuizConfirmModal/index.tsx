@@ -40,8 +40,7 @@ export default function CreateQuizConfirmModal({
       ...data,
       questionids: [],
     });
-    console.log(createQuizResponse.id);
-    console.log(data);
+
     router.push(`quiz/add-quiz/${createQuizResponse.id}`);
   };
 

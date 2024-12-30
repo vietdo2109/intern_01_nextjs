@@ -30,14 +30,10 @@ export const MainCard: FC<MainCardProps> = ({ type, modalProps }) => {
   };
   let taskCount = 0;
   const { isPending, error, data } = useTodos();
-  console.log(data);
 
   const userDTO = useUserDTOTodoIds();
-  console.log(userDTO.data);
 
   const filteredData = data?.filter((todo) => {
-    console.log("check: " + todo.id);
-    console.log(userDTO.data?.todoIds?.includes(todo.id));
     return userDTO.data?.todoIds?.includes(todo.id);
   });
 

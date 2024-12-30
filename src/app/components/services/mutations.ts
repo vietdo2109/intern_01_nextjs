@@ -63,7 +63,7 @@ export function useCreateTodo() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Todo) => {
-      await axios.post("http://localhost:3000//api/todos", data);
+      await axios.post("https://intern-01-nextjs.vercel.app//api/todos", data);
     },
 
     onSuccess: async () => {
@@ -77,7 +77,7 @@ export function useEditPomodoroSettings() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Settings) => {
-      await axios.put(`http://localhost:3000//api/user`, data);
+      await axios.put(`https://intern-01-nextjs.vercel.app//api/user`, data);
     },
 
     onSuccess: async (_, variables) => {
@@ -91,7 +91,10 @@ export function useEditTodo() {
 
   return useMutation({
     mutationFn: async (data: Todo) => {
-      await axios.put(`http://localhost:3000//api/todos/${data.id}`, data);
+      await axios.put(
+        `https://intern-01-nextjs.vercel.app//api/todos/${data.id}`,
+        data
+      );
     },
 
     onSuccess: async (_, variables) => {
@@ -108,7 +111,9 @@ export function useDeleteTodo() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await axios.delete(`http://localhost:3000//api/todos/${id}`);
+      await axios.delete(
+        `https://intern-01-nextjs.vercel.app//api/todos/${id}`
+      );
     },
 
     onSuccess: async () => {
@@ -122,7 +127,10 @@ export function useCreateAuthor() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Author) => {
-      await axios.post("http://localhost:3000//api/authors", data);
+      await axios.post(
+        "https://intern-01-nextjs.vercel.app//api/authors",
+        data
+      );
     },
 
     onSuccess: async () => {
@@ -136,7 +144,10 @@ export function useEditAuthor() {
 
   return useMutation({
     mutationFn: async (data: AuthorFromDB) => {
-      await axios.put(`http://localhost:3000//api/authors/${data.id}`, data);
+      await axios.put(
+        `https://intern-01-nextjs.vercel.app//api/authors/${data.id}`,
+        data
+      );
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["authors"] });
@@ -149,7 +160,9 @@ export function useDeleteAuthor() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await axios.delete(`http://localhost:3000//api/authors/${id}`);
+      await axios.delete(
+        `https://intern-01-nextjs.vercel.app//api/authors/${id}`
+      );
     },
 
     onSuccess: async () => {
@@ -163,7 +176,7 @@ export function useCreateAnswer() {
   return useMutation({
     mutationFn: async (data: Omit<AnswerFromDB, "id">) => {
       const response = await axios.post(
-        "http://localhost:3000//api/answers",
+        "https://intern-01-nextjs.vercel.app//api/answers",
         data
       );
       return response.data;
@@ -183,7 +196,7 @@ export function useEditAnswer() {
   return useMutation({
     mutationFn: async (data: AnswerFromDB) => {
       const response = await axios.put(
-        `http://localhost:3000//api/answers/${data.id}`,
+        `https://intern-01-nextjs.vercel.app//api/answers/${data.id}`,
         data
       );
       return response.data;
@@ -191,7 +204,6 @@ export function useEditAnswer() {
 
     onSuccess: async (data) => {
       const { id } = data;
-      console.log("data modified answer", Number(id));
       await queryClient.invalidateQueries({
         queryKey: ["answers", Number(id)],
       });
@@ -205,14 +217,13 @@ export function useDeleteAnswer() {
   return useMutation({
     mutationFn: async (id: number) => {
       const response = await axios.delete(
-        `http://localhost:3000//api/answers/${id}`
+        `https://intern-01-nextjs.vercel.app//api/answers/${id}`
       );
       return response.data;
     },
 
     onSuccess: async (data) => {
       const { answerId } = data;
-      console.log({ answerId });
       queryClient.removeQueries({ queryKey: ["answers", answerId] });
     },
   });
@@ -223,7 +234,7 @@ export function useCreateQuestion() {
   return useMutation({
     mutationFn: async (data: Omit<QuestionFromDB, "id">) => {
       const response = await axios.post(
-        "http://localhost:3000//api/questions",
+        "https://intern-01-nextjs.vercel.app//api/questions",
         data
       );
       return response.data;
@@ -243,14 +254,13 @@ export function useEditQuestion() {
   return useMutation({
     mutationFn: async (data: QuestionFromDB) => {
       const response = await axios.put(
-        `http://localhost:3000//api/questions/${data.id}`,
+        `https://intern-01-nextjs.vercel.app//api/questions/${data.id}`,
         data
       );
       return response.data;
     },
     onSuccess: async (data) => {
       const { id } = data;
-      console.log("mutation qid", id);
       await queryClient.invalidateQueries({
         queryKey: ["questions", Number(id)],
       });
@@ -264,7 +274,7 @@ export function useDeleteQuestion() {
   return useMutation({
     mutationFn: async (id: number) => {
       const response = await axios.delete(
-        `http://localhost:3000//api/questions/${id}`
+        `https://intern-01-nextjs.vercel.app//api/questions/${id}`
       );
       return response.data; // Assuming the response contains {message, questionId, quizId}
     },
@@ -272,7 +282,6 @@ export function useDeleteQuestion() {
       const { quizId, questionId } = data;
 
       // Invalidate the quiz to update its questionIds
-      console.log({ quizId, questionId });
       queryClient.invalidateQueries({ queryKey: ["quizzes"] });
 
       // Remove the specific question from the React Query cache
@@ -286,7 +295,7 @@ export function useCreateQuiz() {
   return useMutation({
     mutationFn: async (data: Omit<QuizFromDB, "id" | "userid">) => {
       const response = await axios.post(
-        "http://localhost:3000//api/quizzes",
+        "https://intern-01-nextjs.vercel.app//api/quizzes",
         data
       );
       return response.data;
@@ -304,7 +313,7 @@ export function useEditQuiz() {
   return useMutation({
     mutationFn: async (data: QuizFromDB) => {
       const response = await axios.put(
-        `http://localhost:3000//api/quizzes/${data.id}`,
+        `https://intern-01-nextjs.vercel.app//api/quizzes/${data.id}`,
         data
       );
       return response.data;
@@ -320,11 +329,30 @@ export function useDeleteQuiz() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await axios.delete(`http://localhost:3000//api/quizzes/${id}`);
+      await axios.delete(
+        `https://intern-01-nextjs.vercel.app//api/quizzes/${id}`
+      );
     },
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["quizzes"] });
+    },
+  });
+}
+
+export function useCreateAIChat() {
+  // const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: { prompt: string }) => {
+      const response = await axios.post(
+        "https://intern-01-nextjs.vercel.app//api/genai",
+        data
+      );
+      return response.data;
+    },
+
+    onSuccess: async (data) => {
+      console.log(data);
     },
   });
 }

@@ -266,7 +266,6 @@ export const EditAuthorForm: FC<AuthorFormProps> = ({ id, author }) => {
               _hover={{ opacity: "30%" }}
               onClick={() => {
                 setIsAvtMenuDisplayed(!isAvtMenuDisplayed);
-                console.log(isAvtMenuDisplayed);
               }}
             ></Flex>
           </Flex>

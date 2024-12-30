@@ -27,12 +27,6 @@ export async function encrypt(payload: SessionPayload) {
 }
 
 export async function decrypt(session: string | undefined = "") {
-  console.log(
-    "SESSION_SECRET length:",
-    Buffer.from(process.env.SESSION_SECRET || "", "base64").length
-  );
-  console.log("SESSION_SECRET present:", !!process.env.SESSION_SECRET);
-
   try {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ["HS256"],
@@ -49,11 +43,8 @@ export async function createSession(userId: string) {
 
   const expires = new Date(Date.now() + cookie.duration);
   const sessionPayload: SessionPayload = { userId, expires };
-  console.log(sessionPayload);
   // Encrypt the session with userId and expires fields
   const session = await encrypt(sessionPayload);
-  console.log(cookie.name, session, { ...cookie.options, expires });
-  console.log(session);
   // Set the cookie using the Next.js headers API
   cookies().set(cookie.name, session, { ...cookie.options, expires });
 }

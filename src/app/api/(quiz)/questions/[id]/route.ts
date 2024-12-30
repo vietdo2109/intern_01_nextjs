@@ -31,10 +31,8 @@ export const PUT = async (
   { params }: { params: { id: number } }
 ) => {
   const questionId = (await params).id;
-  console.log(questionId);
   const { questiontext, answerids, quizid } = await request.json(); // Modify fields based on your user table
 
-  console.log(questiontext, answerids);
   try {
     await sql`UPDATE questions SET questiontext = ${questiontext}, answerids = ${answerids} WHERE id = ${questionId}`;
     return NextResponse.json({

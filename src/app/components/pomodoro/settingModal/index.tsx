@@ -46,7 +46,6 @@ export const SettingModal: FC<SettingModalProps> = ({
       },
     },
   });
-  console.log(settings);
   const editPomoSettings = useEditPomodoroSettings();
   return (
     <ChakraProvider theme={theme}>

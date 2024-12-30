@@ -61,7 +61,6 @@ export default function QuestionCard({
               borderRadius="50%"
               bg="white"
               onClick={() => {
-                console.log("click edit question with id: " + questionId);
                 setQuestionData(question.data);
                 openEditQuestionModal();
               }}

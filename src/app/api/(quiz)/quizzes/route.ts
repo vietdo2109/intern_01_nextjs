@@ -5,7 +5,6 @@ import { verifySession } from "@/lib/session";
 export const GET = async () => {
   const data = await sql`SELECT * FROM quizzes`;
   const quizzes = data.rows;
-  console.log(quizzes);
   return NextResponse.json(quizzes, { status: 200 });
 };
 
@@ -13,7 +12,6 @@ export const POST = async (request: Request) => {
   try {
     const body = await request.json();
     const { title, description, questionids } = body;
-    console.log({ title, description, questionids });
     const session = await verifySession();
     const userId = session.userId;
 

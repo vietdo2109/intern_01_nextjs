@@ -79,7 +79,6 @@ export default function MediumForm() {
 
   useEffect(() => {
     if (userQuery.data) {
-      console.log(userQuery.data);
       reset(userQuery.data);
     } else {
     }

@@ -32,7 +32,6 @@ export default function Answer({ answerId }: { answerId: number }) {
             isCorrect: answer.data.iscorrect,
           });
         }
-        console.log("updatedAnswers: ", updatedAnswers);
         try {
           dispatch({
             type: "changed",
@@ -41,7 +40,6 @@ export default function Answer({ answerId }: { answerId: number }) {
               answers: updatedAnswers,
             },
           });
-          console.log("updatedQuestions", questions);
         } catch (error) {
           console.log("error dispatching", error);
         }

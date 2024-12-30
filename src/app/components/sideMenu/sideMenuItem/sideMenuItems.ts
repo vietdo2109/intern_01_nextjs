@@ -59,6 +59,12 @@ export const sideMenuItems: SideMenuItem[] = [
     marked: BsBookmarkStarFill,
   },
   {
+    icon: todoIcon,
+    title: "Chat bot",
+    url: "/gen-ai",
+    marked: BsBookmarkStarFill,
+  },
+  {
     icon: profileIcon,
     title: "Profile",
     url: "/profile",

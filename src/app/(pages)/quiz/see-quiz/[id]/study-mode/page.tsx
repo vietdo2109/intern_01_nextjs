@@ -30,7 +30,6 @@ export default function Page({ params }: { params: { id: number } }) {
     const increaseQuestionIndex = () => {
       if (questionIndex + 1 < data.questionids.length) {
         setQuestionIndex((prev) => prev + 1);
-        console.log(questionIndex);
       } else {
         onOpen();
       }
@@ -327,7 +326,6 @@ function DemoAnswer({
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const handleAnswerClicked = () => {
-    console.log("data DemoAnswer", data);
     setIsClicked(!isClicked);
     toggleIsAnswered();
     if (data?.iscorrect) {
@@ -337,8 +335,6 @@ function DemoAnswer({
   };
 
   const handleAddChosenAnswer = () => {
-    console.log("isAnswerCorrect", isAnswerCorrect);
-
     setStudyModeResult(
       (
         prev = [] // Default `prev` to an empty array

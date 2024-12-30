@@ -80,9 +80,6 @@ export default function EditQuestionModal({
   const editQuestion = useEditQuestion();
   const dispatch = useContext(QuestionsDispatchContext);
 
-  console.log("questionToEdit", questionToEdit);
-  console.log("questionContext", questionContext);
-
   useEffect(() => {
     if (questionToEdit) {
       reset(questionToEdit); // Update the form values when questionToEdit changes
@@ -90,14 +87,12 @@ export default function EditQuestionModal({
       setCorrectAnswerIndex(
         questionToEdit?.answers.findIndex((answer) => answer.isCorrect)
       );
-      console.log(correctAnswerIndex);
     }
   }, [questionToEdit, reset]);
 
   const onSubmit = async (data: QuestionData) => {
     if (correctAnswerIndex + 1 <= fields.length && questionToEdit) {
       try {
-        console.log(data);
         // Mark the correct answer
         try {
           const prevCorrectAnswerIndex = data.answers.findIndex(
@@ -107,7 +102,6 @@ export default function EditQuestionModal({
             data.answers[prevCorrectAnswerIndex].isCorrect = false;
           }
           data.answers[correctAnswerIndex].isCorrect = true;
-          console.log("data", data);
 
           handleQuestionUpdate(data, questionToEdit);
         } catch (error) {
@@ -128,7 +122,6 @@ export default function EditQuestionModal({
     const newAnswers = newData.answers.filter(
       (answer) => !answer.hasOwnProperty("id")
     );
-    console.log("newAnswers", newAnswers);
 
     // Step 2: get deleted answers data
     const deletedAnswers = oldData.answers.filter(
@@ -152,14 +145,11 @@ export default function EditQuestionModal({
         }; // Return the answer ID
       })
     );
-    console.log("createNewAnswersResponse", createNewAnswersResponse);
 
     // Step 4: get remainingAnswerIds (old answer ids not being deleted)
     const remainingAnswers = oldData.answers.filter((oldAnswer) =>
       newData.answers.some((newAnswer) => newAnswer.id === oldAnswer.id)
     );
-
-    console.log("remainingAnswers", remainingAnswers);
 
     const remainingAnswerIds = remainingAnswers.map((ans) => ans.id);
 
@@ -170,7 +160,6 @@ export default function EditQuestionModal({
         return response; // Return the answer ID
       })
     );
-    console.log("deleteAnswersResponse", deleteAnswersResponse);
 
     // Step 6: edit remaining answers?
     // 6.1: get edited answers data
@@ -185,7 +174,6 @@ export default function EditQuestionModal({
           answertext: answer.answerText,
           iscorrect: answer.isCorrect,
         });
-        console.log(response);
         return {
           id: answer.id!,
           answerText: answer.answerText,
@@ -193,12 +181,10 @@ export default function EditQuestionModal({
         }; // Return the answer ID
       })
     );
-    console.log("editedAnswersResponse", editedAnswersResponse);
 
     // Step 7: get finalAnswerIds
     const createNewAnswerIds = createNewAnswersResponse.map((ans) => ans.id);
     const finalAnswerIds = [...remainingAnswerIds, ...createNewAnswerIds];
-    console.log("finalAnswerIds", finalAnswerIds);
 
     // Step 8*: edit question on db with new questionText? and finalAnswerIds
     const updatedQuestion = {
@@ -210,7 +196,6 @@ export default function EditQuestionModal({
     const editQuestionResponse = await editQuestion.mutateAsync({
       ...updatedQuestion,
     });
-    console.log("Updated question query:" + editQuestionResponse.data);
     console.log("dispatch data: changed", {
       id: oldData.id,
       questionText: newData.questionText,
@@ -227,7 +212,6 @@ export default function EditQuestionModal({
             answers: [...editedAnswersResponse, ...createNewAnswersResponse],
           },
         });
-        console.log("after dispatch: ", questionContext);
       } catch (error) {
         console.log("error dispatching", error);
       }
@@ -276,7 +260,6 @@ export default function EditQuestionModal({
                     value={correctAnswerIndex + ""}
                   >
                     {fields.map((field, index) => {
-                      console.log(field.isCorrect);
                       return (
                         <Flex
                           position="relative"
@@ -324,7 +307,6 @@ export default function EditQuestionModal({
                               border={`2px solid ${GRAY_TEXT_COLOR}`}
                               onChange={(e) => {
                                 setCorrectAnswerIndex(Number(e.target.value));
-                                console.log(e.target.value);
                               }}
                             />
                           </Flex>
@@ -378,9 +360,6 @@ export default function EditQuestionModal({
                 colorScheme="blue"
                 mr={3}
                 type="submit"
-                onClick={() => {
-                  console.log("correctAnswerIndex", correctAnswerIndex);
-                }}
                 isLoading={
                   createAnswer.isPending ||
                   deleteAnswer.isPending ||

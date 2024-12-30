@@ -37,7 +37,6 @@ export async function signup(state: SignUpFormState, formData: FormData) {
     `;
 
     const user = data.rows[0];
-    console.log(user);
     // If user creation fails, return an error message
     if (!user) {
       return {

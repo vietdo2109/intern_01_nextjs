@@ -13,7 +13,6 @@ export async function GET() {
     `;
 
     const user = data.rows[0];
-    console.log(user);
     return NextResponse.json({
       username: user.username,
       todoIds: user.todoids,

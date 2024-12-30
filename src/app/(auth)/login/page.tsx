@@ -38,7 +38,6 @@ export default function Login() {
         password: "",
       });
       state.message = "";
-      console.log("user id: " + state.userId);
       // console.log("user dto: todo ids: " + state);
       redirect("/todolistnext");
     } else if (state?.message == "Incorrect email or password") {

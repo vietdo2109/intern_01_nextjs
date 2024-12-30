@@ -9,11 +9,9 @@ export default async function middleware(req: NextRequest) {
   if (isProtectedRoute) {
     const cookie = req.cookies.get("session");
     const session = await decrypt(cookie?.value);
-    console.log("middleware session: " + session);
     if (!session?.userId) {
       const url = new URL("/login", req.nextUrl);
       url.searchParams.set("message", "unauthenticated");
-      console.log("unauthenticated");
       return NextResponse.redirect(url);
     }
   }

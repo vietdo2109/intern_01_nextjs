@@ -27,10 +27,8 @@ export const PUT = async (
   { params }: { params: { id: number } }
 ) => {
   const answerId = (await params).id;
-  console.log(answerId);
   const { answertext, iscorrect, questionid } = await request.json(); // Modify fields based on your user table
 
-  console.log(answertext, iscorrect);
   try {
     await sql`UPDATE answers SET answertext = ${answertext}, iscorrect = ${iscorrect} WHERE id = ${answerId}`;
     return NextResponse.json({

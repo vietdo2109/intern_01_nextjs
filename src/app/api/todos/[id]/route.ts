@@ -28,10 +28,8 @@ export const PUT = async (
   { params }: { params: { id: number } }
 ) => {
   const todoId = (await params).id;
-  console.log(todoId);
   const { text, type, date, tags } = await request.json(); // Modify fields based on your user table
 
-  console.log(text, type, date, tags);
   try {
     await sql`UPDATE todos SET text = ${text}, type = ${type}, date = ${date},
       tags = ${tags} WHERE id = ${todoId}`;

@@ -28,7 +28,6 @@ export const PUT = async (
   { params }: { params: { id: number } }
 ) => {
   const authorId = (await params).id;
-  console.log(authorId);
   const {
     fullname,
     function1,
@@ -39,15 +38,6 @@ export const PUT = async (
     avatar,
   } = await request.json(); // Modify fields based on your user table
 
-  console.log(
-    fullname,
-    function1,
-    function2,
-    email,
-    status,
-    employeddate,
-    avatar
-  );
   try {
     await sql`UPDATE authors SET fullname = ${fullname}, email = ${email}, function1 = ${function1},
       function2 = ${function2},status = ${status}, employeddate = ${employeddate}, avatar = ${avatar} WHERE id = ${authorId}`;

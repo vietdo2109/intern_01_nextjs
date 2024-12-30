@@ -92,8 +92,6 @@ export default function AddQuestionModal({
   const onSubmit = async (data: QuestionData) => {
     if (correctAnswerIndex + 1 <= fields.length) {
       try {
-        console.log(data);
-
         // Mark the correct answer
         try {
           data.answers[correctAnswerIndex].isCorrect = true;
@@ -109,9 +107,7 @@ export default function AddQuestionModal({
         });
 
         const newQuestionId = createQuestionResponse.id; // Get the newly created question ID
-        console.log("Created question with ID:", newQuestionId);
-        console.log("createQuestionResponse: ");
-        console.log(createQuestionResponse);
+
         // Step 2: Create answers linked to the new question
         const answersIds = await Promise.all(
           data.answers.map(async (answer) => {
@@ -120,18 +116,10 @@ export default function AddQuestionModal({
               answertext: answer.answerText,
               iscorrect: answer.isCorrect,
             });
-            console.log(response);
             return response.id; // Return the answer ID
           })
         );
 
-        console.log("Created answer IDs:", answersIds);
-        console.log({
-          id: newQuestionId,
-          quizid: quiz.id, // Pass the quiz ID for the foreign key
-          questiontext: data.questionText,
-          answerids: answersIds,
-        });
         const updatedQuestion = {
           id: newQuestionId,
           quizid: quiz.id, // Pass the quiz ID for the foreign key
@@ -142,7 +130,6 @@ export default function AddQuestionModal({
         const editQuestionResponse = await updateQuestion.mutateAsync({
           ...updatedQuestion,
         });
-        console.log("Updated question:" + editQuestionResponse.data);
 
         // Step 3: Update the quiz with the new question ID
         const updatedQuiz = {
@@ -156,13 +143,9 @@ export default function AddQuestionModal({
         const editQuizResponse = await updateQuiz.mutateAsync({
           ...updatedQuiz,
         });
-
-        console.log("Updated quiz:", editQuizResponse.data);
-
         // Reset form and close modal
         reset();
         onClose();
-        console.log("Question created successfully!");
       } catch (error) {
         console.error("Error creating question and answers:", error);
       }
@@ -228,7 +211,6 @@ export default function AddQuestionModal({
                           color={GRAY_TEXT_COLOR}
                           onClick={() => {
                             remove(index);
-                            console.log(" ", correctAnswerIndex);
                           }}
                           disabled={fields.length <= 2}
                           paddingBottom="4px"
@@ -248,7 +230,6 @@ export default function AddQuestionModal({
                           border={`2px solid ${GRAY_TEXT_COLOR}`}
                           onChange={(e) => {
                             setCorrectAnswerIndex(Number(e.target.value));
-                            console.log(e.target.value);
                           }}
                         />
                       </Flex>

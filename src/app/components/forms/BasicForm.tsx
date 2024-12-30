@@ -73,13 +73,11 @@ export default function BasicForm() {
       `https://jsonplaceholder.typicode.com/users?email=${value}`
     );
     const fetchData = await response.json();
-    console.log(fetchData);
 
     return fetchData.length === 0 ? false : true;
   };
 
   useEffect(() => {
-    console.log("submit successfully: " + isSubmitSuccessful);
     if (isSubmitSuccessful) {
       reset();
     }
@@ -91,9 +89,7 @@ export default function BasicForm() {
 
   const onSubmit = async (data: SubmitData) => {
     const check = await checkExistedEmail(data.email);
-    console.log("check: " + check);
     setIsEmailExisted(() => check);
-    console.log("state: " + isEmailExisted);
     if (check) {
       console.log("email existed, cannot submit");
     } else {

@@ -4,7 +4,6 @@ import { sql } from "@vercel/postgres";
 export const GET = async () => {
   const data = await sql`SELECT * FROM answers`;
   const answers = data.rows;
-  console.log(answers);
   return NextResponse.json(answers, { status: 200 });
 };
 
@@ -12,7 +11,6 @@ export const POST = async (request: Request) => {
   try {
     const body = await request.json();
     const { answertext, iscorrect, questionid } = body;
-    console.log({ answertext, iscorrect });
     // const session = await verifySession();
     // const userId = session.userId;
 
@@ -40,7 +38,6 @@ export const POST = async (request: Request) => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       {
         error:

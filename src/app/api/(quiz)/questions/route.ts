@@ -4,7 +4,6 @@ import { sql } from "@vercel/postgres";
 export const GET = async () => {
   const data = await sql`SELECT * FROM questions`;
   const questions = data.rows;
-  console.log(questions);
   return NextResponse.json(questions, { status: 200 });
 };
 
@@ -12,7 +11,6 @@ export const POST = async (request: Request) => {
   try {
     const body = await request.json();
     const { quizid, questiontext, answerids } = body;
-    console.log({ quizid, questiontext, answerids });
 
     const result = await sql`
       INSERT INTO questions (quizid, questiontext, answerids)
