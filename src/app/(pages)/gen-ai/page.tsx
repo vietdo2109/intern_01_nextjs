@@ -148,6 +148,12 @@ const GenAI = () => {
                     resize="vertical"
                     minH="100px"
                     onChange={handleInputChange}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault(); // Prevent the default line break
+                        handleSubmit(e); // Submit the form
+                      }
+                    }}
                   />
                   <Flex
                     h="100%"

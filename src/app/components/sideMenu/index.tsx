@@ -99,7 +99,6 @@ export default function SideMenu() {
         })}
 
         <Box
-          mt="40px"
           w="100%"
           h="169px"
           borderRadius="15px"
