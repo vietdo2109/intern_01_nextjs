@@ -2,7 +2,6 @@
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 import { SideMenuItem } from "./sideMenuItems";
 import { usePathname } from "next/navigation";
-import { BsBookmarkStarFill } from "react-icons/bs";
 
 import { GREEN_COLOR, DARK_COLOR, WHITE_COLOR } from "@/constants/colors";
 import { FC } from "react";

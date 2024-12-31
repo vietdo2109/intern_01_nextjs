@@ -154,7 +154,7 @@ export default function EditQuestionModal({
     const remainingAnswerIds = remainingAnswers.map((ans) => ans.id);
 
     // Step 5: delete asnwers
-    const deleteAnswersResponse = await Promise.all(
+    await Promise.all(
       deletedAnswers.map(async (answer) => {
         const response = await deleteAnswer.mutateAsync(answer.id);
         return response; // Return the answer ID
@@ -168,7 +168,7 @@ export default function EditQuestionModal({
     );
     const editedAnswersResponse = await Promise.all(
       editedAnswers.map(async (answer) => {
-        const response = await editAnswer.mutateAsync({
+        await editAnswer.mutateAsync({
           id: answer.id!,
           questionid: oldData.id,
           answertext: answer.answerText,
@@ -193,7 +193,7 @@ export default function EditQuestionModal({
       questiontext: newData.questionText,
       answerids: finalAnswerIds,
     };
-    const editQuestionResponse = await editQuestion.mutateAsync({
+    await editQuestion.mutateAsync({
       ...updatedQuestion,
     });
     console.log("dispatch data: changed", {

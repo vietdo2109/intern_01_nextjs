@@ -127,7 +127,7 @@ export default function AddQuestionModal({
           answerids: answersIds,
         };
 
-        const editQuestionResponse = await updateQuestion.mutateAsync({
+        await updateQuestion.mutateAsync({
           ...updatedQuestion,
         });
 
@@ -140,7 +140,7 @@ export default function AddQuestionModal({
               : [newQuestionId],
         };
 
-        const editQuizResponse = await updateQuiz.mutateAsync({
+        await updateQuiz.mutateAsync({
           ...updatedQuiz,
         });
         // Reset form and close modal

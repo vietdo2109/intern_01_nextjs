@@ -6,7 +6,6 @@ import {
   ModalBody,
   Flex,
   Button,
-  Icon,
   Text,
   Divider,
 } from "@chakra-ui/react";
@@ -16,7 +15,6 @@ type StudyModeFinishModalProps = {
   questionId: number;
   record: StudyModeResult[] | [];
 };
-import { HiMiniXMark } from "react-icons/hi2";
 
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";

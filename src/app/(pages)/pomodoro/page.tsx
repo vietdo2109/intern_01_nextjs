@@ -14,14 +14,10 @@ import {
 import { Montserrat } from "next/font/google";
 import { useEffect, useState } from "react";
 import { SettingModal } from "@/components/pomodoro/settingModal";
-import {
-  useUserDTOPomodoroSettings,
-  useUserDTOTodoIds,
-} from "@/components/services/queries";
+import { useUserDTOPomodoroSettings } from "@/components/services/queries";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-type Props = {};
 type PomoStatus = "focus" | "shortBreak" | "longBreak";
 
 export type Settings = {
@@ -33,7 +29,7 @@ export type Settings = {
   sound: boolean;
 };
 
-export default function Pomodoro({}: Props) {
+export default function Pomodoro() {
   const [status, setStatus] = useState<PomoStatus>("focus");
   const [isStopped, setIsStopped] = useState<boolean>(true);
   const [displayedTime, setDisplayedTime] = useState<{
