@@ -45,8 +45,16 @@ export async function signup(state: SignUpFormState, formData: FormData) {
     }
 
     await createSession(user.userid);
-  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     console.error("Signup error:", error);
+
+    if (error.code === "23505" && error.detail?.includes("Key (email)")) {
+      return {
+        message: "This email is already in use. Please use a different email.",
+      };
+    }
+
     return {
       message: "An error occurred. Please try again later.",
     };

@@ -7,6 +7,7 @@ import {
   Flex,
   Button,
   Text,
+  Icon,
   Divider,
 } from "@chakra-ui/react";
 type StudyModeFinishModalProps = {
@@ -21,6 +22,7 @@ import { FaCircleXmark } from "react-icons/fa6";
 import Link from "next/link";
 import { GRAY_COLOR, WHITE_COLOR } from "@/constants/colors";
 import { StudyModeResult } from "@/(pages)/quiz/see-quiz/[id]/study-mode/page";
+import { FaXmark } from "react-icons/fa6";
 
 export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
   isOpen,
@@ -65,7 +67,7 @@ export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
                 border="2px solid"
                 _hover={{ bg: "black", color: WHITE_COLOR }}
               >
-                {/* <Icon as={HiMiniXMark} width="20px" height="20px"></Icon> */}
+                <Icon as={FaXmark} width="20px" height="20px"></Icon>
               </Button>
             </Flex>
 
@@ -82,7 +84,7 @@ export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
                   Correct answers:
                 </Text>{" "}
                 <Text fontSize="18px" fontWeight={700} alignSelf="center">
-                  {correctAnswersCount}/17
+                  {correctAnswersCount}/{record.length}
                 </Text>{" "}
               </Flex>
               <Flex

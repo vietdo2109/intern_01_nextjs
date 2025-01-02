@@ -4,7 +4,7 @@ import React, { Dispatch, useState } from "react";
 import { Flex, Box, Text, Button, useDisclosure } from "@chakra-ui/react";
 import { Header } from "@/components/header";
 import { Montserrat } from "next/font/google";
-import { GRAY_COLOR, GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
+import { GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAnswer, useQuestion, useQuiz } from "@/components/services/queries";
@@ -18,10 +18,12 @@ export default function Page({ params }: { params: { id: number } }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const router = useRouter();
   const increaseQuestionIndex = () => {
-    if (questionIndex < 6) {
-      setQuestionIndex((prev) => prev + 1);
-    } else {
-      onOpen();
+    if (data) {
+      if (questionIndex < 6 && questionIndex < data.questionids.length - 1) {
+        setQuestionIndex((prev) => prev + 1);
+      } else {
+        onOpen();
+      }
     }
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,6 +56,7 @@ export default function Page({ params }: { params: { id: number } }) {
           isOpen={isOpen}
           onClose={onClose}
           questionId={data.id}
+          numberOfQuestions={data.questionids.length}
         />
 
         {/*  Header  */}
@@ -135,8 +138,18 @@ export default function Page({ params }: { params: { id: number } }) {
                     h="30px"
                     alignItems="center"
                   >
-                    <Box bg={GRAY_COLOR} w="30px" h="30px"></Box>
-                    <Text>{questionIndex + 1}/7</Text>
+                    <Box
+                      w="30px"
+                      h="30px"
+                      borderRadius="10px"
+                      border="2px solid"
+                    ></Box>
+                    <Text>
+                      {questionIndex + 1}/
+                      {data.questionids.length < 7
+                        ? data.questionids.length
+                        : 7}
+                    </Text>
                     <Link href={`/quiz/see-quiz/${data.id}/study-mode`}>
                       <Button bg={GREEN_COLOR} color={WHITE_COLOR}>
                         <Text fontSize="20px" fontWeight="600">

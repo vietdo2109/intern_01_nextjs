@@ -55,6 +55,18 @@ export default function SignUp() {
         repeat_password: "",
       });
       state.message = "";
+    } else if (
+      state?.message ===
+      "This email is already in use. Please use a different email."
+    ) {
+      toast({
+        title: "This email is already in use. Please use a different email.",
+
+        status: "error",
+        position: "bottom-right",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   }, [state, toast]);
 
@@ -244,8 +256,8 @@ export default function SignUp() {
                   height="50px"
                   border={
                     state?.errors?.username
-                      ? "1px solid red"
-                      : "1px solid #E2E8F0"
+                      ? "2px solid red"
+                      : "2px solid #E2E8F0"
                   }
                   borderRadius="15px"
                   mt="4px"
@@ -268,7 +280,11 @@ export default function SignUp() {
                   width="350px"
                   height="50px"
                   border={
-                    state?.errors?.email ? "1px solid red" : "1px solid #E2E8F0"
+                    state?.errors?.email ||
+                    state?.message ===
+                      "This email is already in use. Please use a different email."
+                      ? "2px solid red"
+                      : "2px solid #E2E8F0"
                   }
                   borderRadius="15px"
                   mt="4px"
@@ -293,8 +309,8 @@ export default function SignUp() {
                   height="50px"
                   border={
                     state?.errors?.password
-                      ? "1px solid red"
-                      : "1px solid #E2E8F0"
+                      ? "2px solid red"
+                      : "2px solid #E2E8F0"
                   }
                   borderRadius="15px"
                   mt="4px"
@@ -325,8 +341,8 @@ export default function SignUp() {
                   height="50px"
                   border={
                     state?.errors?.repeat_password
-                      ? "1px solid red"
-                      : "1px solid #E2E8F0"
+                      ? "2px solid red"
+                      : "2px solid #E2E8F0"
                   }
                   borderRadius="15px"
                   mt="4px"

@@ -12,6 +12,7 @@ type DemoFinishModalProps = {
   isOpen: boolean;
   onClose: () => void;
   questionId: number;
+  numberOfQuestions: number;
 };
 
 import Link from "next/link";
@@ -21,6 +22,7 @@ export const DemoFinishModal: FC<DemoFinishModalProps> = ({
   isOpen,
   onClose,
   questionId,
+  numberOfQuestions,
 }) => {
   return (
     <Modal
@@ -45,7 +47,7 @@ export const DemoFinishModal: FC<DemoFinishModalProps> = ({
             <Flex padding="6px" borderRadius="25px" bg="#C7F7E6">
               {" "}
               <Text fontFamily="sans-serif" fontSize="12px" fontWeight="700">
-                Learned 7 terms
+                Learned {numberOfQuestions > 7 ? 7 : numberOfQuestions} terms
               </Text>
             </Flex>
 
