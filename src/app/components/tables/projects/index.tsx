@@ -26,12 +26,9 @@ type ProjectFromDB = {
 };
 
 export default async function ProjectsTable() {
-  const response = await fetch(
-    "https://intern-01-nextjs.vercel.app//api/projects",
-    {
-      cache: "no-store",
-    }
-  );
+  const response = await fetch("http://localhost:3000///api/projects", {
+    cache: "no-store",
+  });
   if (!response.ok) {
     return (
       <Flex w="100%" h="100%" justifyContent="center" alignItems="center">

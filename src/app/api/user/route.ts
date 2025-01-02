@@ -13,6 +13,7 @@ export async function GET() {
     `;
 
     const user = data.rows[0];
+    console.log(user.pomodorosettings);
     return NextResponse.json({
       username: user.username,
       todoIds: user.todoids,
@@ -43,11 +44,11 @@ export const PUT = async (request: Request) => {
 
   // Create the JSON object for the settings
   const pomodoroSettings = {
-    focuslength: focusLength,
-    shortbreaklength: shortBreakLength,
-    longbreaklength: longBreakLength,
-    pomountillongbreaklength: pomoUntilLongBreakLength,
-    autoresumetime: autoResumeTime,
+    focusLength: focusLength,
+    shortBreakLength: shortBreakLength,
+    longBreakLength: longBreakLength,
+    pomoUntilLongBreakLength: pomoUntilLongBreakLength,
+    autoResumeTime: autoResumeTime,
     sound: sound,
   };
 

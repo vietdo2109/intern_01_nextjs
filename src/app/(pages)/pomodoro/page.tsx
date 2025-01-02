@@ -38,12 +38,12 @@ export default function Pomodoro() {
   }>({ minutes: "00", seconds: "00" });
   const { data } = useUserDTOPomodoroSettings();
   const [settings, setSettings] = useState<Settings>({
-    focusLength: data?.pomodoroSettings.focuslength || 25,
-    shortBreakLength: data?.pomodoroSettings.shortbreaklength || 5,
-    longBreakLength: data?.pomodoroSettings.longbreaklength || 20,
+    focusLength: data?.pomodoroSettings.focusLength || 25,
+    shortBreakLength: data?.pomodoroSettings.shortBreakLength || 5,
+    longBreakLength: data?.pomodoroSettings.longBreakLength || 20,
     pomoUntilLongBreakLength:
-      data?.pomodoroSettings.pomountillongbreaklength || 4, // this data will be fetch from database
-    autoResumeTime: data?.pomodoroSettings.autoresumetime || true,
+      data?.pomodoroSettings.pomoUntilLongBreakLength || 4, // this data will be fetch from database
+    autoResumeTime: data?.pomodoroSettings.autoResumeTime || true,
     sound: data?.pomodoroSettings.sound || true,
   });
 
@@ -78,6 +78,7 @@ export default function Pomodoro() {
 
   useEffect(() => {
     const formatedTime = formatTime(timeRemaining);
+    console.log(timeRemaining);
     setDisplayedTime({
       minutes: formatedTime.minutes,
       seconds: formatedTime.seconds,
@@ -86,16 +87,17 @@ export default function Pomodoro() {
 
   useEffect(() => {
     if (data) {
+      console.log("pomodata", data);
       setSettings({
-        focusLength: data?.pomodoroSettings.focuslength,
-        shortBreakLength: data?.pomodoroSettings.shortbreaklength,
-        longBreakLength: data?.pomodoroSettings.longbreaklength,
+        focusLength: data?.pomodoroSettings.focusLength,
+        shortBreakLength: data?.pomodoroSettings.shortBreakLength,
+        longBreakLength: data?.pomodoroSettings.longBreakLength,
         pomoUntilLongBreakLength:
-          data?.pomodoroSettings.pomountillongbreaklength,
-        autoResumeTime: data?.pomodoroSettings.autoresumetime,
+          data?.pomodoroSettings.pomoUntilLongBreakLength,
+        autoResumeTime: data?.pomodoroSettings.autoResumeTime,
         sound: data?.pomodoroSettings.sound,
       });
-      setTimeRemaining(data.pomodoroSettings.focuslength * 60);
+      setTimeRemaining(data.pomodoroSettings.focusLength * 60);
     }
   }, [data]);
 

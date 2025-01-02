@@ -1,8 +1,8 @@
 export type SettingsFromDB = {
-  focuslength: number;
-  shortbreaklength: number;
-  longbreaklength: number;
-  pomountillongbreaklength: number;
-  autoresumetime: boolean;
+  focusLength: number;
+  shortBreakLength: number;
+  longBreakLength: number;
+  pomoUntilLongBreakLength: number;
+  autoResumeTime: boolean;
   sound: boolean;
 };

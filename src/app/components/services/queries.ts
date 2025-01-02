@@ -112,7 +112,7 @@ export function useTodos() {
     queryKey: ["todos"],
     queryFn: (): Promise<Todo[]> =>
       axios
-        .get<Todo[]>("https://intern-01-nextjs.vercel.app//api/todos")
+        .get<Todo[]>("http://localhost:3000///api/todos")
         .then((res) => res.data),
   });
 }
@@ -122,7 +122,7 @@ export function useTodo(id: number) {
     queryKey: ["todos", id],
     queryFn: (): Promise<Todo> =>
       axios
-        .get<Todo>("https://intern-01-nextjs.vercel.app//api/todos/" + id)
+        .get<Todo>("http://localhost:3000///api/todos/" + id)
         .then((res) => res.data),
   });
 }
@@ -132,7 +132,7 @@ export function useAuthors() {
     queryKey: ["authors"],
     queryFn: (): Promise<AuthorFromDB[]> =>
       axios
-        .get<AuthorFromDB[]>("https://intern-01-nextjs.vercel.app//api/authors")
+        .get<AuthorFromDB[]>("http://localhost:3000///api/authors")
         .then((res) => res.data),
   });
 }
@@ -142,9 +142,7 @@ export function useAuthor(id: number) {
     queryKey: ["authors", id],
     queryFn: (): Promise<AuthorFromDB> =>
       axios
-        .get<AuthorFromDB>(
-          "https://intern-01-nextjs.vercel.app//api/authors/" + id
-        )
+        .get<AuthorFromDB>("http://localhost:3000///api/authors/" + id)
         .then((res) => res.data),
   });
 }
@@ -155,7 +153,7 @@ export function useUserDTOTodoIds() {
     queryFn: (): Promise<{ username: string; todoIds: number[] }> =>
       axios
         .get<{ username: string; todoIds: number[] }>(
-          "https://intern-01-nextjs.vercel.app//api/user"
+          "http://localhost:3000///api/user"
         )
         .then((res) => res.data),
   });
@@ -167,7 +165,7 @@ export function useUserDTOQuizIds() {
     queryFn: (): Promise<{ username: string; quizzesIds: number[] }> =>
       axios
         .get<{ username: string; quizzesIds: number[] }>(
-          "https://intern-01-nextjs.vercel.app//api/user"
+          "http://localhost:3000///api/user"
         )
         .then((res) => res.data),
   });
@@ -182,7 +180,7 @@ export function useUserDTOPomodoroSettings() {
     }> =>
       axios
         .get<{ username: string; pomodoroSettings: SettingsFromDB }>(
-          "https://intern-01-nextjs.vercel.app//api/user"
+          "http://localhost:3000///api/user"
         )
         .then((res) => {
           return res.data;
@@ -195,7 +193,7 @@ export function useQuizzes() {
     queryKey: ["quizzes"],
     queryFn: (): Promise<QuizFromDB[]> =>
       axios
-        .get<QuizFromDB[]>("https://intern-01-nextjs.vercel.app//api/quizzes")
+        .get<QuizFromDB[]>("http://localhost:3000///api/quizzes")
         .then((res) => res.data),
   });
 }
@@ -205,9 +203,7 @@ export function useQuiz(id: number) {
     queryKey: ["quizzes", id],
     queryFn: (): Promise<QuizFromDB> =>
       axios
-        .get<QuizFromDB>(
-          "https://intern-01-nextjs.vercel.app//api/quizzes/" + id
-        )
+        .get<QuizFromDB>("http://localhost:3000///api/quizzes/" + id)
         .then((res) => res.data),
   });
 }
@@ -217,9 +213,7 @@ export function useQuestions() {
     queryKey: ["questions"],
     queryFn: (): Promise<QuestionFromDB[]> =>
       axios
-        .get<QuestionFromDB[]>(
-          "https://intern-01-nextjs.vercel.app//api/questions"
-        )
+        .get<QuestionFromDB[]>("http://localhost:3000///api/questions")
         .then((res) => res.data),
   });
 }
@@ -229,9 +223,7 @@ export function useQuestion(id: number) {
     queryKey: ["questions", id],
     queryFn: (): Promise<QuestionFromDB> =>
       axios
-        .get<QuestionFromDB>(
-          "https://intern-01-nextjs.vercel.app//api/questions/" + id
-        )
+        .get<QuestionFromDB>("http://localhost:3000///api/questions/" + id)
         .then((res) => res.data),
   });
 }
@@ -241,7 +233,7 @@ export function useAnswers() {
     queryKey: ["answers"],
     queryFn: (): Promise<AnswerFromDB[]> =>
       axios
-        .get<AnswerFromDB[]>("https://intern-01-nextjs.vercel.app//api/answers")
+        .get<AnswerFromDB[]>("http://localhost:3000///api/answers")
         .then((res) => res.data),
   });
 }
@@ -251,9 +243,7 @@ export function useAnswer(id: number) {
     queryKey: ["answers", id],
     queryFn: (): Promise<AnswerFromDB> =>
       axios
-        .get<AnswerFromDB>(
-          "https://intern-01-nextjs.vercel.app//api/answers/" + id
-        )
+        .get<AnswerFromDB>("http://localhost:3000///api/answers/" + id)
         .then((res) => res.data),
   });
 }
