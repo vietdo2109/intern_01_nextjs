@@ -27,10 +27,7 @@ import { IoIosImage } from "react-icons/io";
 import { useRef } from "react";
 import { IoIosImages } from "react-icons/io";
 import SeeImageModal from "./seeImageModal";
-import {
-  useDeleteAuthor,
-  useEditAuthor,
-} from "@/components/services/mutations";
+import { useDeleteAuthor, useEditAuthor } from "@/services/mutations";
 import { useRouter } from "next/navigation";
 
 const defaultAvatar = "/images/defaultAvatar.jpg";

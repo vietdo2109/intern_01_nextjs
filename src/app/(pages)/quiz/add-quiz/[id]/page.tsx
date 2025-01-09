@@ -4,7 +4,7 @@ import { Montserrat } from "next/font/google";
 import { Header } from "@/components/header";
 import { GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
 import AddQuestionModal from "@/components/quiz/addQuestionModal";
-import { useQuiz } from "@/components/services/queries";
+import { useQuiz } from "@/services/queries";
 import { useContext, useState } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import QuestionCard from "@/components/quiz/add-quiz/questionCard";

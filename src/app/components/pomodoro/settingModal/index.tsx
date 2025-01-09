@@ -21,7 +21,7 @@ import {
   NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { Settings } from "@/(pages)/pomodoro/page";
-import { useEditPomodoroSettings } from "@/components/services/mutations";
+import { useEditPomodoroSettings } from "@/services/mutations";
 type SettingModalProps = {
   bg: string;
   textColor: string;

@@ -20,7 +20,7 @@ import {
   OFFLINE_STATUS_COLOR,
 } from "@/constants/colors";
 import Link from "next/link";
-import { useAuthors } from "@/components/services/queries";
+import { useAuthors } from "@/services/queries";
 const defaultAvatar = "/images/defaultAvatar.jpg";
 import LoadingSpinner from "@/components/skeletons/loadingSpinner";
 let authors = [];

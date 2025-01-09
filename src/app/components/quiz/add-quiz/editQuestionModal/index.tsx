@@ -26,7 +26,7 @@ import {
   useDeleteAnswer,
   useEditAnswer,
   useEditQuestion,
-} from "@/components/services/mutations";
+} from "@/services/mutations";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
 import { QuizFromDB } from "@/lib/models/quiz/quiz";
 import { questionSchema, QuestionData } from "../../addQuestionModal";

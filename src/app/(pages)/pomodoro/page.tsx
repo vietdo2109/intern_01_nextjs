@@ -14,7 +14,7 @@ import {
 import { Montserrat } from "next/font/google";
 import { useEffect, useState } from "react";
 import { SettingModal } from "@/components/pomodoro/settingModal";
-import { useUserDTOPomodoroSettings } from "@/components/services/queries";
+import { useUserDTOPomodoroSettings } from "@/services/queries";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 

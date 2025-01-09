@@ -13,9 +13,13 @@ import { IoAttachOutline } from "react-icons/io5";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const GenAI = () => {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat();
-
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
+    useChat({
+      // handle error:
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   const [isVisible, setVisible] = useState(false);
   useEffect(() => {}, [messages]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -74,6 +78,7 @@ const GenAI = () => {
                     How can I help you?
                   </Text>
                 )}
+                {error && <Box>{error.message}</Box>}
                 {messages.map((m) => (
                   <Flex
                     key={m.id}

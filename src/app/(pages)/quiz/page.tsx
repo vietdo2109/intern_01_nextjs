@@ -7,7 +7,7 @@ import { GRAY_COLOR, GRAY_TEXT_COLOR, WHITE_COLOR } from "@/constants/colors";
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
 import CreateQuizConfirmModal from "@/components/quiz/createQuizConfirmModal";
-import { useQuiz, useUserDTOQuizIds } from "@/components/services/queries";
+import { useQuiz, useUserDTOQuizIds } from "@/services/queries";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 

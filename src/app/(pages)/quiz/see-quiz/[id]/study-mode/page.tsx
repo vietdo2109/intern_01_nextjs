@@ -1,6 +1,6 @@
 "use client";
 
-import { useAnswer, useQuestion, useQuiz } from "@/components/services/queries";
+import { useAnswer, useQuestion, useQuiz } from "@/services/queries";
 import { Flex, Text, Button, useDisclosure } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Montserrat } from "next/font/google";

@@ -1,4 +1,4 @@
-import { useCreateQuiz } from "@/components/services/mutations";
+import { useCreateQuiz } from "@/services/mutations";
 import {
   Modal,
   ModalOverlay,

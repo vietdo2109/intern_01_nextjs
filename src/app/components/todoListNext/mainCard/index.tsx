@@ -2,7 +2,7 @@ import { Flex, Box, Text, Button, Icon } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import TaskCard from "../taskCard";
 import { ModalType } from "../../../types/todo/modal";
-import { Todo } from "@/components/services/mutations";
+import { Todo } from "@/services/mutations";
 import { FC } from "react";
 import {
   BLUE_DOT_COLOR,
@@ -12,7 +12,7 @@ import {
   GRAY_COLOR,
 } from "@/constants/colors";
 import { TaskType, useModalType } from "../modalTypeProvider";
-import { useTodos, useUserDTOTodoIds } from "@/components/services/queries";
+import { useTodos, useUserDTOTodoIds } from "@/services/queries";
 import "react-loading-skeleton/dist/skeleton.css";
 import SkeletonArticle from "@/components/skeletons/skeletonArticle";
 

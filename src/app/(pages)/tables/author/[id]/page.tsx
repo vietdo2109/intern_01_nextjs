@@ -3,7 +3,7 @@ import React from "react";
 import { Flex } from "@chakra-ui/react";
 import { Header } from "@/components/header";
 import { EditAuthorForm } from "@/components/tables/editAuthorForm";
-import { useAuthor } from "@/components/services/queries";
+import { useAuthor } from "@/services/queries";
 export default function AuthorPage({ params }: { params: { id: number } }) {
   const id = params.id;
   const { data } = useAuthor(id);

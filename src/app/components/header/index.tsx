@@ -50,7 +50,7 @@ export const Header: FC<HeaderProps> = ({ theme, page }) => {
           />
         </InputGroup>
         <Button onClick={() => logout()}>
-          <Flex alignItems="center" gap="5px" width="58px" h="16px">
+          <Flex alignItems="center" gap="5px" h="16px">
             <Icon color={themeColor} w="12px" h="12px" as={FaUser}></Icon>
             <Text fontSize="12px" fontWeight={700} color={themeColor} mt="3px">
               Log out

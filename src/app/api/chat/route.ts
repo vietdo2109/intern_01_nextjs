@@ -5,12 +5,16 @@ import { streamText } from "ai";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
-  console.log(messages);
-  const result = streamText({
-    model: google("gemini-1.5-flash"),
-    messages,
-  });
+  console.log(req);
+  try {
+    const { messages } = await req.json();
+    const result = streamText({
+      model: google("gemini-2.0-flash-exp"),
+      messages,
+    });
 
-  return result.toDataStreamResponse();
+    return result.toDataStreamResponse();
+  } catch (error) {
+    console.log(error);
+  }
 }

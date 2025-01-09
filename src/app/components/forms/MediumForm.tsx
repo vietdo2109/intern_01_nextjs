@@ -13,9 +13,9 @@ import {
   useSkills,
   useUsers,
   useUser,
-} from "../services/queries";
+} from "@/services/queries";
 
-import { useCreateUser, useEditUser } from "../services/mutations";
+import { useCreateUser, useEditUser } from "@/services/mutations";
 import { DevTool } from "@hookform/devtools";
 import { Flex, Text, Box, Input, Button } from "@chakra-ui/react";
 import RHFStateSelector from "./RHFStateSelector";

@@ -21,7 +21,7 @@ import { useRef } from "react";
 import { IoIosImages } from "react-icons/io";
 import SeeImageModal from "../editAuthorForm/seeImageModal";
 import { useRouter } from "next/navigation";
-import { useCreateAuthor } from "@/components/services/mutations";
+import { useCreateAuthor } from "@/services/mutations";
 const defaultAvatar = "/images/defaultAvatar.jpg";
 
 export const AddAuthorForm = () => {

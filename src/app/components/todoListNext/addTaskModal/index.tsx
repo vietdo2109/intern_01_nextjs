@@ -17,16 +17,16 @@ import { SubmitHandler } from "react-hook-form";
 import { allTags } from "@/types/todo/tag";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Todo } from "@/components/services/mutations";
+import { Todo } from "@/services/mutations";
 // import { addTask } from "@state/todo/TodoSlice";
 import { useModalType } from "../modalTypeProvider";
 
-import { useTodos } from "@/components/services/queries";
-import { useCreateTodo } from "@/components/services/mutations";
+import { useTodos } from "@/services/queries";
+import { useCreateTodo } from "@/services/mutations";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { todoYupSchema } from "@/schemas/yupSchema";
 import { DARK_COLOR } from "@/constants/colors";
-import { useUserDTOTodoIds } from "@/components/services/queries";
+import { useUserDTOTodoIds } from "@/services/queries";
 
 export default function AddTaskModal({
   isOpen,

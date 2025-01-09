@@ -1,10 +1,10 @@
-import { useQuestion } from "@/components/services/queries";
+import { useQuestion } from "@/services/queries";
 import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { Flex, Text, Button, Box } from "@chakra-ui/react";
 import { IconPencil, IconDelete } from "../../icons";
 import Answer from "../answer";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
-import { useDeleteQuestion } from "@/components/services/mutations";
+import { useDeleteQuestion } from "@/services/mutations";
 import { QuestionsDispatchContext } from "@/(pages)/quiz/quizContext/QuizContext";
 export default function QuestionCard({
   index,

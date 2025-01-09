@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Text } from "@chakra-ui/react";
 
-import { useAnswer } from "@/components/services/queries";
+import { useAnswer } from "@/services/queries";
 import { GREEN_COLOR, RED_COLOR } from "@/constants/colors";
 import {
   QuestionsContext,

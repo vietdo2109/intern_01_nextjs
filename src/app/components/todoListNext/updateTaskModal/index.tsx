@@ -16,11 +16,11 @@ import { SubmitHandler } from "react-hook-form";
 
 import { allTags } from "../../../types/todo/tag";
 import { useForm } from "react-hook-form";
-import { Todo } from "@/components/services/mutations";
+import { Todo } from "@/services/mutations";
 
 import { FC } from "react";
 import { useModalType } from "../modalTypeProvider";
-import { useEditTodo } from "@/components/services/mutations";
+import { useEditTodo } from "@/services/mutations";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { todoYupSchema } from "@/schemas/yupSchema";
 import { DARK_COLOR } from "@/constants/colors";

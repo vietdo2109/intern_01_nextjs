@@ -7,9 +7,9 @@ import { Montserrat } from "next/font/google";
 import { GREEN_COLOR, WHITE_COLOR } from "@/constants/colors";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAnswer, useQuestion, useQuiz } from "@/components/services/queries";
+import { useAnswer, useQuestion, useQuiz } from "@/services/queries";
 import { IconPencil, IconDelete } from "@/components/quiz/icons";
-import { useDeleteQuiz } from "@/components/services/mutations";
+import { useDeleteQuiz } from "@/services/mutations";
 import { DemoFinishModal } from "@/components/quiz/see-quiz/demoFinishModal";
 const montserrat = Montserrat({ subsets: ["latin"] });
 

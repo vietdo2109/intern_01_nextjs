@@ -27,7 +27,7 @@ import {
   useCreateQuestion,
   useEditQuestion,
   useEditQuiz,
-} from "@/components/services/mutations";
+} from "@/services/mutations";
 
 import { QuizFromDB } from "@/lib/models/quiz/quiz";
 
