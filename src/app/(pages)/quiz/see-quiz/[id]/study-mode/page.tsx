@@ -18,6 +18,9 @@ export default function Page({ params }: { params: { id: number } }) {
     StudyModeResult[] | []
   >([]);
 
+  useEffect(() => {
+    console.log(studyModeResult);
+  }, [studyModeResult]);
   if (isPending) {
     <Text>Loading...</Text>;
   }

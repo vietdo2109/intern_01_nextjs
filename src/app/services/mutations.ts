@@ -8,8 +8,9 @@ import { AnswerFromDB } from "@/lib/models/quiz/answer";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
 import { QuizFromDB } from "@/lib/models/quiz/quiz";
 import { Settings } from "@/(pages)/pomodoro/page";
+import { ChatslotFromDB } from "@/lib/models/chat/chatslot";
 
-const BASE_URL = "https://intern-01-nextjs.vercel.app/";
+const BASE_URL = "http://localhost:3000/";
 export interface Todo {
   id: number;
   text: string;
@@ -310,5 +311,36 @@ export function useDeleteQuiz() {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["quizzes"] });
     },
+  });
+}
+
+export function useCreateChatslot() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: Omit<ChatslotFromDB, "id" | "userid">) => {
+      const response = await axios.post(`${BASE_URL}api/chatslots`, data);
+      return response.data;
+    },
+
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["chatslots"] });
+    },
+  });
+}
+
+export function useEditChatslot() {
+  return useMutation({
+    mutationFn: async (data: Omit<ChatslotFromDB, "userid">) => {
+      const response = await axios.put(
+        `${BASE_URL}api/chatslots/${data.id}`,
+        data
+      );
+      console.log(response.data);
+      return response.data;
+    },
+    // onSuccess: async (data) => {
+    //   const { id } = data;
+    //   await queryClient.invalidateQueries({ queryKey: ["chatslots", id] });
+    // },
   });
 }

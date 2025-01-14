@@ -63,6 +63,7 @@ export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
               <Button
                 bg={"white"}
                 position="absolute"
+                onClick={onClose}
                 right="0"
                 border="2px solid"
                 _hover={{ bg: "black", color: WHITE_COLOR }}
@@ -84,7 +85,7 @@ export const StudyModeFinishModal: FC<StudyModeFinishModalProps> = ({
                   Correct answers:
                 </Text>{" "}
                 <Text fontSize="18px" fontWeight={700} alignSelf="center">
-                  {correctAnswersCount}/{record.length}
+                  {correctAnswersCount}/{record.length - 1}
                 </Text>{" "}
               </Flex>
               <Flex

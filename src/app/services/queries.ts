@@ -9,7 +9,8 @@ import { QuizFromDB } from "@/lib/models/quiz/quiz";
 import { QuestionFromDB } from "@/lib/models/quiz/quesion";
 import { AnswerFromDB } from "@/lib/models/quiz/answer";
 import { SettingsFromDB } from "@/lib/models/pomodoro/settings";
-const BASE_URL = "https://intern-01-nextjs.vercel.app/";
+import { ChatslotFromDB } from "@/lib/models/chat/chatslot";
+const BASE_URL = "http://localhost:3000/";
 
 export function useStates() {
   return useQuery({
@@ -236,5 +237,28 @@ export function useAnswer(id: number) {
       axios
         .get<AnswerFromDB>(`${BASE_URL}api/answers/` + id)
         .then((res) => res.data),
+  });
+}
+
+export function useChatslots() {
+  return useQuery({
+    queryKey: ["chatslots"],
+    queryFn: (): Promise<ChatslotFromDB[]> =>
+      axios
+        .get<ChatslotFromDB[]>(`${BASE_URL}api/chatslots`)
+        .then((res) => res.data),
+  });
+}
+
+export function useChatslot(id: number) {
+  return useQuery({
+    queryKey: ["chatslots", id],
+    queryFn: (): Promise<ChatslotFromDB> =>
+      axios
+        .get<ChatslotFromDB>(`${BASE_URL}api/chatslots/${id}`)
+        .then((res) => {
+          console.log(id);
+          return res.data;
+        }),
   });
 }
