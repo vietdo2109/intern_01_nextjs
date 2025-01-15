@@ -28,7 +28,7 @@ const GenAI = () => {
   const createChatslot = useCreateChatslot();
   const handleSubmit = async () => {
     const response = await createChatslot.mutateAsync({
-      title: "",
+      title: "New chat",
       messages: [
         {
           id: generateId(),

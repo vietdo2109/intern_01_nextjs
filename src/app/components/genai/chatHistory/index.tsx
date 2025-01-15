@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Flex, Text, Button, Icon } from "@chakra-ui/react";
+import { Flex, Button, Icon } from "@chakra-ui/react";
 import { ChatslotFromDB } from "@/lib/models/chat/chatslot";
 import { BiSidebar } from "react-icons/bi";
 import { BiEdit } from "react-icons/bi";
-import { IoEllipsisHorizontal } from "react-icons/io5";
 import Link from "next/link";
+import { ChatslotButton } from "./chatslotButton";
+import Popup from "../popup";
 
 export default function ChatHistory({
   chats,
@@ -20,6 +21,10 @@ export default function ChatHistory({
   const [isNewChatPopoverVisible, setIsNewChatPopoverVisible] = useState(false);
   const [isCloseSidebarPopoverVisible, setCloseSidebarPopoverVisible] =
     useState(false);
+  const [menuState, setMenuState] = useState<{
+    isOpen: boolean;
+    id: number | undefined;
+  }>({ isOpen: false, id: undefined });
 
   if (isOpen) {
     return (
@@ -36,10 +41,11 @@ export default function ChatHistory({
         height="80vh"
         p="12px"
         borderRadius={"16px"}
-        boxShadow="lg"
         zIndex="1000"
-        transform={isOpen ? "translateX(0)" : "translateX(-110%)"}
-        transition="transform 0.3s ease-in-out"
+        style={{
+          transform: `${isOpen ? "translateX(0)" : "translateX(-110%)"}`,
+          transition: "transform 0.3s ease-in-out",
+        }}
       >
         <Flex w="100%" justifyContent="space-between" mb="24px">
           <Flex position="relative">
@@ -68,26 +74,13 @@ export default function ChatHistory({
             >
               <Icon color="#5D5D5D" w="24px" h="24px" as={BiSidebar} />
             </Button>
-            <Flex
-              position="absolute"
-              borderRadius="8px"
-              bg="black"
-              left="45px"
-              top="3px"
-              width="100px"
-              margin="auto auto"
-              padding="8px"
-              display={isCloseSidebarPopoverVisible ? "" : "none"}
-            >
-              <Text
-                fontSize="12px"
-                fontWeight="600"
-                color="white"
-                textAlign="center"
-              >
-                Close sidebar
-              </Text>
-            </Flex>
+
+            <Popup
+              content="Close sidebar"
+              top={3}
+              left={45}
+              isOpen={isCloseSidebarPopoverVisible}
+            />
           </Flex>
 
           <Flex position="relative">
@@ -115,27 +108,12 @@ export default function ChatHistory({
               </Button>
             </Link>
 
-            <Flex
-              position="absolute"
-              borderRadius="8px"
-              bg="black"
-              top="45px"
-              left="-20px"
-              width="80px"
-              margin="auto auto"
-              padding="8px"
-              display={isNewChatPopoverVisible ? "" : "none"}
-              justifyContent="center"
-            >
-              <Text
-                fontSize="12px"
-                fontWeight="600"
-                color="white"
-                textAlign="center"
-              >
-                New chat
-              </Text>
-            </Flex>
+            <Popup
+              content="New chat"
+              top={45}
+              left={-30}
+              isOpen={isNewChatPopoverVisible}
+            />
           </Flex>
         </Flex>
 
@@ -146,6 +124,8 @@ export default function ChatHistory({
                 key={chat.id}
                 chat={chat}
                 isCurrentChat={chat.id === currentChatslotId}
+                menuState={menuState}
+                setMenuState={setMenuState}
               />
             );
           })}
@@ -189,25 +169,13 @@ export default function ChatHistory({
             >
               <Icon color="#5D5D5D" w="24px" h="24px" as={BiSidebar} />
             </Button>
-            <Flex
-              position="absolute"
-              borderRadius="8px"
-              bg="black"
-              top="45px"
-              width="100px"
-              margin="auto auto"
-              padding="8px"
-              display={isCloseSidebarPopoverVisible ? "" : "none"}
-            >
-              <Text
-                fontSize="12px"
-                fontWeight="600"
-                color="white"
-                textAlign="center"
-              >
-                Close sidebar
-              </Text>
-            </Flex>
+
+            <Popup
+              content="Close sidebar"
+              top={45}
+              left={0}
+              isOpen={isCloseSidebarPopoverVisible}
+            />
           </Flex>
 
           <Flex position="relative">
@@ -234,66 +202,15 @@ export default function ChatHistory({
                 <Icon color="#5D5D5D" w="24px" h="24px" as={BiEdit} />
               </Button>
             </Link>
-            <Flex
-              position="absolute"
-              borderRadius="8px"
-              bg="black"
-              top="45px"
-              left="-20px"
-              width="80px"
-              margin="auto auto"
-              padding="8px"
-              display={isNewChatPopoverVisible ? "" : "none"}
-              justifyContent="center"
-            >
-              <Text
-                fontSize="12px"
-                fontWeight="600"
-                color="white"
-                textAlign="center"
-              >
-                New chat
-              </Text>
-            </Flex>
+            <Popup
+              content="New chat"
+              top={45}
+              left={-30}
+              isOpen={isNewChatPopoverVisible}
+            />
           </Flex>
         </Flex>{" "}
       </Flex>
     );
   }
 }
-
-const ChatslotButton = ({
-  chat,
-  isCurrentChat,
-}: {
-  chat: ChatslotFromDB;
-  isCurrentChat: boolean;
-}) => {
-  const [isIconVisible, setIsIconVisible] = useState(false);
-  return (
-    <Link href={`/gen-ai/${chat.id}`} style={{ width: "100%" }}>
-      <Flex
-        alignItems="center"
-        w="100%"
-        borderRadius="10px"
-        p="10px"
-        onMouseOver={() => setIsIconVisible(true)}
-        onMouseLeave={() => {
-          setIsIconVisible(false);
-        }}
-        justifyContent="space-between"
-        bg={isCurrentChat ? "#E0E0E0" : ""}
-      >
-        {/* <Text>{chat.title}</Text> */}
-        <Text>{chat.id}</Text>
-
-        <Icon
-          display={isIconVisible ? "" : "none"}
-          as={IoEllipsisHorizontal}
-          color="gray"
-          _hover={{ color: "black" }}
-        ></Icon>
-      </Flex>
-    </Link>
-  );
-};

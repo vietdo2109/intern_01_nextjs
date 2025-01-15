@@ -344,3 +344,17 @@ export function useEditChatslot() {
     // },
   });
 }
+
+export function useDeleteChatslot() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      await axios.delete(`${BASE_URL}api/chatslots/${id}`);
+    },
+
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["chatslots"] });
+    },
+  });
+}

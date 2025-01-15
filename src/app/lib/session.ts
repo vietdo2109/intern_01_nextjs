@@ -56,7 +56,6 @@ export async function getSession() {
 }
 
 export async function verifySession() {
-  console.log("verifySession triggered");
   const cookieValue = cookies().get(cookie.name)?.value;
   const session = await decrypt(cookieValue);
 
