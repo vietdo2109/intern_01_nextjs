@@ -1,4 +1,5 @@
 export type ChatslotFromDB = {
+  lastmodified?: Date;
   id: number;
   title: string;
   userid: number;

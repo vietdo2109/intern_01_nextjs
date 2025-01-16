@@ -27,7 +27,7 @@ import { useDeleteChatslot } from "@/services/mutations";
 import { usePathname } from "next/navigation";
 
 type ChatslotButtonProps = {
-  chat: ChatslotFromDB;
+  chat: Omit<ChatslotFromDB, "userid" | "messages">;
   isCurrentChat: boolean;
   menuState: {
     isOpen: boolean;
@@ -71,8 +71,8 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
           position="relative"
           alignItems="center"
           w="100%"
-          borderRadius="10px"
-          p="10px"
+          borderRadius="6px"
+          p="8px 10px"
           onMouseOver={() => setIsIconVisible(true)}
           onMouseLeave={() => {
             setIsIconVisible(false);

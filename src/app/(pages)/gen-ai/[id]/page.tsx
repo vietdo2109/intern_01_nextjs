@@ -10,6 +10,7 @@ import { Header } from "@/components/header";
 
 import FormChat from "@/components/genai/formChat";
 import ChatHistory from "@/components/genai/chatHistory";
+import LoadingSpinner from "@/components/skeletons/loadingSpinner";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -72,6 +73,31 @@ export default function Chat({ params }: { params: { id: number } }) {
       </Flex>
     );
   } else {
-    return <div>Loading...</div>;
+    return (
+      <Flex width="100%" minW="700px" flexDir="column">
+        <Flex
+          flex="1"
+          width="100%"
+          padding="24px"
+          gap={"24px"}
+          flexDir={"column"}
+          minH={"100vh"}
+        >
+          <Flex>
+            <Header theme="dark" page="Chat Bot" />
+          </Flex>
+
+          <Flex
+            alignItems="center"
+            bg={WHITE_COLOR}
+            flex="1"
+            p="24px"
+            borderRadius={"16px"}
+          >
+            <LoadingSpinner />
+          </Flex>
+        </Flex>
+      </Flex>
+    );
   }
 }

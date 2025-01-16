@@ -34,6 +34,8 @@ export const SearchChatModal: FC<SearchChatModalProps> = ({
   const [filteredResults, setFilteredResults] = useState<
     Omit<ChatslotFromDB, "userid" | "messages">[]
   >([]);
+
+  const [dateVisible, setDateVisible] = useState(0);
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -108,52 +110,18 @@ export const SearchChatModal: FC<SearchChatModalProps> = ({
             </Link>
             {filteredResults.length === 0
               ? data.map((chat) => (
-                  <Link href={`/gen-ai/${chat.id}`} key={chat.id}>
-                    <Flex
-                      _hover={{
-                        bg: `#f1f1f1`,
-                      }}
-                      w="100%"
-                      borderRadius="6px"
-                      padding={"10px 14px"}
-                      alignItems="center"
-                      gap="10px"
-                    >
-                      <Icon
-                        color="#5D5D5D"
-                        w="22px"
-                        h="22px"
-                        as={RiWechatLine}
-                      />
-                      <Text mt={"2px"} fontSize="14px">
-                        {chat.title}{" "}
-                      </Text>
-                    </Flex>
-                  </Link>
+                  <ChatLink
+                    chat={chat}
+                    dateVisible={dateVisible}
+                    setDateVisible={setDateVisible}
+                  />
                 ))
               : filteredResults.map((chat) => (
-                  <Link href={`/gen-ai/${chat.id}`} key={chat.id}>
-                    <Flex
-                      _hover={{
-                        bg: `#f1f1f1`,
-                      }}
-                      w="100%"
-                      borderRadius="6px"
-                      padding={"10px 14px"}
-                      alignItems="center"
-                      gap="10px"
-                    >
-                      <Icon
-                        color="#5D5D5D"
-                        w="22px"
-                        h="22px"
-                        as={RiWechatLine}
-                      />
-                      <Text mt={"2px"} fontSize="14px">
-                        {chat.title}{" "}
-                      </Text>
-                    </Flex>
-                  </Link>
+                  <ChatLink
+                    chat={chat}
+                    dateVisible={dateVisible}
+                    setDateVisible={setDateVisible}
+                  />
                 ))}
           </Flex>
         </ModalBody>
@@ -165,5 +133,50 @@ export const SearchChatModal: FC<SearchChatModalProps> = ({
         ></ModalFooter>
       </ModalContent>
     </Modal>
+  );
+};
+
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const year = String(date.getFullYear()).slice(-2);
+  return `${day}-${month}-${year}`;
+};
+
+const ChatLink = ({
+  chat,
+  dateVisible,
+  setDateVisible,
+}: {
+  chat: Omit<ChatslotFromDB, "userid" | "messages">;
+  dateVisible: number;
+  setDateVisible: React.Dispatch<React.SetStateAction<number>>;
+}) => {
+  return (
+    <Link href={`/gen-ai/${chat.id}`} key={chat.id}>
+      <Flex
+        onMouseOver={() => setDateVisible(chat.id)}
+        onMouseLeave={() => setDateVisible(0)}
+        _hover={{
+          bg: `#f1f1f1`,
+        }}
+        w="100%"
+        borderRadius="6px"
+        padding={"10px 14px"}
+        alignItems="center"
+        gap="10px"
+      >
+        <Icon color="#5D5D5D" w="22px" h="22px" as={RiWechatLine} />
+        <Text mt={"2px"} fontSize="14px" flex={1}>
+          {chat.title}{" "}
+        </Text>
+
+        <Flex display={dateVisible === chat.id ? "" : "none"}>
+          <Text mt={"2px"} fontSize="14px" color="gray">
+            {formatDate(new Date(chat.lastmodified!))}
+          </Text>
+        </Flex>
+      </Flex>
+    </Link>
   );
 };
