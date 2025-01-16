@@ -19,6 +19,7 @@ export default function FormChat({
   initialInput?: string;
   data: ChatslotFromDB;
 }) {
+  const dataCopy = data;
   const editChatSlot = useEditChatslot();
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
@@ -90,7 +91,7 @@ export default function FormChat({
       >
         <Flex width="100%" height="100%" flexDir="column">
           <Flex flex="1" flexDir="column">
-            {data.messages.length >= 2 &&
+            {dataCopy.messages.length >= 2 &&
               data.messages?.map((m: Mess) => {
                 return (
                   <Flex

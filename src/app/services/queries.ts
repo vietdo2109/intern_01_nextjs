@@ -260,5 +260,7 @@ export function useChatslot(id: number) {
           console.log(id);
           return res.data;
         }),
+    staleTime: Infinity, // Prevent automatic refetch unless explicitly triggered
+    gcTime: Infinity,
   });
 }

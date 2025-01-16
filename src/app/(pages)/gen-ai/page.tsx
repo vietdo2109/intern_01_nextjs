@@ -16,6 +16,7 @@ import ChatHistory from "@/components/genai/chatHistory";
 import { useChatslots } from "@/services/queries";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
+
 const GenAI = () => {
   const [visible, setVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -28,7 +29,7 @@ const GenAI = () => {
   const createChatslot = useCreateChatslot();
   const handleSubmit = async () => {
     const response = await createChatslot.mutateAsync({
-      title: "New chat",
+      title: formatTitle(inputValue),
       messages: [
         {
           id: generateId(),
@@ -226,5 +227,10 @@ const GenAI = () => {
       </Flex>
     );
 };
-
+const formatTitle = (str: string): string => {
+  if (str.length > 12) {
+    return str.slice(0, 16) + "...";
+  }
+  return str;
+};
 export default GenAI;

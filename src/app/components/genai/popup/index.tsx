@@ -22,6 +22,7 @@ export default function Popup({
       margin="auto auto"
       padding="8px"
       display={isOpen ? "" : "none"}
+      zIndex={1000}
     >
       <Text fontSize="12px" fontWeight="600" color="white" textAlign="center">
         {content}
