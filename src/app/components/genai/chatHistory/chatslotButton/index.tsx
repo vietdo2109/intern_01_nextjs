@@ -84,7 +84,7 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
               : ""
           }
         >
-          <Text>{chat.title}</Text>
+          <Text fontSize="14px">{formatTitle(chat.title)}</Text>
 
           <Icon
             display={
@@ -190,4 +190,10 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
       </Modal>
     </Flex>
   );
+};
+const formatTitle = (str: string): string => {
+  if (str.length > 16) {
+    return str.slice(0, 16) + "...";
+  }
+  return str;
 };

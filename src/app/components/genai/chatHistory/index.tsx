@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Flex, Button, Icon } from "@chakra-ui/react";
+import { Flex, Button, Icon, useDisclosure } from "@chakra-ui/react";
 import { ChatslotFromDB } from "@/lib/models/chat/chatslot";
 import { BiSidebar } from "react-icons/bi";
 import { BiEdit } from "react-icons/bi";
 import Link from "next/link";
 import { ChatslotButton } from "./chatslotButton";
 import Popup from "../popup";
+import { LuSearch } from "react-icons/lu";
+import { SearchChatModal } from "./searchChatModal";
 
 export default function ChatHistory({
   chats,
@@ -21,10 +23,19 @@ export default function ChatHistory({
   const [isNewChatPopoverVisible, setIsNewChatPopoverVisible] = useState(false);
   const [isCloseSidebarPopoverVisible, setCloseSidebarPopoverVisible] =
     useState(false);
+  const [isSearchPopoverVisible, setSearchPopoverVisible] = useState(false);
   const [menuState, setMenuState] = useState<{
     isOpen: boolean;
     id: number | undefined;
   }>({ isOpen: false, id: undefined });
+  const {
+    isOpen: isSearchModalOpen,
+    onOpen: onSearchModalOpen,
+    onClose: onSearchModalClose,
+  } = useDisclosure();
+
+  const dataToSearchModal: Omit<ChatslotFromDB, "userid" | "messages">[] =
+    chats.map(({ id, title }) => ({ id, title }));
 
   if (isOpen) {
     return (
@@ -48,6 +59,8 @@ export default function ChatHistory({
         }}
       >
         <Flex w="100%" justifyContent="space-between" mb="24px">
+          {/* sidebar button */}
+
           <Flex position="relative">
             <Button
               alignSelf="end"
@@ -81,39 +94,85 @@ export default function ChatHistory({
               left={45}
               isOpen={isCloseSidebarPopoverVisible}
             />
+
+            {/* sidebar button */}
           </Flex>
 
-          <Flex position="relative">
-            <Link href="/gen-ai">
+          <Flex gap="8px">
+            {/* search button */}
+            <Flex position="relative">
               <Button
                 alignSelf="end"
                 zIndex="1000"
-                type="submit"
                 // disabled={isLoading}
                 // isLoading={isLoading}
                 _hover={{
                   bg: `lightgray`,
                 }}
-                onMouseOver={() => setIsNewChatPopoverVisible(true)}
+                onMouseOver={() => setSearchPopoverVisible(true)}
                 onMouseLeave={() => {
-                  setIsNewChatPopoverVisible(false);
+                  setSearchPopoverVisible(false);
                 }}
+                onClick={onSearchModalOpen}
                 bg="none"
                 w="40px"
                 h="40px"
                 p="3px"
                 borderRadius="6px"
               >
-                <Icon color="#5D5D5D" w="24px" h="24px" as={BiEdit} />
+                <Icon color="#5D5D5D" w="24px" h="24px" as={LuSearch} />
               </Button>
-            </Link>
+              <Popup
+                content="Search chats"
+                top={45}
+                left={-30}
+                isOpen={isSearchPopoverVisible}
+              />
+            </Flex>
+            {/* search button */}
 
-            <Popup
-              content="New chat"
-              top={45}
-              left={-30}
-              isOpen={isNewChatPopoverVisible}
+            {/* search modal */}
+            <SearchChatModal
+              data={dataToSearchModal}
+              onClose={onSearchModalClose}
+              isOpen={isSearchModalOpen}
             />
+            {/* search modal */}
+
+            {/* new chat button */}
+            <Flex position="relative">
+              <Link href="/gen-ai">
+                <Button
+                  alignSelf="end"
+                  zIndex="1000"
+                  type="submit"
+                  // disabled={isLoading}
+                  // isLoading={isLoading}
+                  _hover={{
+                    bg: `lightgray`,
+                  }}
+                  onMouseOver={() => setIsNewChatPopoverVisible(true)}
+                  onMouseLeave={() => {
+                    setIsNewChatPopoverVisible(false);
+                  }}
+                  bg="none"
+                  w="40px"
+                  h="40px"
+                  p="3px"
+                  borderRadius="6px"
+                >
+                  <Icon color="#5D5D5D" w="24px" h="24px" as={BiEdit} />
+                </Button>
+              </Link>
+
+              <Popup
+                content="New chat"
+                top={45}
+                left={-30}
+                isOpen={isNewChatPopoverVisible}
+              />
+            </Flex>
+            {/* new chat button */}
           </Flex>
         </Flex>
 

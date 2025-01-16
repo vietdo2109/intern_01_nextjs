@@ -4,7 +4,6 @@ import { FaArrowUp } from "react-icons/fa";
 // import ReactMarkdown from "react-markdown";
 import "./style.css";
 import React, { useRef, useState } from "react";
-import { Montserrat } from "next/font/google";
 import { WHITE_COLOR } from "@/constants/colors";
 import { Header } from "@/components/header";
 
@@ -14,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { generateId } from "ai";
 import ChatHistory from "@/components/genai/chatHistory";
 import { useChatslots } from "@/services/queries";
+import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -29,7 +29,7 @@ const GenAI = () => {
   const createChatslot = useCreateChatslot();
   const handleSubmit = async () => {
     const response = await createChatslot.mutateAsync({
-      title: formatTitle(inputValue),
+      title: inputValue,
       messages: [
         {
           id: generateId(),
@@ -227,10 +227,5 @@ const GenAI = () => {
       </Flex>
     );
 };
-const formatTitle = (str: string): string => {
-  if (str.length > 12) {
-    return str.slice(0, 16) + "...";
-  }
-  return str;
-};
+
 export default GenAI;
