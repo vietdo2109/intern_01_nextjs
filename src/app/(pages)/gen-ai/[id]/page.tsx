@@ -1,7 +1,7 @@
 "use client";
 
 import { useChatslot, useChatslots } from "@/services/queries";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import "../style.css";
 import { Montserrat } from "next/font/google";
