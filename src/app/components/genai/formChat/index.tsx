@@ -64,9 +64,15 @@ export default function FormChat({
     }
   };
 
+  // handle automatically scroll after new text generated
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
-    console.log("datafromdb", data.messages);
-  }, [data]);
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     if (data.messages.length === 1) {
@@ -199,6 +205,7 @@ export default function FormChat({
                       </Flex>{" "}
                     </Flex>
                   )}
+                  <div ref={messagesEndRef} />
                 </Flex>
               );
             })}
@@ -206,9 +213,9 @@ export default function FormChat({
           <Flex
             position="sticky"
             width="100%"
-            bottom="20px"
+            bottom="48px"
             paddingX="40px"
-            mt="400px"
+            justifySelf="flex-end"
           >
             <Flex position="relative" width="100%">
               <Flex flexDir="column" w="100%">
