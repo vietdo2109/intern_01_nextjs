@@ -7,9 +7,6 @@ import {
   ModalHeader,
   ModalCloseButton,
   Text,
-  Switch,
-  extendTheme,
-  ChakraProvider,
   Input,
   Icon,
   ModalFooter,
@@ -111,7 +108,7 @@ export const SearchChatModal: FC<SearchChatModalProps> = ({
             </Link>
             {filteredResults.length === 0
               ? data.map((chat) => (
-                  <Link href={`/gen-ai/${chat.id}`}>
+                  <Link href={`/gen-ai/${chat.id}`} key={chat.id}>
                     <Flex
                       _hover={{
                         bg: `#f1f1f1`,
@@ -135,7 +132,7 @@ export const SearchChatModal: FC<SearchChatModalProps> = ({
                   </Link>
                 ))
               : filteredResults.map((chat) => (
-                  <Link href={`/gen-ai/${chat.id}`}>
+                  <Link href={`/gen-ai/${chat.id}`} key={chat.id}>
                     <Flex
                       _hover={{
                         bg: `#f1f1f1`,

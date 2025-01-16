@@ -10,7 +10,7 @@ import { QuizFromDB } from "@/lib/models/quiz/quiz";
 import { Settings } from "@/(pages)/pomodoro/page";
 import { ChatslotFromDB } from "@/lib/models/chat/chatslot";
 
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://intern-01-nextjs.vercel.app/";
 export interface Todo {
   id: number;
   text: string;
