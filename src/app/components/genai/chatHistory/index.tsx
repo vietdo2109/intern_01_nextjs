@@ -66,7 +66,6 @@ export default function ChatHistory({
         minWidth="200px"
         alignSelf="flex-start"
         height="80vh"
-        p="12px"
         borderRadius={"16px"}
         zIndex="1000"
         style={{
@@ -74,7 +73,7 @@ export default function ChatHistory({
           transition: "transform 0.3s ease-in-out",
         }}
       >
-        <Flex w="100%" justifyContent="space-between" mb="24px">
+        <Flex w="100%" justifyContent="space-between" p="12px">
           {/* sidebar button */}
 
           <Flex position="relative">
@@ -191,41 +190,31 @@ export default function ChatHistory({
             {/* new chat button */}
           </Flex>
         </Flex>
-        {Object.entries(categorizedChats).map(([category, chats]) => (
-          <Flex key={category} flexDir="column" w="96%" mt="20px">
-            <Flex key={category} flexDir="column">
-              <Text fontSize="12px" fontWeight={600} mb="6px">
-                {category}
-              </Text>
-              <ul>
-                {chats &&
-                  chats.map((chat) => {
-                    return (
-                      <ChatslotButton
-                        key={chat.id}
-                        chat={chat}
-                        isCurrentChat={chat.id === currentChatslotId}
-                        menuState={menuState}
-                        setMenuState={setMenuState}
-                      />
-                    );
-                  })}
-              </ul>
+        <Flex flexDir="column" width="100%" overflowY="auto" p="12px">
+          {Object.entries(categorizedChats).map(([category, chats]) => (
+            <Flex key={category} flexDir="column" w="96%" mt="20px">
+              <Flex key={category} flexDir="column">
+                <Text fontSize="12px" fontWeight={600} mb="6px">
+                  {category}
+                </Text>
+                <ul>
+                  {chats &&
+                    chats.map((chat) => {
+                      return (
+                        <ChatslotButton
+                          key={chat.id}
+                          chat={chat}
+                          isCurrentChat={chat.id === currentChatslotId}
+                          menuState={menuState}
+                          setMenuState={setMenuState}
+                        />
+                      );
+                    })}
+                </ul>
+              </Flex>
             </Flex>
-          </Flex>
-        ))}
-        {/* {chats &&
-          chats.map((chat) => {
-            return (
-              <ChatslotButton
-                key={chat.id}
-                chat={chat}
-                isCurrentChat={chat.id === currentChatslotId}
-                menuState={menuState}
-                setMenuState={setMenuState}
-              />
-            );
-          })} */}
+          ))}
+        </Flex>
       </Flex>
     );
   } else {

@@ -111,6 +111,7 @@ export const SearchChatModal: FC<SearchChatModalProps> = ({
             {filteredResults.length === 0
               ? data.map((chat) => (
                   <ChatLink
+                    key={chat.id}
                     chat={chat}
                     dateVisible={dateVisible}
                     setDateVisible={setDateVisible}
@@ -118,6 +119,7 @@ export const SearchChatModal: FC<SearchChatModalProps> = ({
                 ))
               : filteredResults.map((chat) => (
                   <ChatLink
+                    key={chat.id}
                     chat={chat}
                     dateVisible={dateVisible}
                     setDateVisible={setDateVisible}
