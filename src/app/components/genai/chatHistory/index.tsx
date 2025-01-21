@@ -56,6 +56,7 @@ export default function ChatHistory({
   if (isOpen) {
     return (
       <Flex
+        overflow="visible"
         position="sticky"
         top="48px"
         left="24px"
@@ -63,9 +64,9 @@ export default function ChatHistory({
         alignItems="center"
         bg={"#F9F9F9"}
         width="16%"
+        maxHeight="800px"
         minWidth="200px"
         alignSelf="flex-start"
-        height="80vh"
         borderRadius={"16px"}
         zIndex="1000"
         style={{
@@ -190,7 +191,7 @@ export default function ChatHistory({
             {/* new chat button */}
           </Flex>
         </Flex>
-        <Flex flexDir="column" width="100%" overflowY="auto" p="12px">
+        <Flex width="100%" flexDir="column" overflowY="auto" p="12px">
           {Object.entries(categorizedChats).map(([category, chats]) => (
             <Flex key={category} flexDir="column" w="96%" mt="20px">
               <Flex key={category} flexDir="column">
@@ -215,6 +216,19 @@ export default function ChatHistory({
             </Flex>
           ))}
         </Flex>
+
+        {/* {chats &&
+          chats.map((chat) => {
+            return (
+              <ChatslotButton
+                key={chat.id}
+                chat={chat}
+                isCurrentChat={chat.id === currentChatslotId}
+                menuState={menuState}
+                setMenuState={setMenuState}
+              />
+            );
+          })} */}
       </Flex>
     );
   } else {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Flex,
   Text,
@@ -65,7 +65,7 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
   };
 
   return (
-    <Flex position="relative" width={"100%"}>
+    <Flex width={"100%"} zIndex="1000" position="relative">
       <Link href={`/gen-ai/${chat.id}`} style={{ width: "100%" }}>
         <Flex
           position="relative"
@@ -87,6 +87,7 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
           <Text fontSize="14px">{formatTitle(chat.title)}</Text>
 
           <Icon
+            zIndex="1000"
             display={
               isIconVisible || (menuState.isOpen && chat.id === menuState.id)
                 ? ""
@@ -120,13 +121,15 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
           />
         </Flex>
       </Link>
+
       <Flex
         position="absolute"
-        left="160px"
-        top="30px"
+        shadow="md"
+        left="80px"
+        bottom="40px"
         bg={WHITE_COLOR}
         borderRadius="10px"
-        zIndex={1000}
+        zIndex={1002}
         border="1px solid lightgray"
         p="10px"
         flexDir="column"

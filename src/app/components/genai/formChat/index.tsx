@@ -274,12 +274,12 @@ export default function FormChat({
                     borderRadius="6px"
                     onClick={handleUploadButtonClick}
                   >
-                    <input
+                    {/* <input
                       type="file"
                       name="file"
                       ref={fileInputRef}
                       style={{ display: "none" }}
-                    />
+                    /> */}
                     <Icon
                       color="Black"
                       w="30px"
@@ -304,7 +304,7 @@ export default function FormChat({
                   type="submit"
                   bg="black"
                   colorScheme="white"
-                  disabled={isLoading}
+                  disabled={isLoading || input === ""}
                   isLoading={isLoading}
                   w="40px"
                   h="40px"
