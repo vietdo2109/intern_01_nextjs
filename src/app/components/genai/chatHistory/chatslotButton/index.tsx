@@ -72,7 +72,7 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
           alignItems="center"
           w="100%"
           borderRadius="6px"
-          p="8px 10px"
+          p="8px 0px 8px 10px"
           onMouseOver={() => setIsIconVisible(true)}
           onMouseLeave={() => {
             setIsIconVisible(false);
@@ -87,6 +87,8 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
           <Text fontSize="14px">{formatTitle(chat.title)}</Text>
 
           <Icon
+            position="absolute"
+            right="10px"
             zIndex="1000"
             display={
               isIconVisible || (menuState.isOpen && chat.id === menuState.id)
@@ -116,7 +118,7 @@ export const ChatslotButton: React.FC<ChatslotButtonProps> = ({
           <Popup
             content="Options"
             top={-20}
-            left={120}
+            left={70}
             isOpen={isPopupVisible}
           />
         </Flex>

@@ -56,7 +56,7 @@ export default function ChatHistory({
   if (isOpen) {
     return (
       <Flex
-        overflow="visible"
+        overflowY="auto"
         position="sticky"
         top="48px"
         left="24px"
@@ -64,7 +64,7 @@ export default function ChatHistory({
         alignItems="center"
         bg={"#F9F9F9"}
         width="16%"
-        maxHeight="800px"
+        maxHeight="700px"
         minWidth="200px"
         alignSelf="flex-start"
         borderRadius={"16px"}
@@ -98,7 +98,6 @@ export default function ChatHistory({
               bg="none"
               w="40px"
               h="40px"
-              p="3px"
               borderRadius="6px"
             >
               <Icon color="#5D5D5D" w="24px" h="24px" as={BiSidebar} />
@@ -191,7 +190,7 @@ export default function ChatHistory({
             {/* new chat button */}
           </Flex>
         </Flex>
-        <Flex width="100%" flexDir="column" overflowY="auto" p="12px">
+        <Flex width="100%" flexDir="column" p="12px">
           {Object.entries(categorizedChats).map(([category, chats]) => (
             <Flex key={category} flexDir="column" w="96%" mt="20px">
               <Flex key={category} flexDir="column">
