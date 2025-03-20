@@ -10,8 +10,8 @@ import { QuestionFromDB } from "@/lib/models/quiz/quesion";
 import { AnswerFromDB } from "@/lib/models/quiz/answer";
 import { SettingsFromDB } from "@/lib/models/pomodoro/settings";
 import { ChatslotFromDB } from "@/lib/models/chat/chatslot";
-const BASE_URL = "http://localhost:3000/";
-// http://localhost:3000/
+const BASE_URL = "https://intern-01-nextjs.vercel.app/";
+// https://intern-01-nextjs.vercel.app/
 
 export function useStates() {
   return useQuery({
